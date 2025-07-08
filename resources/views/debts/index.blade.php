@@ -8,8 +8,8 @@
 @section('main-classes', 'relative z-10')
 
 @section('content')
-    <div class="py-6 sm:py-12">
-        <div class="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
+    <div class="py-6 sm:py-12 w-full max-w-full">
+        <div class="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 w-full max-w-full">
             <!-- Header com Título e Botão -->
             <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-6 lg:mb-8 animate-fade-in">
                 <div>
@@ -43,7 +43,7 @@
 
             @if($debts->count() > 0)
                 <!-- Cards de Resumo -->
-                <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-6 mb-6 lg:mb-8">
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-6 mb-6 lg:mb-8 w-full max-w-full">
                     <!-- Total de Dívidas -->
                     <div class="rounded-xl shadow-xl bg-white dark:bg-[#161b22] border border-gray-200 dark:border-[#21262d] p-2 sm:p-3 lg:p-6 flex flex-col items-start relative overflow-hidden animate-fade-in">
                         <div class="z-10 w-full">
@@ -105,8 +105,8 @@
                 </div>
 
                 <!-- Tabela de Dívidas -->
-                <div class="bg-white dark:bg-[#161b22] rounded-xl lg:rounded-3xl shadow-xl p-2 sm:p-3 lg:p-8 border border-gray-200 dark:border-[#21262d] backdrop-blur-lg animate-fade-in overflow-hidden">
-                    <div class="overflow-x-auto">
+                <div class="bg-white dark:bg-[#161b22] rounded-xl lg:rounded-3xl shadow-xl p-2 sm:p-3 lg:p-8 border border-gray-200 dark:border-[#21262d] backdrop-blur-lg animate-fade-in overflow-hidden w-full max-w-full">
+                    <div class="overflow-x-auto w-full max-w-full">
                         <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                             <thead class="bg-gray-50 dark:bg-gray-800">
                                 <tr>

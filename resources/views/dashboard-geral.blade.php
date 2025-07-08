@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="py-6 bg-main">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 animate-fade-in">
+    <div class="py-4 md:py-6 px-2 md:px-4 bg-main w-full max-w-full overflow-x-hidden">
+        <div class="container mx-auto w-full max-w-full overflow-x-hidden">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-8 animate-fade-in w-full max-w-full overflow-x-hidden">
                 <!-- Card Finanças -->
-                <a href="{{ route('dashboard') }}" class="group bg-card glass-card rounded-3xl-custom shadow-xl-custom border border-main p-8 flex flex-col items-center justify-center hover:scale-105 transition-transform duration-200 text-main">
+                <a href="{{ route('dashboard') }}" class="group bg-card glass-card rounded-3xl-custom shadow-xl-custom border border-main p-4 md:p-8 flex flex-col items-center justify-center hover:scale-105 transition-transform duration-200 text-main w-full max-w-full">
                     <span class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-main text-white shadow mb-4">
                         <i class="fa-solid fa-coins fa-2x animate-bounce"></i>
                     </span>
@@ -13,7 +13,7 @@
                     <p class="text-accent text-center">Controle financeiro pessoal, contas, transações, dívidas e metas.</p>
                 </a>
                 <!-- Card Projetos Profissionais -->
-                <a href="{{ route('projetos.index') }}" class="group bg-card glass-card rounded-3xl-custom shadow-xl-custom border border-main p-8 flex flex-col items-center justify-center hover:scale-105 transition-transform duration-200 text-main">
+                <a href="{{ route('projetos.index') }}" class="group bg-card glass-card rounded-3xl-custom shadow-xl-custom border border-main p-4 md:p-8 flex flex-col items-center justify-center hover:scale-105 transition-transform duration-200 text-main w-full max-w-full">
                     <span class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-main text-white shadow mb-4">
                         <i class="fa-solid fa-briefcase fa-2x animate-bounce"></i>
                     </span>
@@ -21,7 +21,7 @@
                     <p class="text-accent text-center">Gestão de projetos, tarefas, clientes, horas e faturamento.</p>
                 </a>
                 <!-- Card Tarefas Domésticas -->
-                <a href="{{ route('household-tasks.dashboard') }}" class="group bg-card glass-card rounded-3xl-custom shadow-xl-custom border border-main p-8 flex flex-col items-center justify-center hover:scale-105 transition-transform duration-200 text-main">
+                <a href="{{ route('household-tasks.dashboard') }}" class="group bg-card glass-card rounded-3xl-custom shadow-xl-custom border border-main p-4 md:p-8 flex flex-col items-center justify-center hover:scale-105 transition-transform duration-200 text-main w-full max-w-full">
                     <span class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-main text-white shadow mb-4">
                         <i class="fa-solid fa-house-chimney fa-2x animate-bounce"></i>
                     </span>
@@ -29,7 +29,7 @@
                     <p class="text-accent text-center">Organização de tarefas e rotinas da casa.</p>
                 </a>
                 <!-- Card Próximos Eventos -->
-                <div class="group bg-card glass-card rounded-3xl-custom shadow-xl-custom border border-main p-8 flex flex-col items-center justify-center min-h-[320px] text-main">
+                <div class="group bg-card glass-card rounded-3xl-custom shadow-xl-custom border border-main p-4 md:p-8 flex flex-col items-center justify-center min-h-[320px] text-main w-full max-w-full">
                     <span class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-main text-white shadow mb-4">
                         <i class="fa-solid fa-calendar-days fa-2x animate-bounce"></i>
                     </span>

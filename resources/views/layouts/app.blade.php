@@ -26,17 +26,17 @@
         <div class="min-h-screen w-full flex flex-col">
             <div x-data="{ sidebarOpen: window.innerWidth >= 640, open: '' }" x-init="window.addEventListener('resize', () => { sidebarOpen = window.innerWidth >= 640 })" class="min-h-screen flex bg-white dark:bg-[#0d1117]">
                 <!-- Sidebar -->
-                <aside :class="sidebarOpen ? 'w-64' : 'w-16'" class="fixed inset-y-0 left-0 bg-white dark:bg-[#0d1117] border-r border-gray-200 dark:border-[#21262d] flex flex-col z-50 transition-all duration-200 ease-in-out">
-                    <div class="flex items-center pt-2 pb-2 px-2 md:px-6 border-b border-gray-200 dark:border-[#21262d] relative">
+                <aside :class="sidebarOpen ? 'w-64' : 'w-10'" class="fixed inset-y-0 left-0 bg-white dark:bg-[#0d1117] border-r border-gray-200 dark:border-[#21262d] flex flex-col z-50 transition-all duration-200 ease-in-out">
+                    <div class="flex items-center justify-center pt-2 pb-2 px-2 md:px-6 border-b border-gray-200 dark:border-[#21262d] relative min-h-[40px]">
                         <a href="{{ route('dashboard') }}" class="flex items-center space-x-2" @click="if(window.innerWidth < 640) sidebarOpen = false">
                             <span class="text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white drop-shadow-lg select-none" x-show="sidebarOpen">Alexandre <span class="text-blue-500">e</span> Liza <span class="text-blue-500">Gestão</span></span>
-                            <span class="text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white select-none" x-show="!sidebarOpen"><i class='fa-solid fa-bars'></i></span>
+                            <span class="text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white select-none" x-show="!sidebarOpen"></span>
                         </a>
                         <button @click="sidebarOpen = !sidebarOpen" class="ml-auto p-2 rounded hover:bg-gray-100 dark:hover:bg-[#161b22] focus:outline-none hidden sm:inline-flex">
                             <i :class="sidebarOpen ? 'fa-solid fa-chevron-left' : 'fa-solid fa-chevron-right'" class="text-gray-700 dark:text-gray-200"></i>
                         </button>
                         <!-- Botão abrir mobile -->
-                        <button @click="sidebarOpen = true" x-show="!sidebarOpen" class="absolute left-2 top-2 sm:hidden inline-flex items-center justify-center p-2 rounded hover:bg-gray-100 dark:hover:bg-[#161b22] focus:outline-none">
+                        <button @click="sidebarOpen = true" x-show="!sidebarOpen" class="absolute left-1 top-1 sm:hidden inline-flex items-center justify-center p-2 rounded hover:bg-gray-100 dark:hover:bg-[#161b22] focus:outline-none">
                             <i class="fa-solid fa-bars text-xl text-gray-700 dark:text-gray-200"></i>
                         </button>
                         <!-- Botão fechar mobile -->
@@ -44,8 +44,8 @@
                             <i class="fa-solid fa-xmark text-xl text-gray-700 dark:text-gray-200"></i>
                         </button>
                     </div>
-                    <nav class="flex-1 px-2 md:px-4 py-6 space-y-2" :class="sidebarOpen ? '' : 'px-0'">
-                        <div @click="if(window.innerWidth < 640) sidebarOpen = false">
+                    <nav class="flex-1 px-2 md:px-4 py-6 space-y-1" :class="sidebarOpen ? '' : 'px-0 flex flex-col items-center justify-center'">
+                        <div>
                             @include('layouts.navigation-items')
                         </div>
                     </nav>
@@ -70,7 +70,7 @@
                     </div>
                 </aside>
                 <!-- Conteúdo principal -->
-                <div :class="sidebarOpen ? 'ml-64' : 'ml-16'" class="flex-1 flex flex-col transition-all duration-200 bg-white dark:bg-[#0d1117] min-h-screen p-0 m-0">
+                <div :class="sidebarOpen ? 'ml-64' : 'ml-10'" class="flex-1 flex flex-col transition-all duration-200 bg-white dark:bg-[#0d1117] min-h-screen p-0 m-0">
                     <main class="flex-1 w-full max-w-full overflow-x-auto">
                         @yield('content')
                     </main>

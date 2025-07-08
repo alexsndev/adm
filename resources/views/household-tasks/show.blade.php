@@ -300,10 +300,10 @@
             @csrf
             <label for="photo-input" class="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg cursor-pointer w-full md:w-auto justify-center text-center">
                 <i class="fa fa-camera text-lg"></i>
-                <span class="text-sm font-semibold">Tirar Foto</span>
-                <input id="photo-input" type="file" name="photo" accept="image/*" capture="environment" class="hidden" required onchange="this.form.submit()">
+                <span class="text-sm font-semibold">Enviar Foto(s)</span>
+                <input id="photo-input" type="file" name="photos[]" accept="image/*" multiple class="hidden" required onchange="if(this.files.length + {{ $householdTask->photos->count() }} > 5){ alert('Máximo 5 fotos por tarefa!'); this.value=''; }">
             </label>
-            <span class="text-gray-500 text-xs md:text-sm mt-2 md:mt-0">Máx. 5 fotos</span>
+            <span class="text-gray-500 text-xs md:text-sm mt-2 md:mt-0">Máx. 5 fotos por tarefa</span>
         </form>
         @else
         <div class="text-gray-500 text-xs md:text-sm">Limite de 5 fotos atingido.</div>

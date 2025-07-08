@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="py-6 bg-gray-50 dark:bg-gray-900">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+    <div class="py-6 bg-gray-50 dark:bg-gray-900 w-full max-w-full">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 w-full max-w-full">
             @if(session('success'))
                 <div class="mb-6 bg-green-100 dark:bg-green-900 border border-green-200 dark:border-green-700 text-green-800 dark:text-green-200 px-4 py-3 rounded relative animate-fade-in" role="alert">
                     <span class="block sm:inline">{{ session('success') }}</span>
@@ -22,7 +22,7 @@
             </div>
 
             <!-- Filtros -->
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-2xl mb-6">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-2xl mb-6 w-full max-w-full">
                 <div class="p-6">
                     <form method="GET" action="{{ route('transactions.index') }}" class="grid grid-cols-1 md:grid-cols-4 gap-4">
                         <div>
@@ -58,10 +58,10 @@
                 </div>
             </div>
 
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-2xl">
-                <div class="p-6">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-2xl w-full max-w-full">
+                <div class="p-6 w-full max-w-full">
                     @if($transactions->count() > 0)
-                        <div class="overflow-x-auto">
+                        <div class="overflow-x-auto w-full max-w-full">
                             <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                                 <thead class="bg-gray-100 dark:bg-gray-900">
                                     <tr>

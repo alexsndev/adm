@@ -138,4 +138,6 @@ Route::prefix('projetos/{project}/links')->name('projetos.links.')->middleware([
     Route::delete('/{link}', [App\Http\Controllers\ProjectLinkController::class, 'destroy'])->name('destroy');
 });
 
+Route::get('/financeiro/dashboard', [\App\Http\Controllers\FinanceDashboardController::class, 'index'])->name('finance.dashboard');
+
 require __DIR__.'/auth.php';

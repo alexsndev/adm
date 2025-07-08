@@ -421,27 +421,35 @@ class HouseholdTaskController extends Controller
     }
 
     /**
-     * Upload de foto para a tarefa doméstica
+     * Upload de fotos para a tarefa doméstica (múltiplos arquivos)
      */
     public function uploadPhoto(Request $request, HouseholdTask $householdTask)
     {
         $this->authorize('update', $householdTask);
 
         $request->validate([
-            'photo' => 'required|image|max:5120', // 5MB
+            'photos' => 'required|array',
+            'photos.*' => 'image|max:5120', // 5MB por foto
+        ], [
+            'photos.required' => 'Selecione pelo menos uma foto.',
+            'photos.*.image' => 'Cada arquivo deve ser uma imagem.',
+            'photos.*.max' => 'Cada foto deve ter no máximo 5MB.',
         ]);
 
-        if ($householdTask->photos()->count() >= 5) {
-            return back()->withErrors(['photo' => 'Limite de 5 fotos atingido para esta tarefa.']);
+        $existingCount = $householdTask->photos()->count();
+        $newCount = count($request->file('photos', []));
+        if ($existingCount + $newCount > 5) {
+            return back()->withErrors(['photos' => 'Limite de 5 fotos por tarefa. Você já enviou ' . $existingCount . '.']);
         }
 
-        $path = $request->file('photo')->store('household_tasks/' . $householdTask->id, 'public');
+        foreach ($request->file('photos', []) as $photo) {
+            $path = $photo->store('household_tasks/' . $householdTask->id, 'public');
+            $householdTask->photos()->create([
+                'photo' => $path,
+            ]);
+        }
 
-        $householdTask->photos()->create([
-            'photo' => $path,
-        ]);
-
-        return back()->with('success', 'Foto enviada com sucesso!');
+        return back()->with('success', 'Foto(s) enviada(s) com sucesso!');
     }
 
     /**

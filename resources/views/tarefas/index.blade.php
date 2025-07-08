@@ -3,8 +3,8 @@
 @include('components.status-dot-style')
 
 @section('content')
-<div class="py-8">
-    <div class="max-w-4xl mx-auto px-2 sm:px-4">
+<div class="py-8 w-full max-w-full">
+    <div class="max-w-4xl mx-auto px-2 sm:px-4 w-full max-w-full">
         <div class="flex justify-between items-center mb-8">
             <h2 class="text-3xl font-extrabold text-gray-900 dark:text-gray-100 flex items-center gap-2">
                 <i class="fa-solid fa-briefcase text-blue-500"></i>
@@ -13,7 +13,7 @@
             <a href="{{ route('tarefas.create') }}" class="px-4 py-2 bg-blue-600 text-white rounded-xl shadow hover:bg-blue-700 font-bold transition">Nova Tarefa</a>
         </div>
         @if($tarefas->count())
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-full">
                 @foreach($tarefas as $tarefa)
                     @php
                         $isLate = $tarefa->due_date && $tarefa->status !== 'concluída' && $tarefa->due_date->isPast();

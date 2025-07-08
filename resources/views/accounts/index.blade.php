@@ -8,8 +8,8 @@
 @section('header-classes', 'bg-card shadow-none backdrop-blur-lg')
 @section('main-classes', 'relative z-10')
 
-<div class="py-6 bg-main">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="py-6 bg-main w-full max-w-full">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full max-w-full">
         @if(session('success'))
             <div class="mb-6 bg-success/10 border border-success text-success px-4 py-3 rounded relative animate-fade-in" role="alert">
                 <span class="block sm:inline">{{ session('success') }}</span>
@@ -22,7 +22,7 @@
             </div>
         @endif
 
-        <div class="bg-card glass-card rounded-3xl-custom shadow-xl-custom p-8 border border-main backdrop-blur-lg animate-fade-in overflow-x-auto">
+        <div class="bg-card glass-card rounded-3xl-custom shadow-xl-custom p-8 border border-main backdrop-blur-lg animate-fade-in overflow-x-auto w-full max-w-full">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-2xl font-bold !text-white" style="color: #fff !important;">Minhas Contas</h2>
                 <a href="{{ route('accounts.create') }}" class="inline-flex items-center px-4 py-2 border border-main shadow-sm text-sm font-bold rounded-lg text-main bg-accent hover:bg-main hover:text-accent transition-all duration-200">
@@ -32,7 +32,7 @@
             </div>
             
             @if($accounts->count() > 0)
-                <div class="overflow-x-auto rounded-xl border border-main">
+                <div class="overflow-x-auto rounded-xl border border-main w-full max-w-full">
                     <table class="min-w-full divide-y divide-main text-sm">
                         <thead class="bg-[#181c20] sticky top-0 z-10">
                             <tr>
@@ -127,7 +127,7 @@
                     </a>
                 </div>
                 
-                <div class="overflow-x-auto rounded-xl border border-main">
+                <div class="overflow-x-auto rounded-xl border border-main w-full max-w-full">
                     <table class="min-w-full divide-y divide-main text-sm">
                         <thead class="bg-[#181c20] sticky top-0 z-10">
                             <tr>
