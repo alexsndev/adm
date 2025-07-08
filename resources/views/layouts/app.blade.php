@@ -23,60 +23,48 @@
         @stack('styles')
     </head>
     <body class="font-sans antialiased bg-gray-100 dark:bg-gray-900 overflow-x-hidden">
-        <div class="min-h-screen w-full flex flex-col">
-            <div x-data="{ sidebarOpen: window.innerWidth >= 640, open: '' }" x-init="window.addEventListener('resize', () => { sidebarOpen = window.innerWidth >= 640 })" class="min-h-screen flex bg-white dark:bg-[#0d1117] relative">
-                <!-- Overlay para mobile -->
-                <div x-show="sidebarOpen && window.innerWidth < 640" class="fixed inset-0 bg-black bg-opacity-40 z-40 transition-opacity duration-200" @click="sidebarOpen = false" style="display: none;"></div>
-                <!-- Sidebar -->
-                <aside :class="sidebarOpen ? 'w-64' : 'w-10'" class="fixed inset-y-0 left-0 bg-white dark:bg-[#0d1117] border-r border-gray-200 dark:border-[#21262d] flex flex-col z-50 transition-all duration-200 ease-in-out">
-                    <div class="flex items-center justify-center pt-2 pb-2 px-2 md:px-6 border-b border-gray-200 dark:border-[#21262d] relative min-h-[40px]">
-                        <a href="{{ route('dashboard') }}" class="flex items-center space-x-2" @click="if(window.innerWidth < 640) sidebarOpen = false">
-                            <span class="text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white drop-shadow-lg select-none" x-show="sidebarOpen">Alexandre <span class="text-blue-500">e</span> Liza <span class="text-blue-500">Gestão</span></span>
-                            <span class="text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white select-none" x-show="!sidebarOpen"></span>
-                        </a>
-                        <button @click="sidebarOpen = !sidebarOpen" class="ml-auto p-2 rounded hover:bg-gray-100 dark:hover:bg-[#161b22] focus:outline-none hidden sm:inline-flex">
-                            <i :class="sidebarOpen ? 'fa-solid fa-chevron-left' : 'fa-solid fa-chevron-right'" class="text-gray-700 dark:text-gray-200"></i>
-                        </button>
-                        <!-- Botão abrir mobile -->
-                        <button @click="sidebarOpen = true" x-show="!sidebarOpen" class="absolute left-1 top-1 sm:hidden inline-flex items-center justify-center p-2 rounded hover:bg-gray-100 dark:hover:bg-[#161b22] focus:outline-none">
-                            <i class="fa-solid fa-bars text-xl text-gray-700 dark:text-gray-200"></i>
-                        </button>
-                        <!-- Botão fechar mobile -->
-                        <button @click="sidebarOpen = false" x-show="sidebarOpen" class="absolute right-2 top-2 sm:hidden inline-flex items-center justify-center p-2 rounded hover:bg-gray-100 dark:hover:bg-[#161b22] focus:outline-none" style="display: none;">
-                            <i class="fa-solid fa-xmark text-xl text-gray-700 dark:text-gray-200"></i>
-                        </button>
-                    </div>
-                    <nav class="flex-1 px-2 md:px-4 py-6 space-y-1" :class="sidebarOpen ? '' : 'px-0 flex flex-col items-center justify-center'">
-                        <div>
-                            @include('layouts.navigation-items')
-                        </div>
-                    </nav>
-                    <div class="mt-auto px-2 md:px-4 py-4 border-t border-gray-200 dark:border-[#21262d]" x-show="sidebarOpen">
-                        <div class="flex items-center space-x-3">
-                            @if(Auth::user()->photo)
-                                <img src="{{ Storage::url(Auth::user()->photo) }}" alt="Foto de perfil" class="w-10 h-10 rounded-full object-cover border-2 border-blue-200 dark:border-blue-700">
-                            @else
-                                <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 font-bold">{{ strtoupper(substr(Auth::user()->name, 0, 1)) }}</span>
-                            @endif
-                            <div class="flex-1 min-w-0">
-                                <div class="font-medium text-base text-gray-800 dark:text-gray-200">{{ Auth::user()->name }}</div>
-                                <div class="font-medium text-sm text-gray-500 dark:text-gray-400">{{ Auth::user()->email }}</div>
-                            </div>
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
-                                <button type="submit" class="text-gray-400 hover:text-red-600 dark:hover:text-red-400" title="Sair">
-                                    <i class="fa-solid fa-right-from-bracket"></i>
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </aside>
-                <!-- Conteúdo principal -->
-                <div :class="sidebarOpen && window.innerWidth >= 640 ? 'ml-64' : 'ml-0'" class="flex-1 flex flex-col transition-all duration-200 bg-white dark:bg-[#0d1117] min-h-screen p-0 m-0 relative z-10">
-                    <main class="flex-1 w-full max-w-full overflow-x-auto">
-                        @yield('content')
-                    </main>
+        <div x-data="{ sidebarOpen: false, open: '' }" class="flex min-h-screen w-full">
+            <!-- Sidebar sempre visível, nunca fixed -->
+            <aside :class="sidebarOpen ? 'w-64' : 'w-10'" class="relative bg-white dark:bg-[#0d1117] border-r border-gray-200 dark:border-[#21262d] flex flex-col transition-all duration-200 ease-in-out">
+                <!-- Botão de expandir/comprimir -->
+                <button @click="sidebarOpen = !sidebarOpen" class="absolute top-2 right-2 z-20 bg-gray-100 dark:bg-[#161b22] rounded-full p-1 shadow-md focus:outline-none">
+                    <i :class="sidebarOpen ? 'fa-solid fa-chevron-left' : 'fa-solid fa-chevron-right'" class="text-gray-700 dark:text-gray-200"></i>
+                </button>
+                <div class="flex items-center justify-center pt-2 pb-2 px-2 md:px-6 border-b border-gray-200 dark:border-[#21262d] relative min-h-[40px]">
+                    <a href="{{ route('dashboard') }}" class="flex items-center space-x-2">
+                        <span class="text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white drop-shadow-lg select-none" x-show="sidebarOpen">Alexandre <span class="text-blue-500">e</span> Liza <span class="text-blue-500">Gestão</span></span>
+                    </a>
                 </div>
+                <nav class="flex-1 px-2 md:px-4 py-6 space-y-1">
+                    <div>
+                        @include('layouts.navigation-items')
+                    </div>
+                </nav>
+                <div class="mt-auto px-2 md:px-4 py-4 border-t border-gray-200 dark:border-[#21262d]" x-show="sidebarOpen">
+                    <div class="flex items-center space-x-3">
+                        @if(Auth::user()->photo)
+                            <img src="{{ Storage::url(Auth::user()->photo) }}" alt="Foto de perfil" class="w-10 h-10 rounded-full object-cover border-2 border-blue-200 dark:border-blue-700">
+                        @else
+                            <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 font-bold">{{ strtoupper(substr(Auth::user()->name, 0, 1)) }}</span>
+                        @endif
+                        <div class="flex-1 min-w-0">
+                            <div class="font-medium text-base text-gray-800 dark:text-gray-200">{{ Auth::user()->name }}</div>
+                            <div class="font-medium text-sm text-gray-500 dark:text-gray-400">{{ Auth::user()->email }}</div>
+                        </div>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="text-gray-400 hover:text-red-600 dark:hover:text-red-400" title="Sair">
+                                <i class="fa-solid fa-right-from-bracket"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </aside>
+            <!-- Conteúdo principal -->
+            <div class="flex-1 flex flex-col bg-white dark:bg-[#0d1117] min-h-screen p-0 m-0 relative z-10">
+                <main class="flex-1 w-full max-w-full overflow-x-auto">
+                    @yield('content')
+                </main>
             </div>
         </div>
         <script>
