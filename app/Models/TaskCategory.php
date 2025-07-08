@@ -1,0 +1,64 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class TaskCategory extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'user_id',
+        'name',
+        'color',
+        'icon',
+        'description',
+        'is_active',
+        'order',
+    ];
+
+    protected $casts = [
+        'is_active' => 'boolean',
+        'order' => 'integer',
+    ];
+
+    // Relacionamentos
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function householdTasks()
+    {
+        return $this->hasMany(HouseholdTask::class);
+    }
+
+    // Scopes
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
+    }
+
+    public function scopeOrdered($query)
+    {
+        return $query->orderBy('order')->orderBy('name');
+    }
+
+    // Métodos
+    public function getActiveTasksCountAttribute()
+    {
+        return $this->householdTasks()->whereIn('status', ['pending', 'in_progress'])->count();
+    }
+
+    public function getCompletedTasksCountAttribute()
+    {
+        return $this->householdTasks()->where('status', 'completed')->count();
+    }
+
+    public function getTotalTasksCountAttribute()
+    {
+        return $this->householdTasks()->count();
+    }
+}

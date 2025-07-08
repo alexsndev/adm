@@ -1,0 +1,190 @@
+/* Cronômetro Moderno - Estilos Personalizados */
+
+#timer-display {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+#timer-display:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(102, 126, 234, 0.4);
+}
+
+#timer-display.running {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+    }
+    50% {
+        box-shadow: 0 8px 32px rgba(102, 126, 234, 0.6);
+    }
+    100% {
+        box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+    }
+}
+
+/* Botões de controle */
+#start-timer, #pause-timer, #reset-timer {
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+#start-timer:hover, #pause-timer:hover, #reset-timer:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+#start-timer:active, #pause-timer:active, #reset-timer:active {
+    transform: translateY(0);
+}
+
+/* Efeito de ripple nos botões */
+#start-timer::before, #pause-timer::before, #reset-timer::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.3s, height 0.3s;
+}
+
+#start-timer:active::before, #pause-timer:active::before, #reset-timer:active::before {
+    width: 100px;
+    height: 100px;
+}
+
+/* Status do timer */
+#timer-status {
+    position: relative;
+    padding: 8px 16px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Animações de entrada */
+#timer-container {
+    animation: slideInUp 0.5s ease-out;
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    #timer-display {
+        font-size: 1rem;
+        padding: 0.75rem 1rem;
+    }
+    
+    #timer-container {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .flex.space-x-2 {
+        justify-content: center;
+    }
+}
+
+/* Modo escuro */
+.dark #timer-display {
+    background: linear-gradient(135deg, #4c1d95 0%, #7c3aed 100%);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.dark #timer-status {
+    background: rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Notificações de erro */
+.timer-notification {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    padding: 1rem 1.5rem;
+    border-radius: 0.5rem;
+    color: white;
+    font-weight: 500;
+    z-index: 9999;
+    animation: slideInRight 0.3s ease-out;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Indicador de atividade */
+.timer-active-indicator {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 8px;
+    height: 8px;
+    background: #10b981;
+    border-radius: 50%;
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0%, 50% {
+        opacity: 1;
+    }
+    51%, 100% {
+        opacity: 0.3;
+    }
+}
+
+/* Tooltip personalizado */
+.timer-tooltip {
+    position: relative;
+}
+
+.timer-tooltip::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+}
+
+.timer-tooltip:hover::after {
+    opacity: 1;
+} 

@@ -1,0 +1,1 @@
+- [ ] Corrigir bug: campo user_id dos projetos não está sendo preenchido corretamente ao criar projeto logado. Investigar fluxo de autenticação, sobrescrita de campos e garantir persistência correta. 
