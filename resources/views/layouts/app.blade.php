@@ -24,7 +24,9 @@
     </head>
     <body class="font-sans antialiased bg-gray-100 dark:bg-gray-900 overflow-x-hidden">
         <div class="min-h-screen w-full flex flex-col">
-            <div x-data="{ sidebarOpen: window.innerWidth >= 640, open: '' }" x-init="window.addEventListener('resize', () => { sidebarOpen = window.innerWidth >= 640 })" class="min-h-screen flex bg-white dark:bg-[#0d1117]">
+            <div x-data="{ sidebarOpen: window.innerWidth >= 640, open: '' }" x-init="window.addEventListener('resize', () => { sidebarOpen = window.innerWidth >= 640 })" class="min-h-screen flex bg-white dark:bg-[#0d1117] relative">
+                <!-- Overlay para mobile -->
+                <div x-show="sidebarOpen && window.innerWidth < 640" class="fixed inset-0 bg-black bg-opacity-40 z-40 transition-opacity duration-200" @click="sidebarOpen = false" style="display: none;"></div>
                 <!-- Sidebar -->
                 <aside :class="sidebarOpen ? 'w-64' : 'w-10'" class="fixed inset-y-0 left-0 bg-white dark:bg-[#0d1117] border-r border-gray-200 dark:border-[#21262d] flex flex-col z-50 transition-all duration-200 ease-in-out">
                     <div class="flex items-center justify-center pt-2 pb-2 px-2 md:px-6 border-b border-gray-200 dark:border-[#21262d] relative min-h-[40px]">
@@ -70,7 +72,7 @@
                     </div>
                 </aside>
                 <!-- Conteúdo principal -->
-                <div :class="sidebarOpen ? 'ml-64' : 'ml-10'" class="flex-1 flex flex-col transition-all duration-200 bg-white dark:bg-[#0d1117] min-h-screen p-0 m-0">
+                <div :class="sidebarOpen && window.innerWidth >= 640 ? 'ml-64' : 'ml-0'" class="flex-1 flex flex-col transition-all duration-200 bg-white dark:bg-[#0d1117] min-h-screen p-0 m-0 relative z-10">
                     <main class="flex-1 w-full max-w-full overflow-x-auto">
                         @yield('content')
                     </main>
