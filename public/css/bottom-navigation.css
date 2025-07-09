@@ -1,0 +1,61 @@
+/* CSS específico para navegação bottom - Garantir funcionamento em produção */
+
+/* Regra principal para navegação bottom */
+nav.fixed.bottom-0 {
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 9999 !important;
+  top: auto !important;
+}
+
+/* Regras mais específicas para garantir que funcione */
+nav.fixed.bottom-0,
+nav[class*="fixed"][class*="bottom-0"],
+nav[style*="fixed"] {
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 9999 !important;
+  top: auto !important;
+}
+
+/* Garantir que funcione em mobile */
+@media (max-width: 768px) {
+  nav.fixed.bottom-0,
+  nav[class*="fixed"][class*="bottom-0"],
+  nav[style*="fixed"] {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 9999 !important;
+    top: auto !important;
+  }
+}
+
+/* Regra para sobrescrever qualquer CSS que possa estar interferindo */
+body nav.fixed.bottom-0,
+html body nav.fixed.bottom-0,
+body nav[class*="fixed"][class*="bottom-0"],
+html body nav[class*="fixed"][class*="bottom-0"] {
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 9999 !important;
+  top: auto !important;
+}
+
+/* Regra com máxima especificidade */
+html body nav.fixed.bottom-0,
+html body nav[class*="fixed"][class*="bottom-0"] {
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 9999 !important;
+  top: auto !important;
+} 

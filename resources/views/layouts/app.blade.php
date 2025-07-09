@@ -18,6 +18,7 @@
         <!-- Custom CSS -->
         <!-- FontAwesome CDN -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+        <link rel="stylesheet" href="/css/bottom-navigation.css">
         @stack('styles')
         <script>
             // Detecta o tema salvo e aplica a classe 'dark' no <html>
@@ -70,7 +71,73 @@
             aside.collapsed nav.sidebar-content button i {
                 margin: 0 !important;
             }
+            aside.group\/sidebar {
+                transition: width 0.3s cubic-bezier(.4,0,.2,1);
+            }
+            aside.w-16 .sidebar-label,
+            aside.w-16 .h-16,
+            aside.w-16 .logo {
+                display: none !important;
+            }
+            aside.w-16 nav a, aside.w-16 nav button {
+                justify-content: center !important;
+            }
+            aside.w-16 nav a i, aside.w-16 nav button i {
+                margin: 0 !important;
+            }
+            aside.w-16 .inline-flex.w-10.h-10 {
+                margin: 0 auto !important;
+            }
+            aside.w-16 .absolute.left-full {
+                display: block !important;
+            }
+            .ml-64 {
+                margin-left: 16rem !important;
+                transition: margin-left 0.3s cubic-bezier(.4,0,.2,1);
+            }
+            .ml-16 {
+                margin-left: 4rem !important;
+                transition: margin-left 0.3s cubic-bezier(.4,0,.2,1);
+            }
+            
+            /* Regra específica para garantir que a navegação bottom funcione corretamente em produção */
+            nav.fixed.bottom-0 {
+                position: fixed !important;
+                bottom: 0 !important;
+                left: 0 !important;
+                right: 0 !important;
+                z-index: 9999 !important;
+                top: auto !important;
+            }
+            
+            /* Garantir que a navegação bottom não seja afetada por outras regras */
+            @media (max-width: 768px) {
+                nav.fixed.bottom-0 {
+                    position: fixed !important;
+                    bottom: 0 !important;
+                    left: 0 !important;
+                    right: 0 !important;
+                    z-index: 9999 !important;
+                    top: auto !important;
+                }
+            }
         </style>
+        <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.effect(() => {
+                const sidebar = document.querySelector('aside.group\/sidebar');
+                const main = document.querySelector('div.ml-64, div.ml-16');
+                if (!sidebar || !main) return;
+                if (sidebar.classList.contains('w-16')) {
+                    main.classList.remove('ml-64');
+                    main.classList.add('ml-16');
+                } else {
+                    main.classList.remove('ml-16');
+                    main.classList.add('ml-64');
+                }
+            });
+        });
+        </script>
     </head>
     <body class="font-sans antialiased bg-gray-100 dark:bg-gray-900 overflow-x-hidden">
         @component('components.header')
@@ -211,7 +278,7 @@
             @endcomponent
             
             <!-- Conteúdo principal -->
-            <div class="flex-1 flex flex-col bg-white dark:bg-[#0d1117] min-h-screen p-0 m-0 relative z-10 md:ml-64">
+            <div class="flex-1 flex flex-col bg-white dark:bg-[#0d1117] min-h-screen p-0 m-0 relative z-10">
                 <main class="flex-1 w-full max-w-full overflow-x-auto pb-16 md:pb-0">
                     @yield('content')
                 </main>
@@ -231,6 +298,32 @@
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/service-worker.js');
         }
+        
+        // Garantir que a navegação bottom funcione corretamente em produção
+        document.addEventListener('DOMContentLoaded', function() {
+            const bottomNav = document.querySelector('nav.fixed.bottom-0');
+            if (bottomNav) {
+                // Forçar o posicionamento correto
+                bottomNav.style.position = 'fixed';
+                bottomNav.style.bottom = '0';
+                bottomNav.style.left = '0';
+                bottomNav.style.right = '0';
+                bottomNav.style.zIndex = '9999';
+                bottomNav.style.top = 'auto';
+                
+                // Verificar periodicamente se o posicionamento está correto
+                setInterval(function() {
+                    if (bottomNav.style.position !== 'fixed' || bottomNav.style.bottom !== '0px') {
+                        bottomNav.style.position = 'fixed';
+                        bottomNav.style.bottom = '0';
+                        bottomNav.style.left = '0';
+                        bottomNav.style.right = '0';
+                        bottomNav.style.zIndex = '9999';
+                        bottomNav.style.top = 'auto';
+                    }
+                }, 1000);
+            }
+        });
         
         // Toggle da sidebar lateral
         document.addEventListener('DOMContentLoaded', function() {

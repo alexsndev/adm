@@ -21,6 +21,52 @@ body, .bg-main {
   background: rgba(255,255,255,0.45) !important;
 }
 */
+
+/* Regra específica para garantir que a navegação bottom funcione corretamente em produção */
+nav.fixed.bottom-0 {
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 9999 !important;
+  top: auto !important;
+}
+
+/* Regras mais específicas para garantir que a navegação bottom funcione em produção */
+nav.fixed.bottom-0,
+nav[class*="fixed"][class*="bottom-0"] {
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 9999 !important;
+  top: auto !important;
+}
+
+/* Garantir que a navegação bottom não seja afetada por outras regras em mobile */
+@media (max-width: 768px) {
+  nav.fixed.bottom-0,
+  nav[class*="fixed"][class*="bottom-0"] {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 9999 !important;
+    top: auto !important;
+  }
+}
+
+/* Regra para sobrescrever qualquer CSS que possa estar interferindo */
+body nav.fixed.bottom-0,
+html body nav.fixed.bottom-0 {
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 9999 !important;
+  top: auto !important;
+}
+
 .text-main { color: var(--color-primary) !important; }
 .text-accent { color: var(--color-accent) !important; }
 .border-main { border-color: var(--color-border) !important; }
