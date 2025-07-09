@@ -37,8 +37,74 @@
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     </head>
     <body class="font-sans antialiased bg-gray-100 dark:bg-gray-900 overflow-x-hidden">
-        @include('components.global-header')
-        <div class="pt-14">
+        <!-- Novo Header Moderno -->
+        <header class="w-full fixed top-0 left-0 z-50 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 shadow-sm h-16 flex items-center justify-between px-6">
+            <!-- Logo e nome -->
+            <div class="flex items-center space-x-3">
+                @if(Auth::user()->logo)
+                    <img src="{{ Storage::url(Auth::user()->logo) }}" alt="Logo" class="h-10 w-auto rounded shadow max-w-[120px] object-contain">
+                @else
+                    <span class="text-xl font-extrabold tracking-tight text-gray-900 dark:text-white select-none">Alexandre <span class="text-blue-500">e</span> Liza <span class="text-blue-500">Gestão</span></span>
+                @endif
+            </div>
+            <!-- Menu central (exemplo) -->
+            <nav class="hidden md:flex space-x-8">
+                <a href="/" class="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition">Dashboard</a>
+                <a href="/accounts" class="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition">Contas</a>
+                <a href="/transactions" class="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition">Transações</a>
+                <a href="/projects" class="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition">Projetos</a>
+            </nav>
+            <!-- Perfil e ações -->
+            <div class="flex items-center space-x-4">
+                <a href="#" title="Notificações" class="relative">
+                    <i class="fa-solid fa-bell text-2xl text-gray-400 dark:text-gray-500 hover:text-blue-500 transition-colors"></i>
+                    <!-- Badge de notificação -->
+                    <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full px-1.5 py-0.5">3</span>
+                </a>
+                <a href="{{ route('profile.edit') }}" class="flex items-center">
+                    @if(Auth::user()->photo)
+                        <img src="{{ Storage::url(Auth::user()->photo) }}" alt="Foto de perfil" class="w-10 h-10 rounded-full object-cover border-2 border-blue-200 dark:border-blue-700 shadow">
+                    @else
+                        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 font-bold text-lg">
+                            {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                        </span>
+                    @endif
+                </a>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="text-gray-400 hover:text-red-600 dark:hover:text-red-400 ml-2" title="Sair">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </button>
+                </form>
+            </div>
+            <!-- Menu mobile -->
+            <div class="md:hidden flex items-center">
+                <button id="mobile-menu-button" class="text-gray-700 dark:text-gray-200 focus:outline-none">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </header>
+        <!-- Menu mobile dropdown (simples exemplo) -->
+        <div id="mobile-menu" class="hidden fixed top-16 left-0 w-full bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 shadow-md z-40 md:hidden">
+            <nav class="flex flex-col space-y-2 p-4">
+                <a href="/" class="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition">Dashboard</a>
+                <a href="/accounts" class="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition">Contas</a>
+                <a href="/transactions" class="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition">Transações</a>
+                <a href="/projects" class="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition">Projetos</a>
+            </nav>
+        </div>
+        <script>
+            // Script simples para abrir/fechar menu mobile
+            document.addEventListener('DOMContentLoaded', function() {
+                const btn = document.getElementById('mobile-menu-button');
+                const menu = document.getElementById('mobile-menu');
+                btn.addEventListener('click', function() {
+                    menu.classList.toggle('hidden');
+                });
+            });
+        </script>
+        <!-- Fim do novo header -->
+        <div class="pt-16">
         <div x-data="{ sidebarOpen: false, open: '' }" class="flex min-h-screen w-full">
             <!-- Sidebar sempre visível, nunca fixed -->
             <aside :class="sidebarOpen ? 'w-64' : 'w-10'" class="relative border-r border-gray-200 dark:border-[#21262d] flex flex-col transition-all duration-200 ease-in-out animated-gradient-sidebar">
