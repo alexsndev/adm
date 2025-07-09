@@ -312,7 +312,7 @@
             ];
             shuffle($frases);
         @endphp
-        <div class="w-full fixed left-0 top-14 z-40 bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 py-1 sm:py-2 flex justify-center items-center shadow-sm min-w-0">
+        <div class="w-full fixed left-0 top-14 z-40 bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 py-1 sm:py-2 flex justify-center items-center shadow-sm min-w-0" style="z-index: 40;">
             <span id="frase-motivacional" class="w-full text-xs sm:text-sm text-gray-700 dark:text-gray-200 italic text-center max-w-full select-none block overflow-hidden whitespace-nowrap min-w-0"> </span>
         </div>
         <script>
@@ -351,7 +351,7 @@
         </script>
 
         <!-- Fim do novo header -->
-        <div class="pt-[88px] sm:pt-[96px]">
+        <div class="pt-24">
         <div class="flex min-h-screen w-full">
             <!-- Incluir bottom navigation -->
             @component('components.bottom-navigation')
