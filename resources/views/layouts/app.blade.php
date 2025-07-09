@@ -315,46 +315,13 @@
         <script>
             window.frasesMotivacionais = @json($frases);
         </script>
-        <div class="w-full fixed left-0 top-14 z-40 bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 py-1 sm:py-2 flex justify-center items-center shadow-sm min-w-0" style="z-index: 40;">
-            <span id="frase-motivacional" class="w-full text-xs sm:text-sm text-gray-700 dark:text-gray-200 italic text-center max-w-full select-none block overflow-hidden whitespace-nowrap min-w-0"> </span>
+        <div class="w-full fixed left-0 top-14 z-40 bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 py-1 sm:py-2 flex justify-center items-center shadow-sm min-w-0 barra-motivacional" style="z-index: 40;">
+            <span id="frase-motivacional" class="w-full text-xs sm:text-sm text-gray-700 dark:text-gray-200 italic text-center max-w-full select-none block overflow-hidden whitespace-nowrap min-w-0">
+                {{ $frases[0] ?? 'Tenha um ótimo dia!' }}
+            </span>
         </div>
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const frases = window.frasesMotivacionais;
-                const el = document.getElementById('frase-motivacional');
-                let fraseIndex = 0;
-                let charIndex = 0;
-                let typing = true;
-
-                function typeWriter(frase, i = 0) {
-                    if (i <= frase.length) {
-                        el.textContent = frase.slice(0, i);
-                        setTimeout(() => typeWriter(frase, i + 1), 30);
-                    } else {
-                        typing = false;
-                        setTimeout(() => eraseWriter(frase), 2500);
-                    }
-                }
-
-                function eraseWriter(frase, i = null) {
-                    if (i === null) i = frase.length;
-                    if (i >= 0) {
-                        el.textContent = frase.slice(0, i);
-                        setTimeout(() => eraseWriter(frase, i - 1), 10);
-                    } else {
-                        fraseIndex = (fraseIndex + 1) % frases.length;
-                        typing = true;
-                        setTimeout(() => typeWriter(frases[fraseIndex]), 300);
-                    }
-                }
-
-                // Iniciar animação
-                typeWriter(frases[fraseIndex]);
-            });
-        </script>
-
         <!-- Fim do novo header -->
-        <div class="pt-24">
+        <div class="main-content-padding">
         <div class="flex min-h-screen w-full">
             <!-- Incluir bottom navigation -->
             @component('components.bottom-navigation')
@@ -587,5 +554,6 @@
                 fetchNotifications();
             });
         </script>
+        <script src="/js/frase-motivacional.js"></script>
     </body>
 </html>
