@@ -114,6 +114,16 @@ class EventController extends Controller
             'color' => 'nullable|string|max:7',
         ]);
 
+        // Upload de imagem
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            // Remover imagem antiga se existir
+            if ($event->image) {
+                \Storage::disk('public')->delete($event->image);
+            }
+            $path = $request->file('image')->store('events', 'public');
+            $validated['image'] = $path;
+        }
+
         $event->update($validated);
 
         // Regenerar ocorrências se necessário

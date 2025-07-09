@@ -25,6 +25,7 @@ class Event extends Model
         'is_active',
         'reminder_days',
         'color',
+        'image', // Permite salvar o caminho da imagem
     ];
 
     protected $casts = [

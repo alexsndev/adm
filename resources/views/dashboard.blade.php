@@ -9,8 +9,181 @@
 @section('main-classes', 'relative z-10')
 
 @section('content')
+    <style>
+        .draggable-sidebar {
+            transition: opacity 0.2s, box-shadow 0.2s;
+            cursor: grab;
+            user-select: none;
+        }
+        .draggable-sidebar.dragging {
+            opacity: 1 !important;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+            cursor: grabbing;
+        }
+        @media (max-width: 640px) {
+            .draggable-sidebar {
+                width: 40px;
+                min-width: 40px;
+                max-width: 40px;
+                height: 85vh;
+                min-height: 0;
+                max-height: 85vh;
+                border-radius: 1.5rem;
+                padding: 0.75rem 0;
+                right: 0.75rem !important;
+                top: 36vh !important;
+                z-index: 50;
+                box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+                display: flex !important;
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+                overflow-y: auto;
+                scrollbar-width: thin;
+                scrollbar-color: #cbd5e1 #f1f5f9;
+            }
+            .draggable-sidebar::-webkit-scrollbar {
+                width: 4px;
+            }
+            .draggable-sidebar::-webkit-scrollbar-thumb {
+                background: #cbd5e1;
+                border-radius: 8px;
+            }
+            .draggable-sidebar .sidebar-toggle {
+                display: none !important;
+            }
+            .draggable-sidebar .sidebar-content {
+                display: flex !important;
+                flex-direction: column;
+                gap: 1.5rem;
+                align-items: center;
+                justify-content: flex-start;
+                width: 100%;
+                height: 100%;
+                padding-top: 9rem;
+            }
+            .draggable-sidebar .sidebar-content a {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 0.5rem 0;
+            }
+            .draggable-sidebar .sidebar-content i {
+                font-size: 1.25rem;
+            }
+            .draggable-sidebar .sidebar-content span {
+                display: none;
+            }
+        }
+        @media (min-width: 641px) {
+            .draggable-sidebar .sidebar-toggle {
+                display: none;
+            }
+        }
+    </style>
+    <div id="draggableSidebar" class="draggable-sidebar fixed top-1/4 right-4 z-40 flex flex-col gap-4 bg-white/80 dark:bg-gray-900/80 rounded-2xl shadow-lg p-3 border border-gray-200 dark:border-gray-800 backdrop-blur-md opacity-20 transition min-w-0 max-w-full">
+        <div class="sidebar-content flex flex-col gap-4">
+            <a href="#dashboard-top" class="group flex flex-col items-center text-blue-600 dark:text-blue-300 hover:text-blue-800 dark:hover:text-blue-100 transition" title="Topo">
+                <i class="fa-solid fa-chart-line text-xl opacity-20 group-hover:opacity-100 group-focus:opacity-100 transition"></i>
+                <span class="text-xs mt-1 opacity-0 group-hover:opacity-100 transition">Topo</span>
+            </a>
+            <a href="#dashboard-goals" class="group flex flex-col items-center text-green-600 dark:text-green-300 hover:text-green-800 dark:hover:text-green-100 transition" title="Metas">
+                <i class="fa-solid fa-bullseye text-xl opacity-20 group-hover:opacity-100 group-focus:opacity-100 transition"></i>
+                <span class="text-xs mt-1 opacity-0 group-hover:opacity-100 transition">Metas</span>
+            </a>
+            <a href="#dashboard-debts" class="group flex flex-col items-center text-red-600 dark:text-red-300 hover:text-red-800 dark:hover:text-red-100 transition" title="Dívidas">
+                <i class="fa-solid fa-money-bill-wave text-xl opacity-20 group-hover:opacity-100 group-focus:opacity-100 transition"></i>
+                <span class="text-xs mt-1 opacity-0 group-hover:opacity-100 transition">Dívidas</span>
+            </a>
+            <a href="#dashboard-events" class="group flex flex-col items-center text-blue-500 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-200 transition" title="Eventos">
+                <i class="fa-solid fa-calendar-days text-xl opacity-20 group-hover:opacity-100 group-focus:opacity-100 transition"></i>
+                <span class="text-xs mt-1 opacity-0 group-hover:opacity-100 transition">Eventos</span>
+            </a>
+            <a href="#dashboard-holidays" class="group flex flex-col items-center text-yellow-500 dark:text-yellow-300 hover:text-yellow-700 dark:hover:text-yellow-100 transition" title="Feriados">
+                <i class="fa-solid fa-umbrella-beach text-xl opacity-20 group-hover:opacity-100 group-focus:opacity-100 transition"></i>
+                <span class="text-xs mt-1 opacity-0 group-hover:opacity-100 transition">Feriados</span>
+            </a>
+            <a href="#dashboard-birthdays" class="group flex flex-col items-center text-pink-500 dark:text-pink-300 hover:text-pink-700 dark:hover:text-pink-100 transition" title="Aniversariantes">
+                <i class="fa-solid fa-cake-candles text-xl opacity-20 group-hover:opacity-100 group-focus:opacity-100 transition"></i>
+                <span class="text-xs mt-1 opacity-0 group-hover:opacity-100 transition">Aniversários</span>
+            </a>
+        </div>
+    </div>
+    <script>
+        // Drag and drop sidebar (desktop/tablet only)
+        const sidebar = document.getElementById('draggableSidebar');
+        let isDragging = false, startX, startY, startTop, startRight;
+        function isMobile() {
+            return window.innerWidth <= 640;
+        }
+        if (!isMobile()) {
+            sidebar.addEventListener('pointerdown', function(e) {
+                if (e.target.closest('.sidebar-toggle')) return; // don't drag on toggle btn
+                isDragging = true;
+                sidebar.classList.add('dragging');
+                startX = e.clientX;
+                startY = e.clientY;
+                const rect = sidebar.getBoundingClientRect();
+                startTop = rect.top;
+                startRight = window.innerWidth - rect.right;
+                document.body.style.userSelect = 'none';
+            });
+            window.addEventListener('pointermove', function(e) {
+                if (!isDragging) return;
+                let newTop = startTop + (e.clientY - startY);
+                let newRight = startRight - (e.clientX - startX);
+                newTop = Math.max(0, Math.min(window.innerHeight - sidebar.offsetHeight, newTop));
+                newRight = Math.max(0, Math.min(window.innerWidth - 56, newRight));
+                sidebar.style.top = newTop + 'px';
+                sidebar.style.right = newRight + 'px';
+            });
+            window.addEventListener('pointerup', function() {
+                isDragging = false;
+                sidebar.classList.remove('dragging');
+                document.body.style.userSelect = '';
+            });
+        }
+        // Opacity on hover/focus/touch
+        function setSidebarOpacity(val) {
+            sidebar.style.opacity = val;
+        }
+        sidebar.addEventListener('mouseenter', () => setSidebarOpacity(1));
+        sidebar.addEventListener('mouseleave', () => setSidebarOpacity(0.2));
+        sidebar.addEventListener('touchstart', () => setSidebarOpacity(1));
+        sidebar.addEventListener('touchend', () => setSidebarOpacity(0.2));
+        // Mobile: toggle open/close
+        function toggleSidebarMobile(e) {
+            e.stopPropagation();
+            sidebar.classList.toggle('open');
+            // Ajusta posição do menu para não sair da tela
+            if (sidebar.classList.contains('open')) {
+                const content = sidebar.querySelector('.sidebar-content');
+                const rect = sidebar.getBoundingClientRect();
+                let left = rect.right + 10;
+                let right = 'auto';
+                if (left + 200 > window.innerWidth) { // se passar da tela, abre para a esquerda
+                    left = 'auto';
+                    right = rect.width + 10 + 'px';
+                } else {
+                    left = rect.width + 10 + 'px';
+                    right = 'auto';
+                }
+                content.style.left = left;
+                content.style.right = right;
+            }
+        }
+        document.addEventListener('click', function(e) {
+            if(isMobile() && sidebar.classList.contains('open')) {
+                if (!e.target.closest('#draggableSidebar')) {
+                    sidebar.classList.remove('open');
+                }
+            }
+        });
+    </script>
+    <div id="dashboard-top"></div>
     <div class="py-8 bg-gray-900 min-h-screen">
-        <div class="max-w-7xl mx-auto px-6 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto px-1.5 sm:px-6 lg:px-8">
             <!-- Header -->
             <div class="mb-8">
                 <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
@@ -28,312 +201,292 @@
             </div>
 
             <!-- Cards de Estatísticas Principais -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                <!-- Total de Eventos -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
+                <!-- Saldo Total -->
                 <div class="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-800">
                     <div class="flex items-center">
                         <div class="p-3 bg-blue-100 dark:bg-blue-900 rounded-lg">
-                            <i class="fa-solid fa-calendar text-blue-600 dark:text-blue-400 text-xl"></i>
+                            <i class="fa-solid fa-wallet text-blue-600 dark:text-blue-400 text-xl"></i>
                         </div>
                         <div class="ml-4">
-                            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total de Eventos</p>
-                            <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ $eventsCount ?? 0 }}</p>
+                            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Saldo Total</p>
+                            <p class="text-2xl font-bold text-gray-900 dark:text-white">R$ {{ number_format($totalBalance ?? 0, 2, ',', '.') }}</p>
                         </div>
                     </div>
                     <div class="mt-4">
-                        <a href="{{ route('events.index') }}" class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 text-sm font-medium">
-                            Ver todos <i class="fa-solid fa-arrow-right ml-1"></i>
+                        <a href="{{ route('accounts.index') }}" class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 text-sm font-medium">
+                            Ver contas <i class="fa-solid fa-arrow-right ml-1"></i>
                         </a>
                     </div>
                 </div>
 
-                <!-- Próximos Eventos -->
+                <!-- Receitas do Mês -->
                 <div class="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-800">
                     <div class="flex items-center">
                         <div class="p-3 bg-green-100 dark:bg-green-900 rounded-lg">
-                            <i class="fa-solid fa-clock text-green-600 dark:text-green-400 text-xl"></i>
+                            <i class="fa-solid fa-arrow-up text-green-600 dark:text-green-400 text-xl"></i>
                         </div>
                         <div class="ml-4">
-                            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Próximos Eventos</p>
-                            <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ $upcomingEventsCount ?? 0 }}</p>
+                            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Receitas do Mês</p>
+                            <p class="text-2xl font-bold text-green-600">R$ {{ number_format($monthlyIncome ?? 0, 2, ',', '.') }}</p>
                         </div>
                     </div>
                     <div class="mt-4">
-                        <a href="{{ route('events.calendar') }}" class="text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-300 text-sm font-medium">
-                            Ver calendário <i class="fa-solid fa-arrow-right ml-1"></i>
+                        <a href="{{ route('transactions.index') }}" class="text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-300 text-sm font-medium">
+                            Ver transações <i class="fa-solid fa-arrow-right ml-1"></i>
                         </a>
                     </div>
                 </div>
 
-                <!-- Tarefas Ativas -->
+                <!-- Despesas do Mês -->
                 <div class="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-800">
                     <div class="flex items-center">
-                        <div class="p-3 bg-yellow-100 dark:bg-yellow-900 rounded-lg">
-                            <i class="fa-solid fa-tasks text-yellow-600 dark:text-yellow-400 text-xl"></i>
+                        <div class="p-3 bg-red-100 dark:bg-red-900 rounded-lg">
+                            <i class="fa-solid fa-arrow-down text-red-600 dark:text-red-400 text-xl"></i>
                         </div>
                         <div class="ml-4">
-                            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Tarefas Ativas</p>
-                            <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ $activeTasksCount ?? 0 }}</p>
+                            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Despesas do Mês</p>
+                            <p class="text-2xl font-bold text-red-600">R$ {{ number_format($monthlyExpenses ?? 0, 2, ',', '.') }}</p>
                         </div>
                     </div>
                     <div class="mt-4">
-                        <a href="{{ route('tarefas.index') }}" class="text-yellow-600 hover:text-yellow-800 dark:text-yellow-400 dark:hover:text-yellow-300 text-sm font-medium">
-                            Ver tarefas <i class="fa-solid fa-arrow-right ml-1"></i>
+                        <a href="{{ route('transactions.index') }}" class="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 text-sm font-medium">
+                            Ver transações <i class="fa-solid fa-arrow-right ml-1"></i>
                         </a>
                     </div>
                 </div>
 
-                <!-- Projetos Ativos -->
+                <!-- Total de Transações -->
                 <div class="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-800">
                     <div class="flex items-center">
                         <div class="p-3 bg-purple-100 dark:bg-purple-900 rounded-lg">
-                            <i class="fa-solid fa-project-diagram text-purple-600 dark:text-purple-400 text-xl"></i>
+                            <i class="fa-solid fa-list text-purple-600 dark:text-purple-400 text-xl"></i>
                         </div>
                         <div class="ml-4">
-                            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Projetos Ativos</p>
-                            <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ $activeProjectsCount ?? 0 }}</p>
+                            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Transações</p>
+                            <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ $totalTransactions ?? 0 }}</p>
                         </div>
                     </div>
                     <div class="mt-4">
-                        <a href="{{ route('projetos.index') }}" class="text-purple-600 hover:text-purple-800 dark:text-purple-400 dark:hover:text-purple-300 text-sm font-medium">
-                            Ver projetos <i class="fa-solid fa-arrow-right ml-1"></i>
+                        <a href="{{ route('transactions.index') }}" class="text-purple-600 hover:text-purple-800 dark:text-purple-400 dark:hover:text-purple-300 text-sm font-medium">
+                            Ver todas <i class="fa-solid fa-arrow-right ml-1"></i>
                         </a>
                     </div>
                 </div>
             </div>
 
-            <!-- Seção Principal -->
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <!-- Atividades Recentes -->
-                <div class="lg:col-span-2">
-                    <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-200 dark:border-gray-800">
-                        <div class="p-6 border-b border-gray-200 dark:border-gray-700">
-                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white flex items-center">
-                                <i class="fa-solid fa-history text-blue-500 mr-2"></i>
-                                Atividades Recentes
-                            </h3>
-                        </div>
-                        <div class="p-6">
-                            <div class="space-y-4">
-                                @forelse($recentActivities ?? [] as $activity)
-                                    <div class="flex items-start space-x-3">
-                                        <div class="flex-shrink-0">
-                                            <div class="w-8 h-8 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
-                                                <i class="fa-solid fa-circle text-blue-600 dark:text-blue-400 text-xs"></i>
-                                            </div>
-                                        </div>
-                                        <div class="flex-1 min-w-0">
-                                            <p class="text-sm text-gray-900 dark:text-white">{{ $activity->description }}</p>
-                                            <p class="text-xs text-gray-500 dark:text-gray-400">{{ $activity->created_at->diffForHumans() }}</p>
-                                        </div>
-                                    </div>
-                                @empty
-                                    <div class="text-center py-8">
-                                        <i class="fa-solid fa-inbox text-gray-400 text-4xl mb-4"></i>
-                                        <p class="text-gray-500 dark:text-gray-400">Nenhuma atividade recente</p>
-                                    </div>
-                                @endforelse
-                            </div>
-                        </div>
+            <!-- Transações Recentes -->
+            <div class="mb-8">
+                <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-200 dark:border-gray-800">
+                    <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white flex items-center">
+                            <i class="fa-solid fa-clock-rotate-left text-blue-500 mr-2"></i>
+                            Transações Recentes
+                        </h3>
                     </div>
-                </div>
-
-                <!-- Navegação Rápida -->
-                <div class="lg:col-span-1">
-                    <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-200 dark:border-gray-800">
-                        <div class="p-6 border-b border-gray-200 dark:border-gray-700">
-                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white flex items-center">
-                                <i class="fa-solid fa-rocket text-green-500 mr-2"></i>
-                                Navegação Rápida
-                            </h3>
-                        </div>
-                        <div class="p-6">
-                            <div class="space-y-3">
-                                <a href="{{ route('events.create') }}" class="flex items-center p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors">
-                                    <i class="fa-solid fa-plus-circle text-blue-600 dark:text-blue-400 mr-3"></i>
-                                    <span class="text-blue-900 dark:text-blue-100 font-medium">Criar Evento</span>
-                                </a>
-                                
-                                <a href="{{ route('tarefas.create') }}" class="flex items-center p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg hover:bg-yellow-100 dark:hover:bg-yellow-900/30 transition-colors">
-                                    <i class="fa-solid fa-plus text-yellow-600 dark:text-yellow-400 mr-3"></i>
-                                    <span class="text-yellow-900 dark:text-yellow-100 font-medium">Nova Tarefa</span>
-                                </a>
-                                
-                                <a href="{{ route('projetos.create') }}" class="flex items-center p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg hover:bg-purple-100 dark:hover:bg-purple-900/30 transition-colors">
-                                    <i class="fa-solid fa-folder-plus text-purple-600 dark:text-purple-400 mr-3"></i>
-                                    <span class="text-purple-900 dark:text-purple-100 font-medium">Novo Projeto</span>
-                                </a>
-                                
-                                <a href="{{ route('events.calendar') }}" class="flex items-center p-3 bg-green-50 dark:bg-green-900/20 rounded-lg hover:bg-green-100 dark:hover:bg-green-900/30 transition-colors">
-                                    <i class="fa-solid fa-calendar-week text-green-600 dark:text-green-400 mr-3"></i>
-                                    <span class="text-green-900 dark:text-green-100 font-medium">Ver Calendário</span>
-                                </a>
-                                
-                                <a href="{{ route('household-tasks.index') }}" class="flex items-center p-3 bg-orange-50 dark:bg-orange-900/20 rounded-lg hover:bg-orange-100 dark:hover:bg-orange-900/30 transition-colors">
-                                    <i class="fa-solid fa-home text-orange-600 dark:text-orange-400 mr-3"></i>
-                                    <span class="text-orange-900 dark:text-orange-100 font-medium">Tarefas Domésticas</span>
-                                </a>
-                            </div>
+                    <div class="p-6">
+                        <div class="overflow-x-auto w-full">
+                            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-800">
+                                <thead>
+                                    <tr>
+                                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Data</th>
+                                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Conta</th>
+                                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Categoria</th>
+                                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Tipo</th>
+                                        <th class="px-4 py-2 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Valor</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse($recentTransactions ?? [] as $transaction)
+                                        <tr>
+                                            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-700 dark:text-gray-200">{{ \Carbon\Carbon::parse($transaction->date)->format('d/m/Y') }}</td>
+                                            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-700 dark:text-gray-200">{{ $transaction->account->name ?? '-' }}</td>
+                                            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-700 dark:text-gray-200">{{ $transaction->category->name ?? '-' }}</td>
+                                            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-700 dark:text-gray-200">
+                                                <span class="px-2 py-1 rounded-full text-xs font-bold {{ $transaction->type === 'income' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' }}">
+                                                    {{ $transaction->type === 'income' ? 'Receita' : 'Despesa' }}
+                                                </span>
+                                            </td>
+                                            <td class="px-4 py-2 whitespace-nowrap text-sm text-right font-bold {{ $transaction->type === 'income' ? 'text-green-600' : 'text-red-600' }}">
+                                                R$ {{ number_format($transaction->amount, 2, ',', '.') }}
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="5" class="text-center text-gray-500 dark:text-gray-400 py-8">Nenhuma transação recente.</td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Seção de Módulos -->
-            <div class="mt-8">
-                <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
-                    <i class="fa-solid fa-th-large text-gray-600 mr-3"></i>
-                    Módulos do Sistema
-                </h2>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- Eventos -->
-                    <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-200 dark:border-gray-800 p-6 hover:shadow-xl transition-all duration-300">
-                        <div class="flex items-center mb-4">
-                            <div class="p-3 bg-blue-100 dark:bg-blue-900 rounded-lg">
-                                <i class="fa-solid fa-calendar-days text-blue-600 dark:text-blue-400 text-2xl"></i>
+            <!-- Metas Financeiras -->
+            <div id="dashboard-goals" class="mb-8">
+                <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-200 dark:border-gray-800 p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white flex items-center mb-4">
+                        <i class="fa-solid fa-bullseye text-green-500 mr-2"></i>
+                        Metas Financeiras
+                    </h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+                        @forelse($goals as $goal)
+                            <div class="flex flex-col items-center text-center bg-green-50 dark:bg-green-900/30 rounded-lg p-4 shadow">
+                                <div class="font-bold text-green-900 dark:text-green-200 mb-1">{{ $goal->name }}</div>
+                                <div class="text-sm text-green-700 dark:text-green-300 mb-1">Meta: R$ {{ number_format($goal->target_amount, 2, ',', '.') }}</div>
+                                <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5 mb-2">
+                                    <div class="bg-green-500 h-2.5 rounded-full" style="width: {{ min(100, ($goal->current_amount / max(1, $goal->target_amount)) * 100) }}%"></div>
+                                </div>
+                                <div class="text-xs text-green-800 dark:text-green-400">Progresso: R$ {{ number_format($goal->current_amount, 2, ',', '.') }}</div>
                             </div>
-                            <div class="ml-4">
-                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Eventos</h3>
-                                <p class="text-sm text-gray-600 dark:text-gray-400">Gerencie seus eventos importantes</p>
+                        @empty
+                            <div class="col-span-4 text-center text-green-500 dark:text-green-300 py-8">
+                                Nenhuma meta cadastrada.
                             </div>
-                        </div>
-                        <div class="space-y-2">
-                            <a href="{{ route('events.index') }}" class="block text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 text-sm">
-                                <i class="fa-solid fa-list mr-2"></i>Lista de Eventos
-                            </a>
-                            <a href="{{ route('events.calendar') }}" class="block text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 text-sm">
-                                <i class="fa-solid fa-calendar-week mr-2"></i>Calendário
-                            </a>
-                            <a href="{{ route('events.create') }}" class="block text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 text-sm">
-                                <i class="fa-solid fa-plus mr-2"></i>Novo Evento
-                            </a>
-                        </div>
+                        @endforelse
                     </div>
+                </div>
+            </div>
 
-                    <!-- Tarefas -->
-                    <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-200 dark:border-gray-800 p-6 hover:shadow-xl transition-all duration-300">
-                        <div class="flex items-center mb-4">
-                            <div class="p-3 bg-yellow-100 dark:bg-yellow-900 rounded-lg">
-                                <i class="fa-solid fa-tasks text-yellow-600 dark:text-yellow-400 text-2xl"></i>
+            <!-- Dívidas -->
+            <div id="dashboard-debts" class="mb-8">
+                <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-200 dark:border-gray-800 p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white flex items-center mb-4">
+                        <i class="fa-solid fa-money-bill-wave text-red-500 mr-2"></i>
+                        Dívidas
+                    </h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+                        @forelse($debts as $debt)
+                            <div class="flex flex-col items-center text-center bg-red-50 dark:bg-red-900/30 rounded-lg p-4 shadow">
+                                <div class="font-bold text-red-900 dark:text-red-200 mb-1">{{ $debt->name }}</div>
+                                <div class="debt-amount-row text-sm text-red-700 dark:text-red-300 mb-1 flex items-center justify-center gap-2">
+                                    <span class="debt-value" style="display: none;">R$ {{ number_format($debt->original_amount, 2, ',', '.') }}</span>
+                                    <span class="debt-hidden">••••••</span>
+                                    <button type="button" class="toggle-debt-visibility ml-2 text-red-500 hover:text-red-700 dark:hover:text-red-300" title="Mostrar/Ocultar valor">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </button>
+                                </div>
+                                <div class="text-xs text-red-800 dark:text-red-400">Status: {{ $debt->status ?? 'Pendente' }}</div>
                             </div>
-                            <div class="ml-4">
-                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Tarefas</h3>
-                                <p class="text-sm text-gray-600 dark:text-gray-400">Organize suas tarefas profissionais</p>
+                        @empty
+                            <div class="col-span-4 text-center text-red-500 dark:text-red-300 py-8">
+                                Nenhuma dívida cadastrada.
                             </div>
-                        </div>
-                        <div class="space-y-2">
-                            <a href="{{ route('tarefas.index') }}" class="block text-yellow-600 hover:text-yellow-800 dark:text-yellow-400 dark:hover:text-yellow-300 text-sm">
-                                <i class="fa-solid fa-list mr-2"></i>Lista de Tarefas
-                            </a>
-                            <a href="{{ route('tarefas.create') }}" class="block text-yellow-600 hover:text-yellow-800 dark:text-yellow-400 dark:hover:text-yellow-300 text-sm">
-                                <i class="fa-solid fa-plus mr-2"></i>Nova Tarefa
-                            </a>
-                            <a href="{{ route('task-categories.index') }}" class="block text-yellow-600 hover:text-yellow-800 dark:text-yellow-400 dark:hover:text-yellow-300 text-sm">
-                                <i class="fa-solid fa-tags mr-2"></i>Categorias
-                            </a>
-                        </div>
+                        @endforelse
                     </div>
+                </div>
+            </div>
 
-                    <!-- Projetos -->
-                    <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-200 dark:border-gray-800 p-6 hover:shadow-xl transition-all duration-300">
-                        <div class="flex items-center mb-4">
-                            <div class="p-3 bg-purple-100 dark:bg-purple-900 rounded-lg">
-                                <i class="fa-solid fa-project-diagram text-purple-600 dark:text-purple-400 text-2xl"></i>
-                            </div>
-                            <div class="ml-4">
-                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Projetos</h3>
-                                <p class="text-sm text-gray-600 dark:text-gray-400">Gerencie seus projetos profissionais</p>
-                            </div>
-                        </div>
-                        <div class="space-y-2">
-                            <a href="{{ route('projetos.index') }}" class="block text-purple-600 hover:text-purple-800 dark:text-purple-400 dark:hover:text-purple-300 text-sm">
-                                <i class="fa-solid fa-list mr-2"></i>Lista de Projetos
-                            </a>
-                            <a href="{{ route('projetos.create') }}" class="block text-purple-600 hover:text-purple-800 dark:text-purple-400 dark:hover:text-purple-300 text-sm">
-                                <i class="fa-solid fa-plus mr-2"></i>Novo Projeto
-                            </a>
-                            <a href="{{ route('clientes.index') }}" class="block text-purple-600 hover:text-purple-800 dark:text-purple-400 dark:hover:text-purple-300 text-sm">
-                                <i class="fa-solid fa-users mr-2"></i>Clientes
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Tarefas Domésticas -->
-                    <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-200 dark:border-gray-800 p-6 hover:shadow-xl transition-all duration-300">
-                        <div class="flex items-center mb-4">
-                            <div class="p-3 bg-orange-100 dark:bg-orange-900 rounded-lg">
-                                <i class="fa-solid fa-home text-orange-600 dark:text-orange-400 text-2xl"></i>
-                            </div>
-                            <div class="ml-4">
-                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Tarefas Domésticas</h3>
-                                <p class="text-sm text-gray-600 dark:text-gray-400">Organize as tarefas da casa</p>
-                            </div>
-                        </div>
-                        <div class="space-y-2">
-                            <a href="{{ route('household-tasks.index') }}" class="block text-orange-600 hover:text-orange-800 dark:text-orange-400 dark:hover:text-orange-300 text-sm">
-                                <i class="fa-solid fa-list mr-2"></i>Lista de Tarefas
-                            </a>
-                            <a href="{{ route('household-tasks.create') }}" class="block text-orange-600 hover:text-orange-800 dark:text-orange-400 dark:hover:text-orange-300 text-sm">
-                                <i class="fa-solid fa-plus mr-2"></i>Nova Tarefa
-                            </a>
-                            <a href="{{ route('household-tasks.dashboard') }}" class="block text-orange-600 hover:text-orange-800 dark:text-orange-400 dark:hover:text-orange-300 text-sm">
-                                <i class="fa-solid fa-chart-bar mr-2"></i>Dashboard
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Finanças -->
-                    <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-200 dark:border-gray-800 p-6 hover:shadow-xl transition-all duration-300">
-                        <div class="flex items-center mb-4">
-                            <div class="p-3 bg-green-100 dark:bg-green-900 rounded-lg">
-                                <i class="fa-solid fa-dollar-sign text-green-600 dark:text-green-400 text-2xl"></i>
-                            </div>
-                            <div class="ml-4">
-                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Finanças</h3>
-                                <p class="text-sm text-gray-600 dark:text-gray-400">Controle suas finanças pessoais</p>
-                            </div>
-                        </div>
-                        <div class="space-y-2">
-                            <a href="{{ route('transactions.index') }}" class="block text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-300 text-sm">
-                                <i class="fa-solid fa-exchange-alt mr-2"></i>Transações
-                            </a>
-                            <a href="{{ route('accounts.index') }}" class="block text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-300 text-sm">
-                                <i class="fa-solid fa-wallet mr-2"></i>Contas
-                            </a>
-                            <a href="{{ route('financial-goals.index') }}" class="block text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-300 text-sm">
-                                <i class="fa-solid fa-bullseye mr-2"></i>Metas
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Configurações -->
-                    <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-200 dark:border-gray-800 p-6 hover:shadow-xl transition-all duration-300">
-                        <div class="flex items-center mb-4">
-                            <div class="p-3 bg-gray-100 dark:bg-gray-900 rounded-lg">
-                                <i class="fa-solid fa-cog text-gray-600 dark:text-gray-400 text-2xl"></i>
-                            </div>
-                            <div class="ml-4">
-                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Configurações</h3>
-                                <p class="text-sm text-gray-600 dark:text-gray-400">Personalize o sistema</p>
-                            </div>
-                        </div>
-                        <div class="space-y-2">
-                            <a href="{{ route('profile.edit') }}" class="block text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-300 text-sm">
-                                <i class="fa-solid fa-user mr-2"></i>Perfil
-                            </a>
-                            <a href="{{ route('categories.index') }}" class="block text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-300 text-sm">
-                                <i class="fa-solid fa-tags mr-2"></i>Categorias
-                            </a>
-                            <a href="{{ route('previsibilidade.index') }}" class="block text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-300 text-sm">
-                                <i class="fa-solid fa-users mr-2"></i>Pessoas
-                            </a>
-                        </div>
-                    </div>
+            <!-- Blocos de Destaque: Próximos Eventos, Aniversariantes e Feriados -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8">
+                <!-- Próximos Eventos -->
+                <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-200 dark:border-gray-800 p-4 sm:p-6">
+                    <h3 class="text-base sm:text-lg font-semibold text-blue-700 dark:text-blue-300 flex items-center mb-3 sm:mb-4">
+                        <i class="fa-solid fa-calendar-days text-blue-500 mr-2"></i> Próximos Eventos
+                    </h3>
+                    <ul class="space-y-3 sm:space-y-4">
+                        @forelse($nextEvents as $occurrence)
+                            <li class="flex items-center gap-2 sm:gap-3">
+                                @if($occurrence->event->image)
+                                    <img src="{{ Str::startsWith($occurrence->event->image, 'http') ? $occurrence->event->image : Storage::url($occurrence->event->image) }}" alt="Foto Evento" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover border-2 border-blue-200 dark:border-blue-700 shadow">
+                                @else
+                                    <span class="inline-flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 font-bold text-lg sm:text-xl">
+                                        <i class="fa-solid fa-calendar-days"></i>
+                                    </span>
+                                @endif
+                                <div class="flex-1 min-w-0">
+                                    <div class="font-bold text-gray-900 dark:text-white flex items-center gap-1 sm:gap-2 text-sm sm:text-base truncate">
+                                        {{ $occurrence->event->title }}
+                                        <a href="{{ route('events.edit', $occurrence->event->id) }}" title="Ver evento" class="text-blue-500 hover:text-blue-700 dark:hover:text-blue-300 ml-1">
+                                            <i class="fa-solid fa-eye"></i>
+                                        </a>
+                                    </div>
+                                    <div class="text-xs text-gray-500 dark:text-gray-300 truncate">{{ \Carbon\Carbon::parse($occurrence->occurrence_date)->format('d/m/Y') }}
+                                        @if($occurrence->occurrence_time)
+                                            às {{ \Carbon\Carbon::parse($occurrence->occurrence_time)->format('H:i') }}
+                                        @endif
+                                    </div>
+                                    @if($occurrence->event->location)
+                                        <div class="text-xs text-gray-400 truncate"><i class="fa-solid fa-location-dot mr-1"></i> {{ $occurrence->event->location }}</div>
+                                    @endif
+                                </div>
+                            </li>
+                        @empty
+                            <li class="text-gray-400 text-sm">Nenhum evento próximo.</li>
+                        @endforelse
+                    </ul>
+                </div>
+                <!-- Próximos Aniversariantes -->
+                <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-200 dark:border-gray-800 p-4 sm:p-6">
+                    <h3 class="text-base sm:text-lg font-semibold text-pink-700 dark:text-pink-300 flex items-center mb-3 sm:mb-4">
+                        <i class="fa-solid fa-cake-candles text-pink-500 mr-2"></i> Próximos Aniversariantes
+                    </h3>
+                    <ul class="space-y-3 sm:space-y-4">
+                        @forelse($nextBirthdays as $person)
+                            <li class="flex items-center gap-2 sm:gap-3">
+                                @if($person->photo)
+                                    <img src="{{ Str::startsWith($person->photo, 'http') ? $person->photo : Storage::url($person->photo) }}" alt="Foto" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover border-2 border-pink-200 dark:border-pink-700 shadow">
+                                @else
+                                    <span class="inline-flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-pink-100 dark:bg-pink-900 text-pink-600 dark:text-pink-300 font-bold text-lg sm:text-xl">
+                                        <i class="fa-solid fa-cake-candles"></i>
+                                    </span>
+                                @endif
+                                <div class="flex-1 min-w-0">
+                                    <div class="font-bold text-gray-900 dark:text-white text-sm sm:text-base truncate">{{ $person->name }}</div>
+                                    <div class="text-xs text-gray-500 dark:text-gray-300 truncate">{{ \Carbon\Carbon::parse($person->birthdate)->format('d/m') }}</div>
+                                </div>
+                            </li>
+                        @empty
+                            <li class="text-gray-400 text-sm">Nenhum aniversariante próximo.</li>
+                        @endforelse
+                    </ul>
+                </div>
+                <!-- Próximos Feriados -->
+                <div id="dashboard-holidays" class="bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-200 dark:border-gray-800 p-4 sm:p-6">
+                    <h3 class="text-base sm:text-lg font-semibold text-yellow-700 dark:text-yellow-300 flex items-center mb-3 sm:mb-4">
+                        <i class="fa-solid fa-umbrella-beach text-yellow-500 mr-2"></i> Próximos Feriados
+                    </h3>
+                    <ul class="space-y-3 sm:space-y-4">
+                        @forelse($nextHolidays as $occurrence)
+                            <li class="flex items-center gap-2 sm:gap-3">
+                                <span class="inline-flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-yellow-100 dark:bg-yellow-900 text-yellow-600 dark:text-yellow-300 font-bold text-lg sm:text-xl">
+                                    <i class="fa-solid fa-umbrella-beach"></i>
+                                </span>
+                                <div class="flex-1 min-w-0">
+                                    <div class="font-bold text-gray-900 dark:text-white text-sm sm:text-base truncate">{{ $occurrence->event->title }}</div>
+                                    <div class="text-xs text-gray-500 dark:text-gray-300 truncate">{{ \Carbon\Carbon::parse($occurrence->occurrence_date)->format('d/m/Y') }}</div>
+                                </div>
+                            </li>
+                        @empty
+                            <li class="text-gray-400 text-sm">Nenhum feriado próximo.</li>
+                        @endforelse
+                    </ul>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        document.querySelectorAll('.toggle-debt-visibility').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                const parent = btn.closest('.debt-amount-row');
+                const value = parent.querySelector('.debt-value');
+                const hidden = parent.querySelector('.debt-hidden');
+                if (value.style.display === 'none' || value.style.display === '') {
+                    value.style.display = 'inline';
+                    hidden.style.display = 'none';
+                    btn.querySelector('i').classList.remove('fa-eye');
+                    btn.querySelector('i').classList.add('fa-eye-slash');
+                } else {
+                    value.style.display = 'none';
+                    hidden.style.display = '';
+                    btn.querySelector('i').classList.remove('fa-eye-slash');
+                    btn.querySelector('i').classList.add('fa-eye');
+                }
+            });
+        });
+    </script>
 
     <style>
         .animate-fade-in-up {
@@ -356,35 +509,37 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const ctx = document.getElementById('pieChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'pie',
-            data: {
-                labels: ['Receitas', 'Despesas'],
-                datasets: [{
-                    data: [{{ $monthlyIncome }}, {{ $monthlyExpenses }}],
-                    backgroundColor: [
-                        'rgba(34,197,94,0.8)', // verde
-                        'rgba(239,68,68,0.8)'  // vermelho
-                    ],
-                    borderColor: [
-                        'rgba(34,197,94,1)',
-                        'rgba(239,68,68,1)'
-                    ],
-                    borderWidth: 2
-                }]
-            },
-            options: {
-                plugins: {
-                    legend: {
-                        labels: {
-                            color: document.documentElement.classList.contains('dark') ? '#fff' : '#222',
-                            font: { size: 16 }
+        const ctx = document.getElementById('pieChart');
+        if (ctx) {
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Receitas', 'Despesas'],
+                    datasets: [{
+                        data: [{{ $monthlyIncome }}, {{ $monthlyExpenses }}],
+                        backgroundColor: [
+                            'rgba(34,197,94,0.8)', // verde
+                            'rgba(239,68,68,0.8)'  // vermelho
+                        ],
+                        borderColor: [
+                            'rgba(34,197,94,1)',
+                            'rgba(239,68,68,1)'
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: document.documentElement.classList.contains('dark') ? '#fff' : '#222',
+                                font: { size: 16 }
+                            }
                         }
                     }
                 }
-            }
-        });
+            });
+        }
 
         // AJAX exclusão transação
         document.querySelectorAll('.btn-excluir-transacao').forEach(function(btn) {

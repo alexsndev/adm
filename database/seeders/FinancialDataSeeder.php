@@ -26,6 +26,41 @@ class FinancialDataSeeder extends Seeder
             ]);
         }
 
+        // Criar usuários de exemplo com aniversários próximos
+        $users = [
+            [
+                'name' => 'Ana Souza',
+                'email' => 'ana@example.com',
+                'password' => bcrypt('password'),
+                'photo' => 'https://randomuser.me/api/portraits/women/1.jpg',
+                'birthdate' => now()->addDays(2)->format('Y-m-d'),
+            ],
+            [
+                'name' => 'Bruno Lima',
+                'email' => 'bruno@example.com',
+                'password' => bcrypt('password'),
+                'photo' => 'https://randomuser.me/api/portraits/men/2.jpg',
+                'birthdate' => now()->addDays(5)->format('Y-m-d'),
+            ],
+            [
+                'name' => 'Carla Dias',
+                'email' => 'carla@example.com',
+                'password' => bcrypt('password'),
+                'photo' => 'https://randomuser.me/api/portraits/women/3.jpg',
+                'birthdate' => now()->addDays(7)->format('Y-m-d'),
+            ],
+            [
+                'name' => 'Diego Alves',
+                'email' => 'diego@example.com',
+                'password' => bcrypt('password'),
+                'photo' => 'https://randomuser.me/api/portraits/men/4.jpg',
+                'birthdate' => now()->addDays(10)->format('Y-m-d'),
+            ],
+        ];
+        foreach ($users as $u) {
+            User::updateOrCreate(['email' => $u['email']], $u);
+        }
+
         // Criar categorias de receitas
         $incomeCategories = [
             ['name' => 'Salário', 'type' => 'income', 'color' => '#10B981', 'icon' => 'fa-money-bill'],

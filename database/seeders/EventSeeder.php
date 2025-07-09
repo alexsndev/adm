@@ -32,6 +32,7 @@ class EventSeeder extends Seeder
                 'location' => 'Casa da família',
                 'reminder_days' => 7,
                 'color' => '#EF4444',
+                'image' => 'https://randomuser.me/api/portraits/women/65.jpg',
             ],
             [
                 'title' => 'Aniversário de Casamento',
@@ -43,6 +44,7 @@ class EventSeeder extends Seeder
                 'location' => 'Restaurante favorito',
                 'reminder_days' => 14,
                 'color' => '#10B981',
+                'image' => 'https://randomuser.me/api/portraits/men/32.jpg',
             ],
             [
                 'title' => 'Natal',
@@ -54,6 +56,7 @@ class EventSeeder extends Seeder
                 'location' => 'Casa dos pais',
                 'reminder_days' => 30,
                 'color' => '#F59E0B',
+                'image' => 'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=facearea&w=256&h=256',
             ],
             [
                 'title' => 'Ano Novo',
@@ -65,6 +68,7 @@ class EventSeeder extends Seeder
                 'location' => 'Casa',
                 'reminder_days' => 7,
                 'color' => '#8B5CF6',
+                'image' => 'https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=facearea&w=256&h=256',
             ],
             [
                 'title' => 'Reunião Mensal da Empresa',
@@ -76,6 +80,7 @@ class EventSeeder extends Seeder
                 'location' => 'Sala de reuniões',
                 'reminder_days' => 1,
                 'color' => '#3B82F6',
+                'image' => 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=facearea&w=256&h=256',
             ],
             [
                 'title' => 'Consulta Médica',
@@ -87,6 +92,7 @@ class EventSeeder extends Seeder
                 'location' => 'Clínica CardioVida',
                 'reminder_days' => 3,
                 'color' => '#06B6D4',
+                'image' => 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=facearea&w=256&h=256',
             ],
         ];
 

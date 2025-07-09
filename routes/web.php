@@ -23,6 +23,7 @@ use App\Http\Controllers\CreditCardController;
 use App\Http\Controllers\FinanceDashboardController;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use App\Http\Controllers\NotificationController;
 
 Route::get('/', function () {
     return redirect('/dashboard');
@@ -34,6 +35,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    // Notificações
+    Route::get('notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::post('notifications/{id}/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
+    Route::post('notifications/mark-all-as-read', [NotificationController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
+    Route::delete('notifications/{id}', [NotificationController::class, 'destroy'])->name('notifications.destroy');
 });
 
 // Rotas resource para o sistema financeiro
@@ -56,10 +62,8 @@ Route::get('goal-contributions', function () {
     return redirect()->route('financial-goals.index');
 })->name('goal-contributions.index')->middleware(['auth']);
 
-// Dashboard Geral
-Route::get('/dashboard-geral', function () {
-    return view('dashboard-geral');
-})->middleware(['auth', 'verified'])->name('dashboard.geral');
+// Dashboard Geral (usando o mesmo controller do dashboard principal)
+Route::get('/dashboard-geral', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard.geral');
 
 // Módulo Projetos Profissionais
 Route::resource('projetos', ProjectController::class)

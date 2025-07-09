@@ -9,109 +9,85 @@
 @section('main-classes', 'relative z-10')
 
 <div class="py-6 bg-main w-full max-w-full">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full max-w-full">
-        @if(session('success'))
-            <div class="mb-6 bg-success/10 border border-success text-success px-4 py-3 rounded relative animate-fade-in" role="alert">
-                <span class="block sm:inline">{{ session('success') }}</span>
-            </div>
-        @endif
-
-        @if(session('error'))
-            <div class="mb-6 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative animate-fade-in" role="alert">
-                <span class="block sm:inline">{{ session('error') }}</span>
-            </div>
-        @endif
-
-        <div class="bg-card glass-card rounded-3xl-custom shadow-xl-custom p-8 border border-main backdrop-blur-lg animate-fade-in overflow-x-auto w-full max-w-full">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-bold !text-white" style="color: #fff !important;">Minhas Contas</h2>
-                <a href="{{ route('accounts.create') }}" class="inline-flex items-center px-4 py-2 border border-main shadow-sm text-sm font-bold rounded-lg text-main bg-accent hover:bg-main hover:text-accent transition-all duration-200">
-                    <i class="fa-solid fa-plus mr-2"></i>
-                    Nova Conta
-                </a>
-            </div>
-            
-            @if($accounts->count() > 0)
-                <div class="overflow-x-auto rounded-xl border border-main w-full max-w-full">
-                    <table class="min-w-full divide-y divide-main text-sm">
-                        <thead class="bg-[#181c20] sticky top-0 z-10">
-                            <tr>
-                                <th class="px-6 py-3 text-left font-bold text-white uppercase tracking-wider">Nome</th>
-                                <th class="px-6 py-3 text-left font-bold text-white uppercase tracking-wider">Tipo</th>
-                                <th class="px-6 py-3 text-left font-bold text-white uppercase tracking-wider">Saldo Atual</th>
-                                <th class="px-6 py-3 text-left font-bold text-white uppercase tracking-wider">Moeda</th>
-                                <th class="px-6 py-3 text-left font-bold text-white uppercase tracking-wider">Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-card divide-y divide-main">
-                            @foreach($accounts as $account)
-                                <tr class="hover:bg-[#23272e] transition duration-150 {{ $loop->even ? 'bg-[#181c20]' : 'bg-card' }}">
-                                    <td class="px-6 py-4 whitespace-nowrap flex items-center gap-3">
-                                        @if($account->logo)
-                                            <div class="w-10 h-10 flex items-center justify-center rounded-full bg-card border border-main shadow">
-                                                <img src="{{ asset('storage/' . $account->logo) }}" alt="Logo do Banco" class="w-8 h-8 object-cover rounded-full" loading="lazy">
-                                            </div>
-                                        @else
-                                            <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-main text-main shadow border border-main">
-                                                <i class="fa-solid fa-building-columns fa-lg"></i>
-                                            </span>
-                                        @endif
-                                        <span class="font-bold text-white text-base">{{ $account->name }}</span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold {{ $account->type == 'checking' ? 'bg-blue-900 text-blue-200' : ($account->type == 'savings' ? 'bg-green-900 text-green-200' : 'bg-gray-700 text-gray-200') }} capitalize">
-                                            {{ $account->type }}
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap font-bold {{ $account->current_balance < 0 ? 'text-red-400' : 'text-green-400' }} text-lg">
-                                        R$ {{ number_format($account->current_balance, 2, ',', '.') }}
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-white">
-                                        {{ $account->currency ?? 'BRL' }}
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="flex flex-wrap gap-2">
-                                            <a href="{{ route('accounts.show', $account) }}" class="inline-flex items-center px-2 py-1 rounded bg-[#23272e] hover:bg-blue-900 text-blue-100 font-bold transition" title="Ver">
-                                                <i class="fa-solid fa-eye mr-1"></i> Ver
-                                            </a>
-                                            <a href="{{ route('accounts.edit', $account) }}" class="inline-flex items-center px-2 py-1 rounded bg-[#23272e] hover:bg-yellow-900 text-yellow-100 font-bold transition" title="Editar">
-                                                <i class="fa-solid fa-pen-to-square mr-1"></i> Editar
-                                            </a>
-                                            <a href="{{ route('accounts.transactions', $account) }}" class="inline-flex items-center px-2 py-1 rounded bg-[#23272e] hover:bg-purple-900 text-purple-100 font-bold transition" title="Transações">
-                                                <i class="fa-solid fa-list mr-1"></i> Transações
-                                            </a>
-                                            <form action="{{ route('accounts.destroy', $account) }}" method="POST" class="inline" onsubmit="return confirm('Tem certeza que deseja excluir esta conta?');">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="inline-flex items-center px-2 py-1 rounded bg-[#23272e] hover:bg-red-900 text-red-100 font-bold transition" title="Excluir">
-                                                    <i class="fa-solid fa-trash mr-1"></i> Excluir
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            @else
-                <div class="text-center py-12">
-                    <svg class="mx-auto h-12 w-12 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
-                    </svg>
-                    <h3 class="mt-2 text-xl font-extrabold text-main">Nenhuma conta</h3>
-                    <p class="mt-1 text-base text-accent">Comece criando sua primeira conta.</p>
-                    <div class="mt-6">
-                        <a href="{{ route('accounts.create') }}" class="inline-flex items-center px-5 py-2 border border-main shadow-sm text-base font-bold rounded-xl text-main bg-accent hover:bg-main hover:text-accent transition-all duration-200">
-                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                            </svg>
-                            Criar Conta
-                        </a>
-                    </div>
+    <div class="w-full max-w-7xl mx-auto px-1.5 sm:px-6 lg:px-8 min-w-0">
+        <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-200 dark:border-gray-800 p-4 sm:p-6">
+            <h1 class="text-lg sm:text-2xl font-bold mb-4">Contas</h1>
+            @if(session('success'))
+                <div class="mb-6 bg-success/10 border border-success text-success px-4 py-3 rounded relative animate-fade-in" role="alert">
+                    <span class="block sm:inline">{{ session('success') }}</span>
                 </div>
             @endif
+
+            @if(session('error'))
+                <div class="mb-6 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative animate-fade-in" role="alert">
+                    <span class="block sm:inline">{{ session('error') }}</span>
+                </div>
+            @endif
+
+            <div class="overflow-x-auto w-full">
+                <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-800">
+                    <thead class="bg-[#181c20] sticky top-0 z-10">
+                        <tr>
+                            <th class="px-6 py-3 text-left font-bold text-white uppercase tracking-wider">Nome</th>
+                            <th class="px-6 py-3 text-left font-bold text-white uppercase tracking-wider">Tipo</th>
+                            <th class="px-6 py-3 text-left font-bold text-white uppercase tracking-wider">Saldo Atual</th>
+                            <th class="px-6 py-3 text-left font-bold text-white uppercase tracking-wider">Moeda</th>
+                            <th class="px-6 py-3 text-left font-bold text-white uppercase tracking-wider">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-card divide-y divide-main">
+                        @foreach($accounts as $account)
+                            <tr class="hover:bg-[#23272e] transition duration-150 {{ $loop->even ? 'bg-[#181c20]' : 'bg-card' }}">
+                                <td class="px-6 py-4 whitespace-nowrap flex items-center gap-3">
+                                    @if($account->logo)
+                                        <div class="w-10 h-10 flex items-center justify-center rounded-full bg-card border border-main shadow">
+                                            <img src="{{ asset('storage/' . $account->logo) }}" alt="Logo do Banco" class="w-8 h-8 object-cover rounded-full" loading="lazy">
+                                        </div>
+                                    @else
+                                        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-main text-main shadow border border-main">
+                                            <i class="fa-solid fa-building-columns fa-lg"></i>
+                                        </span>
+                                    @endif
+                                    <span class="font-bold text-white text-base">{{ $account->name }}</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold {{ $account->type == 'checking' ? 'bg-blue-900 text-blue-200' : ($account->type == 'savings' ? 'bg-green-900 text-green-200' : 'bg-gray-700 text-gray-200') }} capitalize">
+                                        {{ $account->type }}
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap font-bold {{ $account->current_balance < 0 ? 'text-red-400' : 'text-green-400' }} text-lg">
+                                    R$ {{ number_format($account->current_balance, 2, ',', '.') }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-white">
+                                    {{ $account->currency ?? 'BRL' }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex flex-wrap gap-2">
+                                        <a href="{{ route('accounts.show', $account) }}" class="inline-flex items-center px-2 py-1 rounded bg-[#23272e] hover:bg-blue-900 text-blue-100 font-bold transition" title="Ver">
+                                            <i class="fa-solid fa-eye mr-1"></i> Ver
+                                        </a>
+                                        <a href="{{ route('accounts.edit', $account) }}" class="inline-flex items-center px-2 py-1 rounded bg-[#23272e] hover:bg-yellow-900 text-yellow-100 font-bold transition" title="Editar">
+                                            <i class="fa-solid fa-pen-to-square mr-1"></i> Editar
+                                        </a>
+                                        <a href="{{ route('accounts.transactions', $account) }}" class="inline-flex items-center px-2 py-1 rounded bg-[#23272e] hover:bg-purple-900 text-purple-100 font-bold transition" title="Transações">
+                                            <i class="fa-solid fa-list mr-1"></i> Transações
+                                        </a>
+                                        <form action="{{ route('accounts.destroy', $account) }}" method="POST" class="inline" onsubmit="return confirm('Tem certeza que deseja excluir esta conta?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="inline-flex items-center px-2 py-1 rounded bg-[#23272e] hover:bg-red-900 text-red-100 font-bold transition" title="Excluir">
+                                                <i class="fa-solid fa-trash mr-1"></i> Excluir
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
+    </div>
         
         <!-- Seção de Dívidas Negociadas -->
         @if($negotiatedDebts->count() > 0)
