@@ -13,7 +13,7 @@
     </div>
     
     <!-- Logo centralizada -->
-    <div class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+    <div class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2" style="position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; z-index: 5 !important;">
         @if(Auth::user() && Auth::user()->logo)
             <img src="{{ Storage::url(Auth::user()->logo) }}" alt="Logo" class="h-8 w-auto max-w-[120px] sm:max-w-[150px]">
         @else

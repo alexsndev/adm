@@ -19,6 +19,7 @@
         <!-- FontAwesome CDN -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
         <link rel="stylesheet" href="/css/bottom-navigation.css">
+        <link rel="stylesheet" href="/css/header.css">
         @stack('styles')
         <script>
             // Detecta o tema salvo e aplica a classe 'dark' no <html>
@@ -119,6 +120,48 @@
                     right: 0 !important;
                     z-index: 9999 !important;
                     top: auto !important;
+                }
+            }
+            /* Regra para sobrescrever qualquer CSS que possa estar interferindo */
+            body nav.fixed.bottom-0,
+            html body nav.fixed.bottom-0,
+            body nav[class*="fixed"][class*="bottom-0"],
+            html body nav[class*="fixed"][class*="bottom-0"] {
+                position: fixed !important;
+                bottom: 0 !important;
+                left: 0 !important;
+                right: 0 !important;
+                z-index: 9999 !important;
+                top: auto !important;
+            }
+            
+            /* Regra específica para garantir que a logo do header fique centralizada em produção */
+            header .absolute.left-1\/2.top-1\/2 {
+                position: absolute !important;
+                left: 50% !important;
+                top: 50% !important;
+                transform: translate(-50%, -50%) !important;
+                z-index: 5 !important;
+            }
+            
+            /* Regra mais específica para a logo */
+            header div[class*="absolute"][class*="left-1/2"][class*="top-1/2"] {
+                position: absolute !important;
+                left: 50% !important;
+                top: 50% !important;
+                transform: translate(-50%, -50%) !important;
+                z-index: 5 !important;
+            }
+            
+            /* Garantir que a logo não seja afetada por outras regras */
+            @media (max-width: 768px) {
+                header .absolute.left-1\/2.top-1\/2,
+                header div[class*="absolute"][class*="left-1/2"][class*="top-1/2"] {
+                    position: absolute !important;
+                    left: 50% !important;
+                    top: 50% !important;
+                    transform: translate(-50%, -50%) !important;
+                    z-index: 5 !important;
                 }
             }
         </style>
@@ -320,6 +363,28 @@
                         bottomNav.style.right = '0';
                         bottomNav.style.zIndex = '9999';
                         bottomNav.style.top = 'auto';
+                    }
+                }, 1000);
+            }
+            
+            // Garantir que a logo do header fique centralizada em produção
+            const headerLogo = document.querySelector('header .absolute.left-1\\/2.top-1\\/2');
+            if (headerLogo) {
+                // Forçar o posicionamento correto da logo
+                headerLogo.style.position = 'absolute';
+                headerLogo.style.left = '50%';
+                headerLogo.style.top = '50%';
+                headerLogo.style.transform = 'translate(-50%, -50%)';
+                headerLogo.style.zIndex = '5';
+                
+                // Verificar periodicamente se o posicionamento está correto
+                setInterval(function() {
+                    if (headerLogo.style.position !== 'absolute' || headerLogo.style.left !== '50%') {
+                        headerLogo.style.position = 'absolute';
+                        headerLogo.style.left = '50%';
+                        headerLogo.style.top = '50%';
+                        headerLogo.style.transform = 'translate(-50%, -50%)';
+                        headerLogo.style.zIndex = '5';
                     }
                 }, 1000);
             }

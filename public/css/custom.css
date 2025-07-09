@@ -67,6 +67,51 @@ html body nav.fixed.bottom-0 {
   top: auto !important;
 }
 
+/* Regra com máxima especificidade */
+html body nav.fixed.bottom-0,
+html body nav[class*="fixed"][class*="bottom-0"] {
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 9999 !important;
+  top: auto !important;
+}
+
+/* Regras específicas para garantir que a logo do header fique centralizada em produção */
+header .absolute.left-1\/2.top-1\/2,
+header div[class*="absolute"][class*="left-1/2"][class*="top-1/2"] {
+  position: absolute !important;
+  left: 50% !important;
+  top: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  z-index: 5 !important;
+}
+
+/* Regra para sobrescrever qualquer CSS que possa estar interferindo com a logo */
+body header .absolute.left-1\/2.top-1\/2,
+html body header .absolute.left-1\/2.top-1\/2,
+body header div[class*="absolute"][class*="left-1/2"][class*="top-1/2"],
+html body header div[class*="absolute"][class*="left-1/2"][class*="top-1/2"] {
+  position: absolute !important;
+  left: 50% !important;
+  top: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  z-index: 5 !important;
+}
+
+/* Garantir que a logo não seja afetada por outras regras em mobile */
+@media (max-width: 768px) {
+  header .absolute.left-1\/2.top-1\/2,
+  header div[class*="absolute"][class*="left-1/2"][class*="top-1/2"] {
+    position: absolute !important;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    z-index: 5 !important;
+  }
+}
+
 .text-main { color: var(--color-primary) !important; }
 .text-accent { color: var(--color-accent) !important; }
 .border-main { border-color: var(--color-border) !important; }
