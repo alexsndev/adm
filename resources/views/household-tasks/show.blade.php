@@ -198,7 +198,7 @@
     </div>
 
     <!-- Modal de confirmação para voltar para pendente -->
-    <div id="toPendingModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 hidden">
+    <div id="toPendingModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black hidden">
         <div class="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl p-8 max-w-md w-full flex flex-col items-center">
             <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center"><i class="fa-solid fa-arrow-rotate-left mr-2 text-gray-700"></i>Voltar para Pendente</h2>
             <p class="text-gray-700 dark:text-gray-200 mb-6 text-center">Tem certeza que deseja voltar esta tarefa para pendente?<br><b>O cronômetro será desativado e o tempo será zerado.</b></p>

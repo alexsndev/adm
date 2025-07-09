@@ -20,6 +20,7 @@ use App\Http\Controllers\TaskCategoryController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\PredictabilityPersonController;
 use App\Http\Controllers\CreditCardController;
+use App\Http\Controllers\FinanceDashboardController;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 
@@ -138,6 +139,6 @@ Route::prefix('projetos/{project}/links')->name('projetos.links.')->middleware([
     Route::delete('/{link}', [App\Http\Controllers\ProjectLinkController::class, 'destroy'])->name('destroy');
 });
 
-Route::get('/financeiro/dashboard', [\App\Http\Controllers\FinanceDashboardController::class, 'index'])->name('finance.dashboard');
+Route::get('/finance/dashboard', [FinanceDashboardController::class, 'index'])->name('finance.dashboard')->middleware(['auth', 'verified']);
 
 require __DIR__.'/auth.php';

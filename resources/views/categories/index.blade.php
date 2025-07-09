@@ -33,7 +33,7 @@
                                         {{ $category->name }}
                                     </h3>
                                 </div>
-                                <div class="flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
+                                <div class="flex space-x-2 transition-opacity duration-150">
                                     <a href="{{ route('categories.create', ['parent_id' => $category->id]) }}" class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300" title="Criar subcategoria">
                                         <i class="fa-solid fa-plus"></i>
                                     </a>

@@ -16,26 +16,65 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
 
         <!-- Custom CSS -->
-        <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
-
         <!-- FontAwesome CDN -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
         @stack('styles')
+        <script>
+            // Detecta o tema salvo e aplica a classe 'dark' no <html>
+            (function() {
+                const saved = localStorage.getItem('theme') || 'dark';
+                if(saved === 'dark') {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
+            })();
+        </script>
+        <link rel="manifest" href="/manifest.json">
+        <meta name="theme-color" content="#2563eb">
+        <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     </head>
     <body class="font-sans antialiased bg-gray-100 dark:bg-gray-900 overflow-x-hidden">
+        <!-- Header fixo com logo personalizada -->
+        <header class="w-full flex items-center justify-center px-4 py-2 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 shadow-sm fixed top-0 left-0 z-40 h-14">
+            <div class="absolute left-4 flex items-center space-x-3">
+                <a href="#" class="flex items-center" title="Notificações">
+                    <i class="fa-solid fa-bell text-2xl text-gray-400 dark:text-gray-500 hover:text-blue-500 transition-colors"></i>
+                </a>
+            </div>
+            <div class="flex items-center justify-center flex-1">
+                @if(Auth::user()->logo)
+                    <img src="{{ Storage::url(Auth::user()->logo) }}" alt="Logo" class="h-10 w-auto rounded shadow max-w-[120px] object-contain mx-auto">
+                @else
+                    <span class="text-xl font-extrabold tracking-tight text-gray-900 dark:text-white select-none">Alexandre <span class="text-blue-500">e</span> Liza <span class="text-blue-500">Gestão</span></span>
+                @endif
+            </div>
+            <div class="absolute right-4 flex items-center space-x-3">
+                <a href="{{ route('profile.edit') }}" class="flex items-center">
+                    @if(Auth::user()->photo)
+                        <img src="{{ Storage::url(Auth::user()->photo) }}" alt="Foto de perfil" class="w-10 h-10 rounded-full object-cover border-2 border-blue-200 dark:border-blue-700 shadow">
+                    @else
+                        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 font-bold text-lg">
+                            {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                        </span>
+                    @endif
+                </a>
+            </div>
+        </header>
+        <div class="pt-14">
         <div x-data="{ sidebarOpen: false, open: '' }" class="flex min-h-screen w-full">
             <!-- Sidebar sempre visível, nunca fixed -->
-            <aside :class="sidebarOpen ? 'w-64' : 'w-10'" class="relative bg-white dark:bg-[#0d1117] border-r border-gray-200 dark:border-[#21262d] flex flex-col transition-all duration-200 ease-in-out">
+            <aside :class="sidebarOpen ? 'w-64' : 'w-10'" class="relative border-r border-gray-200 dark:border-[#21262d] flex flex-col transition-all duration-200 ease-in-out animated-gradient-sidebar">
                 <!-- Botão de expandir/comprimir -->
-                <button @click="sidebarOpen = !sidebarOpen" class="absolute top-2 right-2 z-20 bg-gray-100 dark:bg-[#161b22] rounded-full p-1 shadow-md focus:outline-none">
+                <button @click="sidebarOpen = !sidebarOpen"
+                    :class="!sidebarOpen ? 'animate-pulse-arrow' : ''"
+                    class="absolute top-2 right-2 z-20 bg-gray-100 dark:bg-[#161b22] rounded-full p-1 shadow-md focus:outline-none mb-4 transition-all">
                     <i :class="sidebarOpen ? 'fa-solid fa-chevron-left' : 'fa-solid fa-chevron-right'" class="text-gray-700 dark:text-gray-200"></i>
                 </button>
-                <div class="flex items-center justify-center pt-2 pb-2 px-2 md:px-6 border-b border-gray-200 dark:border-[#21262d] relative min-h-[40px]">
-                    <a href="{{ route('dashboard') }}" class="flex items-center space-x-2">
-                        <span class="text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white drop-shadow-lg select-none" x-show="sidebarOpen">Alexandre <span class="text-blue-500">e</span> Liza <span class="text-blue-500">Gestão</span></span>
-                    </a>
-                </div>
-                <nav class="flex-1 px-2 md:px-4 py-6 space-y-1">
+                <!-- Espaço extra antes do menu -->
+                <nav class="flex-1 py-6 space-y-1 mt-6">
                     <div>
                         @include('layouts.navigation-items')
                     </div>
@@ -67,6 +106,7 @@
                 </main>
             </div>
         </div>
+        </div>
         <script>
         function setTheme(theme) {
             document.documentElement.setAttribute('data-theme', theme);
@@ -76,6 +116,10 @@
             const saved = localStorage.getItem('theme') || 'dark';
             setTheme(saved);
         };
+        // Registrar o service worker para PWA
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/service-worker.js');
+        }
         </script>
         @stack('scripts')
         <script src="https://unpkg.com/alpinejs" defer></script>

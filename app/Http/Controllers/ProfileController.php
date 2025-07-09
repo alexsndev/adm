@@ -43,6 +43,16 @@ class ProfileController extends Controller
             $user->photo = $photoPath;
         }
 
+        // Upload da logo personalizada
+        if ($request->hasFile('logo')) {
+            // Remove a logo antiga se existir
+            if ($user->logo) {
+                \Storage::disk('public')->delete($user->logo);
+            }
+            $logoPath = $request->file('logo')->store('users/logos', 'public');
+            $user->logo = $logoPath;
+        }
+
         $user->save();
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');

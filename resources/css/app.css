@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@keyframes pulse-arrow {
+  0%, 100% { transform: scale(1) translateY(0); }
+  50% { transform: scale(1.15) translateY(-2px); }
+}
+.animate-pulse-arrow {
+  animation: pulse-arrow 1.2s cubic-bezier(.4,0,.6,1) infinite;
+}

@@ -33,6 +33,23 @@
                 </div>
             </div>
         </div>
+        <!-- Campo de upload de logo personalizada -->
+        <div class="mt-6">
+            <label for="logo" class="block text-sm font-medium text-gray-700 mb-2">Logo personalizada</label>
+            <div class="flex items-center space-x-4">
+                <div class="w-20 h-20 bg-gray-100 rounded flex items-center justify-center overflow-hidden border border-gray-200">
+                    @if($user->logo)
+                        <img id="logo-preview" src="{{ Storage::url($user->logo) }}" alt="Logo atual" class="w-full h-full object-contain">
+                    @else
+                        <span id="logo-placeholder" class="text-gray-400 text-2xl">🏷️</span>
+                    @endif
+                </div>
+                <div class="flex-1">
+                    <input type="file" id="logo" name="logo" accept="image/*" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100">
+                    <p class="text-xs text-gray-500 mt-1">Formatos: JPG, PNG, GIF. Máximo: 2MB</p>
+                </div>
+            </div>
+        </div>
 
         <div>
             <x-input-label for="name" :value="__('Name')" />
@@ -85,6 +102,27 @@ document.getElementById('photo')?.addEventListener('change', function(e) {
     const file = e.target.files[0];
     const preview = document.getElementById('photo-preview');
     const placeholder = document.getElementById('photo-placeholder');
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            if (preview) {
+                preview.src = e.target.result;
+                preview.classList.remove('hidden');
+            }
+            if (placeholder) placeholder.classList.add('hidden');
+        };
+        reader.readAsDataURL(file);
+    } else {
+        if (preview) preview.classList.add('hidden');
+        if (placeholder) placeholder.classList.remove('hidden');
+    }
+});
+// Preview para logo personalizada
+
+document.getElementById('logo')?.addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    const preview = document.getElementById('logo-preview');
+    const placeholder = document.getElementById('logo-placeholder');
     if (file) {
         const reader = new FileReader();
         reader.onload = function(e) {

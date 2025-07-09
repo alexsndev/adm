@@ -395,7 +395,7 @@
     </div>
 
     <!-- Modal de criação de tarefa -->
-    <div id="taskModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 hidden">
+    <div id="taskModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black hidden">
         <div class="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl p-10 w-full max-w-lg relative animate-fade-in">
             <button id="closeTaskModal" class="absolute top-2 right-2 text-gray-500 hover:text-gray-900 text-3xl">&times;</button>
             <h2 class="text-2xl font-bold mb-6 text-center text-blue-700 dark:text-blue-400 flex items-center gap-2"><i class="fa-solid fa-plus"></i> Nova Tarefa Profissional</h2>

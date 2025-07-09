@@ -9,8 +9,8 @@
 @section('main-classes', 'relative z-10')
 
 @section('content')
-    <div class="py-8 bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 min-h-screen">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+    <div class="py-8 bg-gray-900 min-h-screen">
+        <div class="max-w-7xl mx-auto px-6 sm:px-6 lg:px-8">
             <!-- Header -->
             <div class="mb-8">
                 <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
@@ -30,7 +30,7 @@
             <!-- Cards de Estatísticas Principais -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                 <!-- Total de Eventos -->
-                <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-700">
+                <div class="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-800">
                     <div class="flex items-center">
                         <div class="p-3 bg-blue-100 dark:bg-blue-900 rounded-lg">
                             <i class="fa-solid fa-calendar text-blue-600 dark:text-blue-400 text-xl"></i>
@@ -48,7 +48,7 @@
                 </div>
 
                 <!-- Próximos Eventos -->
-                <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-700">
+                <div class="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-800">
                     <div class="flex items-center">
                         <div class="p-3 bg-green-100 dark:bg-green-900 rounded-lg">
                             <i class="fa-solid fa-clock text-green-600 dark:text-green-400 text-xl"></i>
@@ -66,7 +66,7 @@
                 </div>
 
                 <!-- Tarefas Ativas -->
-                <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-700">
+                <div class="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-800">
                     <div class="flex items-center">
                         <div class="p-3 bg-yellow-100 dark:bg-yellow-900 rounded-lg">
                             <i class="fa-solid fa-tasks text-yellow-600 dark:text-yellow-400 text-xl"></i>
@@ -84,7 +84,7 @@
                 </div>
 
                 <!-- Projetos Ativos -->
-                <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-700">
+                <div class="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-800">
                     <div class="flex items-center">
                         <div class="p-3 bg-purple-100 dark:bg-purple-900 rounded-lg">
                             <i class="fa-solid fa-project-diagram text-purple-600 dark:text-purple-400 text-xl"></i>
@@ -106,7 +106,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <!-- Atividades Recentes -->
                 <div class="lg:col-span-2">
-                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700">
+                    <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-200 dark:border-gray-800">
                         <div class="p-6 border-b border-gray-200 dark:border-gray-700">
                             <h3 class="text-lg font-semibold text-gray-900 dark:text-white flex items-center">
                                 <i class="fa-solid fa-history text-blue-500 mr-2"></i>
@@ -140,7 +140,7 @@
 
                 <!-- Navegação Rápida -->
                 <div class="lg:col-span-1">
-                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700">
+                    <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-200 dark:border-gray-800">
                         <div class="p-6 border-b border-gray-200 dark:border-gray-700">
                             <h3 class="text-lg font-semibold text-gray-900 dark:text-white flex items-center">
                                 <i class="fa-solid fa-rocket text-green-500 mr-2"></i>
@@ -188,7 +188,7 @@
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <!-- Eventos -->
-                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 p-6 hover:shadow-xl transition-all duration-300">
+                    <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-200 dark:border-gray-800 p-6 hover:shadow-xl transition-all duration-300">
                         <div class="flex items-center mb-4">
                             <div class="p-3 bg-blue-100 dark:bg-blue-900 rounded-lg">
                                 <i class="fa-solid fa-calendar-days text-blue-600 dark:text-blue-400 text-2xl"></i>
@@ -212,7 +212,7 @@
                     </div>
 
                     <!-- Tarefas -->
-                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 p-6 hover:shadow-xl transition-all duration-300">
+                    <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-200 dark:border-gray-800 p-6 hover:shadow-xl transition-all duration-300">
                         <div class="flex items-center mb-4">
                             <div class="p-3 bg-yellow-100 dark:bg-yellow-900 rounded-lg">
                                 <i class="fa-solid fa-tasks text-yellow-600 dark:text-yellow-400 text-2xl"></i>
@@ -236,7 +236,7 @@
                     </div>
 
                     <!-- Projetos -->
-                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 p-6 hover:shadow-xl transition-all duration-300">
+                    <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-200 dark:border-gray-800 p-6 hover:shadow-xl transition-all duration-300">
                         <div class="flex items-center mb-4">
                             <div class="p-3 bg-purple-100 dark:bg-purple-900 rounded-lg">
                                 <i class="fa-solid fa-project-diagram text-purple-600 dark:text-purple-400 text-2xl"></i>
@@ -260,7 +260,7 @@
                     </div>
 
                     <!-- Tarefas Domésticas -->
-                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 p-6 hover:shadow-xl transition-all duration-300">
+                    <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-200 dark:border-gray-800 p-6 hover:shadow-xl transition-all duration-300">
                         <div class="flex items-center mb-4">
                             <div class="p-3 bg-orange-100 dark:bg-orange-900 rounded-lg">
                                 <i class="fa-solid fa-home text-orange-600 dark:text-orange-400 text-2xl"></i>
@@ -284,7 +284,7 @@
                     </div>
 
                     <!-- Finanças -->
-                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 p-6 hover:shadow-xl transition-all duration-300">
+                    <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-200 dark:border-gray-800 p-6 hover:shadow-xl transition-all duration-300">
                         <div class="flex items-center mb-4">
                             <div class="p-3 bg-green-100 dark:bg-green-900 rounded-lg">
                                 <i class="fa-solid fa-dollar-sign text-green-600 dark:text-green-400 text-2xl"></i>
@@ -308,9 +308,9 @@
                     </div>
 
                     <!-- Configurações -->
-                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 p-6 hover:shadow-xl transition-all duration-300">
+                    <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-200 dark:border-gray-800 p-6 hover:shadow-xl transition-all duration-300">
                         <div class="flex items-center mb-4">
-                            <div class="p-3 bg-gray-100 dark:bg-gray-700 rounded-lg">
+                            <div class="p-3 bg-gray-100 dark:bg-gray-900 rounded-lg">
                                 <i class="fa-solid fa-cog text-gray-600 dark:text-gray-400 text-2xl"></i>
                             </div>
                             <div class="ml-4">

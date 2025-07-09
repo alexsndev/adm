@@ -167,7 +167,7 @@
                                             </div>
                                             
                                             @if($occurrence->formatted_time)
-                                                <div class="text-xs opacity-75" style="color: {{ $occurrence->event->color }};">
+                                                <div class="text-xs" style="color: {{ $occurrence->event->color }};">
                                                     <i class="fa-solid fa-clock mr-1"></i>{{ $occurrence->formatted_time }}
                                                 </div>
                                             @endif
