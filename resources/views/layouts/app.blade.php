@@ -20,6 +20,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
         <link rel="stylesheet" href="/css/bottom-navigation.css">
         <link rel="stylesheet" href="/css/header.css">
+        <link rel="stylesheet" href="/css/notifications.css">
         @stack('styles')
         <script>
             // Detecta o tema salvo e aplica a classe 'dark' no <html>
@@ -163,6 +164,42 @@
                     transform: translate(-50%, -50%) !important;
                     z-index: 5 !important;
                 }
+            }
+            
+            /* Regras específicas para o dropdown de notificações */
+            #notification-dropdown {
+                position: fixed !important;
+                top: 4rem !important;
+                left: 0.5rem !important;
+                width: 20rem !important;
+                max-height: 24rem !important;
+                z-index: 9998 !important;
+                margin-top: 0.5rem !important;
+            }
+            
+            /* Garantir que o sino fique acima do dropdown */
+            #notification-bell {
+                z-index: 9999 !important;
+                position: relative !important;
+            }
+            
+            /* Regra para sobrescrever qualquer CSS que possa estar interferindo com o dropdown */
+            body #notification-dropdown,
+            html body #notification-dropdown {
+                position: fixed !important;
+                top: 4rem !important;
+                left: 0.5rem !important;
+                width: 20rem !important;
+                max-height: 24rem !important;
+                z-index: 9998 !important;
+                margin-top: 0.5rem !important;
+            }
+            
+            /* Garantir que o sino não seja afetado por outras regras */
+            body #notification-bell,
+            html body #notification-bell {
+                z-index: 9999 !important;
+                position: relative !important;
             }
         </style>
         <script>
@@ -385,6 +422,48 @@
                         headerLogo.style.top = '50%';
                         headerLogo.style.transform = 'translate(-50%, -50%)';
                         headerLogo.style.zIndex = '5';
+                    }
+                }, 1000);
+            }
+            
+            // Garantir que o dropdown de notificações seja posicionado corretamente em produção
+            const notificationDropdown = document.getElementById('notification-dropdown');
+            const notificationBell = document.getElementById('notification-bell');
+            
+            if (notificationDropdown) {
+                // Forçar o posicionamento correto do dropdown
+                notificationDropdown.style.position = 'fixed';
+                notificationDropdown.style.top = '4rem';
+                notificationDropdown.style.left = '0.5rem';
+                notificationDropdown.style.width = '20rem';
+                notificationDropdown.style.maxHeight = '24rem';
+                notificationDropdown.style.zIndex = '9998';
+                notificationDropdown.style.marginTop = '0.5rem';
+                
+                // Verificar periodicamente se o posicionamento está correto
+                setInterval(function() {
+                    if (notificationDropdown.style.position !== 'fixed' || notificationDropdown.style.top !== '4rem') {
+                        notificationDropdown.style.position = 'fixed';
+                        notificationDropdown.style.top = '4rem';
+                        notificationDropdown.style.left = '0.5rem';
+                        notificationDropdown.style.width = '20rem';
+                        notificationDropdown.style.maxHeight = '24rem';
+                        notificationDropdown.style.zIndex = '9998';
+                        notificationDropdown.style.marginTop = '0.5rem';
+                    }
+                }, 1000);
+            }
+            
+            if (notificationBell) {
+                // Forçar o z-index correto do sino
+                notificationBell.style.zIndex = '9999';
+                notificationBell.style.position = 'relative';
+                
+                // Verificar periodicamente se o z-index está correto
+                setInterval(function() {
+                    if (notificationBell.style.zIndex !== '9999') {
+                        notificationBell.style.zIndex = '9999';
+                        notificationBell.style.position = 'relative';
                     }
                 }, 1000);
             }

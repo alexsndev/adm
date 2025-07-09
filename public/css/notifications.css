@@ -1,0 +1,97 @@
+/* CSS específico para notificações - Garantir funcionamento em produção */
+
+/* Regra principal para o dropdown de notificações */
+#notification-dropdown {
+  position: fixed !important;
+  top: 4rem !important;
+  left: 0.5rem !important;
+  width: 20rem !important;
+  max-height: 24rem !important;
+  z-index: 9998 !important;
+  margin-top: 0.5rem !important;
+}
+
+/* Regras mais específicas para garantir que funcione */
+#notification-dropdown,
+div[id="notification-dropdown"] {
+  position: fixed !important;
+  top: 4rem !important;
+  left: 0.5rem !important;
+  width: 20rem !important;
+  max-height: 24rem !important;
+  z-index: 9998 !important;
+  margin-top: 0.5rem !important;
+}
+
+/* Garantir que o sino fique acima do dropdown */
+#notification-bell {
+  z-index: 9999 !important;
+  position: relative !important;
+}
+
+/* Regras mais específicas para o sino */
+#notification-bell,
+div[id="notification-bell"] {
+  z-index: 9999 !important;
+  position: relative !important;
+}
+
+/* Garantir que funcione em mobile */
+@media (max-width: 768px) {
+  #notification-dropdown,
+  div[id="notification-dropdown"] {
+    position: fixed !important;
+    top: 4rem !important;
+    left: 0.5rem !important;
+    width: 20rem !important;
+    max-height: 24rem !important;
+    z-index: 9998 !important;
+    margin-top: 0.5rem !important;
+  }
+  
+  #notification-bell,
+  div[id="notification-bell"] {
+    z-index: 9999 !important;
+    position: relative !important;
+  }
+}
+
+/* Regra para sobrescrever qualquer CSS que possa estar interferindo */
+body #notification-dropdown,
+html body #notification-dropdown,
+body div[id="notification-dropdown"],
+html body div[id="notification-dropdown"] {
+  position: fixed !important;
+  top: 4rem !important;
+  left: 0.5rem !important;
+  width: 20rem !important;
+  max-height: 24rem !important;
+  z-index: 9998 !important;
+  margin-top: 0.5rem !important;
+}
+
+body #notification-bell,
+html body #notification-bell,
+body div[id="notification-bell"],
+html body div[id="notification-bell"] {
+  z-index: 9999 !important;
+  position: relative !important;
+}
+
+/* Regra com máxima especificidade */
+html body #notification-dropdown,
+html body div[id="notification-dropdown"] {
+  position: fixed !important;
+  top: 4rem !important;
+  left: 0.5rem !important;
+  width: 20rem !important;
+  max-height: 24rem !important;
+  z-index: 9998 !important;
+  margin-top: 0.5rem !important;
+}
+
+html body #notification-bell,
+html body div[id="notification-bell"] {
+  z-index: 9999 !important;
+  position: relative !important;
+} 

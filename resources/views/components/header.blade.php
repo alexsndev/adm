@@ -6,7 +6,7 @@
             <i class="fa-solid fa-bars text-lg"></i>
         </button>
         
-        <div id="notification-bell" class="relative cursor-pointer min-w-0">
+        <div id="notification-bell" class="relative cursor-pointer min-w-0" style="z-index: 9999 !important; position: relative !important;">
             <i class="fa-solid fa-bell text-base sm:text-2xl text-gray-400 dark:text-gray-500 hover:text-blue-500 transition-colors"></i>
             <span id="notification-count" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full px-0.5 py-0.5 hidden"></span>
         </div>
@@ -38,7 +38,7 @@
 </header>
 
 <!-- Dropdown de notificações -->
-<div id="notification-dropdown" class="hidden fixed top-16 left-2 w-80 max-h-96 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-50 overflow-hidden">
+<div id="notification-dropdown" class="hidden fixed top-16 left-2 w-80 max-h-96 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-50 overflow-hidden" style="position: fixed !important; top: 4rem !important; left: 0.5rem !important; width: 20rem !important; max-height: 24rem !important; z-index: 9998 !important; margin-top: 0.5rem !important;">
     <div class="p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
         <h3 class="font-semibold text-gray-800 dark:text-gray-200">Notificações</h3>
         <button id="mark-all-read" class="text-sm text-blue-600 dark:text-blue-400 hover:underline">Marcar todas como lidas</button>

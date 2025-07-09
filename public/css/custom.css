@@ -112,6 +112,59 @@ html body header div[class*="absolute"][class*="left-1/2"][class*="top-1/2"] {
   }
 }
 
+/* Regras específicas para o dropdown de notificações */
+#notification-dropdown {
+  position: fixed !important;
+  top: 4rem !important;
+  left: 0.5rem !important;
+  width: 20rem !important;
+  max-height: 24rem !important;
+  z-index: 9998 !important;
+  margin-top: 0.5rem !important;
+}
+
+/* Garantir que o sino fique acima do dropdown */
+#notification-bell {
+  z-index: 9999 !important;
+  position: relative !important;
+}
+
+/* Regra para sobrescrever qualquer CSS que possa estar interferindo com o dropdown */
+body #notification-dropdown,
+html body #notification-dropdown {
+  position: fixed !important;
+  top: 4rem !important;
+  left: 0.5rem !important;
+  width: 20rem !important;
+  max-height: 24rem !important;
+  z-index: 9998 !important;
+  margin-top: 0.5rem !important;
+}
+
+/* Garantir que o sino não seja afetado por outras regras */
+body #notification-bell,
+html body #notification-bell {
+  z-index: 9999 !important;
+  position: relative !important;
+}
+
+/* Regra com máxima especificidade para o dropdown */
+html body #notification-dropdown {
+  position: fixed !important;
+  top: 4rem !important;
+  left: 0.5rem !important;
+  width: 20rem !important;
+  max-height: 24rem !important;
+  z-index: 9998 !important;
+  margin-top: 0.5rem !important;
+}
+
+/* Regra com máxima especificidade para o sino */
+html body #notification-bell {
+  z-index: 9999 !important;
+  position: relative !important;
+}
+
 .text-main { color: var(--color-primary) !important; }
 .text-accent { color: var(--color-accent) !important; }
 .border-main { border-color: var(--color-border) !important; }
