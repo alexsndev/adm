@@ -351,7 +351,7 @@
         </script>
 
         <!-- Fim do novo header -->
-        <div class="pt-32">
+        <div class="pt-14">
         <div class="flex min-h-screen w-full">
             <!-- Incluir bottom navigation -->
             @component('components.bottom-navigation')
