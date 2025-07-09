@@ -55,12 +55,12 @@
             .draggable-sidebar .sidebar-content {
                 display: flex !important;
                 flex-direction: column;
-                gap: 1.5rem;
+                gap: 0.75rem;
                 align-items: center;
-                justify-content: flex-start;
+                justify-content: space-evenly;
                 width: 100%;
                 height: 100%;
-                padding-top: 9rem;
+                padding: 0.5rem 0;
             }
             .draggable-sidebar .sidebar-content a {
                 width: 100%;
@@ -68,6 +68,7 @@
                 justify-content: center;
                 align-items: center;
                 padding: 0.5rem 0;
+                min-height: 2.5rem;
             }
             .draggable-sidebar .sidebar-content i {
                 font-size: 1.25rem;
@@ -81,31 +82,85 @@
                 display: none;
             }
         }
+        /* Indicador de seção ativa */
+        .draggable-sidebar .sidebar-content a.active-section {
+            opacity: 1 !important;
+            transform: scale(1.1);
+        }
+        .draggable-sidebar .sidebar-content a.active-section i {
+            opacity: 1 !important;
+        }
+        .draggable-sidebar .sidebar-content a.active-section span {
+            opacity: 1 !important;
+        }
+        /* Transições suaves para o indicador ativo */
+        .draggable-sidebar .sidebar-content a {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            min-height: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .draggable-sidebar .sidebar-content a i,
+        .draggable-sidebar .sidebar-content a span {
+            transition: opacity 0.3s ease;
+        }
+        /* Melhor espaçamento vertical para desktop */
+        @media (min-width: 641px) {
+            .draggable-sidebar .sidebar-content {
+                gap: 0.25rem;
+                padding: 0.25rem 0;
+            }
+            .draggable-sidebar .sidebar-content a {
+                padding: 0.25rem 0;
+            }
+        }
+        /* Ajuste para telas pequenas */
+        @media (max-width: 480px) {
+            .draggable-sidebar {
+                right: 0.5rem;
+                top: calc(50% + 40px) !important;
+            }
+        }
+        /* Ajuste para considerar sidebar lateral (desktop) */
+        @media (min-width: 641px) {
+            .draggable-sidebar {
+                right: 1rem;
+                top: calc(50% + 120px);
+            }
+        }
+        /* Ajuste para telas muito grandes */
+        @media (min-width: 1024px) {
+            .draggable-sidebar {
+                right: 1.5rem;
+                top: calc(50% + 140px);
+            }
+        }
     </style>
-    <div id="draggableSidebar" class="draggable-sidebar fixed top-1/4 right-4 z-40 flex flex-col gap-4 bg-white/80 dark:bg-gray-900/80 rounded-2xl shadow-lg p-3 border border-gray-200 dark:border-gray-800 backdrop-blur-md opacity-20 transition min-w-0 max-w-full">
-        <div class="sidebar-content flex flex-col gap-4">
-            <a href="#dashboard-top" class="group flex flex-col items-center text-blue-600 dark:text-blue-300 hover:text-blue-800 dark:hover:text-blue-100 transition" title="Topo">
-                <i class="fa-solid fa-chart-line text-xl opacity-20 group-hover:opacity-100 group-focus:opacity-100 transition"></i>
+    <div id="draggableSidebar" class="draggable-sidebar fixed top-1/2 right-4 z-40 flex flex-col gap-1 bg-white/80 dark:bg-gray-900/80 rounded-2xl shadow-lg p-3 border border-gray-200 dark:border-gray-800 backdrop-blur-md opacity-20 transition min-w-0 max-w-full transform -translate-y-1/2">
+        <div class="sidebar-content flex flex-col gap-1">
+            <a href="#dashboard-top" class="group flex flex-col items-center text-blue-600 dark:text-blue-300 hover:text-blue-800 dark:hover:text-blue-100 transition py-0.5" title="Topo">
+                <i class="fa-solid fa-chart-line text-lg opacity-20 group-hover:opacity-100 group-focus:opacity-100 transition"></i>
                 <span class="text-xs mt-1 opacity-0 group-hover:opacity-100 transition">Topo</span>
             </a>
-            <a href="#dashboard-goals" class="group flex flex-col items-center text-green-600 dark:text-green-300 hover:text-green-800 dark:hover:text-green-100 transition" title="Metas">
-                <i class="fa-solid fa-bullseye text-xl opacity-20 group-hover:opacity-100 group-focus:opacity-100 transition"></i>
+            <a href="#dashboard-goals" class="group flex flex-col items-center text-green-600 dark:text-green-300 hover:text-green-800 dark:hover:text-green-100 transition py-0.5" title="Metas">
+                <i class="fa-solid fa-bullseye text-lg opacity-20 group-hover:opacity-100 group-focus:opacity-100 transition"></i>
                 <span class="text-xs mt-1 opacity-0 group-hover:opacity-100 transition">Metas</span>
             </a>
-            <a href="#dashboard-debts" class="group flex flex-col items-center text-red-600 dark:text-red-300 hover:text-red-800 dark:hover:text-red-100 transition" title="Dívidas">
-                <i class="fa-solid fa-money-bill-wave text-xl opacity-20 group-hover:opacity-100 group-focus:opacity-100 transition"></i>
+            <a href="#dashboard-debts" class="group flex flex-col items-center text-red-600 dark:text-red-300 hover:text-red-800 dark:hover:text-red-100 transition py-0.5" title="Dívidas">
+                <i class="fa-solid fa-money-bill-wave text-lg opacity-20 group-hover:opacity-100 group-focus:opacity-100 transition"></i>
                 <span class="text-xs mt-1 opacity-0 group-hover:opacity-100 transition">Dívidas</span>
             </a>
-            <a href="#dashboard-events" class="group flex flex-col items-center text-blue-500 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-200 transition" title="Eventos">
-                <i class="fa-solid fa-calendar-days text-xl opacity-20 group-hover:opacity-100 group-focus:opacity-100 transition"></i>
+            <a href="#dashboard-events" class="group flex flex-col items-center text-blue-500 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-200 transition py-0.5" title="Eventos">
+                <i class="fa-solid fa-calendar-days text-lg opacity-20 group-hover:opacity-100 group-focus:opacity-100 transition"></i>
                 <span class="text-xs mt-1 opacity-0 group-hover:opacity-100 transition">Eventos</span>
             </a>
-            <a href="#dashboard-holidays" class="group flex flex-col items-center text-yellow-500 dark:text-yellow-300 hover:text-yellow-700 dark:hover:text-yellow-100 transition" title="Feriados">
-                <i class="fa-solid fa-umbrella-beach text-xl opacity-20 group-hover:opacity-100 group-focus:opacity-100 transition"></i>
+            <a href="#dashboard-holidays" class="group flex flex-col items-center text-yellow-500 dark:text-yellow-300 hover:text-yellow-700 dark:hover:text-yellow-100 transition py-0.5" title="Feriados">
+                <i class="fa-solid fa-umbrella-beach text-lg opacity-20 group-hover:opacity-100 group-focus:opacity-100 transition"></i>
                 <span class="text-xs mt-1 opacity-0 group-hover:opacity-100 transition">Feriados</span>
             </a>
-            <a href="#dashboard-birthdays" class="group flex flex-col items-center text-pink-500 dark:text-pink-300 hover:text-pink-700 dark:hover:text-pink-100 transition" title="Aniversariantes">
-                <i class="fa-solid fa-cake-candles text-xl opacity-20 group-hover:opacity-100 group-focus:opacity-100 transition"></i>
+            <a href="#dashboard-birthdays" class="group flex flex-col items-center text-pink-500 dark:text-pink-300 hover:text-pink-700 dark:hover:text-pink-100 transition py-0.5" title="Aniversariantes">
+                <i class="fa-solid fa-cake-candles text-lg opacity-20 group-hover:opacity-100 group-focus:opacity-100 transition"></i>
                 <span class="text-xs mt-1 opacity-0 group-hover:opacity-100 transition">Aniversários</span>
             </a>
         </div>
@@ -180,6 +235,62 @@
                 }
             }
         });
+
+        // Smooth scroll para as âncoras da sidebar
+        document.querySelectorAll('#draggableSidebar a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    const headerOffset = 80; // Ajuste conforme necessário
+                    const elementPosition = targetElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Indicador de seção ativa na sidebar
+        function updateActiveSection() {
+            const sections = ['dashboard-top', 'dashboard-goals', 'dashboard-debts', 'dashboard-events', 'dashboard-holidays', 'dashboard-birthdays'];
+            const sidebarLinks = document.querySelectorAll('#draggableSidebar a[href^="#"]');
+            
+            let activeSection = 'dashboard-top';
+            const scrollPosition = window.scrollY + 100; // Offset para melhor detecção
+            
+            sections.forEach(sectionId => {
+                const element = document.querySelector(`#${sectionId}`);
+                if (element) {
+                    const elementTop = element.offsetTop;
+                    const elementBottom = elementTop + element.offsetHeight;
+                    
+                    if (scrollPosition >= elementTop && scrollPosition < elementBottom) {
+                        activeSection = sectionId;
+                    }
+                }
+            });
+            
+            // Remove classe ativa de todos os links
+            sidebarLinks.forEach(link => {
+                link.classList.remove('active-section');
+            });
+            
+            // Adiciona classe ativa ao link correspondente
+            const activeLink = document.querySelector(`#draggableSidebar a[href="#${activeSection}"]`);
+            if (activeLink) {
+                activeLink.classList.add('active-section');
+            }
+        }
+        
+        // Atualiza seção ativa no scroll
+        window.addEventListener('scroll', updateActiveSection);
+        window.addEventListener('load', updateActiveSection);
     </script>
     <div id="dashboard-top"></div>
     <div class="py-8 bg-gray-900 min-h-screen">
@@ -381,7 +492,7 @@
             <!-- Blocos de Destaque: Próximos Eventos, Aniversariantes e Feriados -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8">
                 <!-- Próximos Eventos -->
-                <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-200 dark:border-gray-800 p-4 sm:p-6">
+                <div id="dashboard-events" class="bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-200 dark:border-gray-800 p-4 sm:p-6">
                     <h3 class="text-base sm:text-lg font-semibold text-blue-700 dark:text-blue-300 flex items-center mb-3 sm:mb-4">
                         <i class="fa-solid fa-calendar-days text-blue-500 mr-2"></i> Próximos Eventos
                     </h3>
@@ -418,7 +529,7 @@
                     </ul>
                 </div>
                 <!-- Próximos Aniversariantes -->
-                <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-200 dark:border-gray-800 p-4 sm:p-6">
+                <div id="dashboard-birthdays" class="bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-200 dark:border-gray-800 p-4 sm:p-6">
                     <h3 class="text-base sm:text-lg font-semibold text-pink-700 dark:text-pink-300 flex items-center mb-3 sm:mb-4">
                         <i class="fa-solid fa-cake-candles text-pink-500 mr-2"></i> Próximos Aniversariantes
                     </h3>

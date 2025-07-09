@@ -36,46 +36,45 @@
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        
+        <style>
+            /* Transições da sidebar */
+            aside {
+                transition: width 0.3s ease;
+            }
+            .md\\:ml-64 {
+                transition: margin-left 0.3s ease;
+            }
+            aside.collapsed {
+                width: 4rem !important;
+            }
+            aside.collapsed .sidebar-content {
+                padding-left: 0 !important;
+                padding-right: 0 !important;
+            }
+            aside.collapsed .sidebar-text,
+            aside.collapsed .sidebar-arrow,
+            aside.collapsed .sidebar-logo {
+                display: none !important;
+            }
+            aside.collapsed .sidebar-avatar {
+                margin: 0 auto !important;
+                display: flex !important;
+                justify-content: center !important;
+            }
+            aside.collapsed nav.sidebar-content a,
+            aside.collapsed nav.sidebar-content button {
+                justify-content: center !important;
+            }
+            aside.collapsed nav.sidebar-content a i,
+            aside.collapsed nav.sidebar-content button i {
+                margin: 0 !important;
+            }
+        </style>
     </head>
     <body class="font-sans antialiased bg-gray-100 dark:bg-gray-900 overflow-x-hidden">
-        <!-- Header ultra responsivo -->
-        <header class="w-full fixed top-0 left-0 z-50 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 shadow-sm h-14 flex items-center justify-between px-2 sm:px-6">
-            <!-- Sino à esquerda -->
-            <div class="flex items-center min-w-[40px] justify-start z-10">
-                <div id="notification-bell" class="relative cursor-pointer min-w-0">
-                    <i class="fa-solid fa-bell text-base sm:text-2xl text-gray-400 dark:text-gray-500 hover:text-blue-500 transition-colors"></i>
-                    <span id="notification-count" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full px-0.5 py-0.5 hidden"></span>
-                    <div id="notification-dropdown" class="hidden absolute left-0 mt-2 max-w-[95vw] sm:max-w-[400px] w-full sm:w-auto bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-50">
-                        <div class="p-2 sm:p-3 border-b border-gray-100 dark:border-gray-700 font-semibold text-gray-700 dark:text-gray-200">Notificações</div>
-                        <ul id="notification-list" class="max-h-80 overflow-y-auto divide-y divide-gray-100 dark:divide-gray-700"></ul>
-                        <div class="flex justify-between items-center p-1 sm:p-2">
-                            <button id="mark-all-read" class="text-xs text-blue-600 hover:underline">Marcar todas como lidas</button>
-                            <a href="/notifications" class="text-xs text-gray-500 hover:underline">Ver todas</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Logo centralizada absoluta, largura máxima e truncamento -->
-            <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center pointer-events-none w-[calc(100vw-96px)] max-w-[160px] sm:max-w-[220px]">
-                @if(Auth::user()->logo)
-                    <img src="{{ Storage::url(Auth::user()->logo) }}" alt="Logo" class="h-7 w-auto rounded shadow max-w-full object-contain mx-auto">
-                @else
-                    <span class="text-base font-extrabold tracking-tight text-gray-900 dark:text-white select-none truncate max-w-full block text-center">Alexandre <span class="text-blue-500">e</span> Liza <span class="text-blue-500">Gestão</span></span>
-                @endif
-            </div>
-            <!-- Avatar à direita -->
-            <div class="flex items-center min-w-[40px] justify-end z-10">
-                <a href="{{ route('profile.edit') }}" class="flex items-center min-w-0">
-                    @if(Auth::user()->photo)
-                        <img src="{{ Storage::url(Auth::user()->photo) }}" alt="Foto de perfil" class="w-7 h-7 sm:w-10 sm:h-10 rounded-full object-cover border-2 border-blue-200 dark:border-blue-700 shadow">
-                    @else
-                        <span class="inline-flex items-center justify-center w-7 h-7 sm:w-10 sm:h-10 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 font-bold text-xs sm:text-lg">
-                            {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
-                        </span>
-                    @endif
-                </a>
-            </div>
-        </header>
+        @component('components.header')
+        @endcomponent
         <!-- Barra de frase motivacional fixa com slider e efeito de digitação -->
         @php
             $frases = [
@@ -166,7 +165,7 @@
             ];
             shuffle($frases);
         @endphp
-        <div class="w-full fixed left-0 top-16 z-40 bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 py-1 sm:py-2 flex justify-center items-center shadow-sm min-w-0">
+        <div class="w-full fixed left-0 top-14 z-40 bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 py-1 sm:py-2 flex justify-center items-center shadow-sm min-w-0">
             <span id="frase-motivacional" class="w-full text-xs sm:text-sm text-gray-700 dark:text-gray-200 italic text-center max-w-full select-none block overflow-hidden whitespace-nowrap min-w-0"> </span>
         </div>
         <script>
@@ -203,65 +202,17 @@
                 typeWriter(frases[fraseIndex]);
             });
         </script>
-        <!-- Menu mobile dropdown (simples exemplo) -->
-        <div id="mobile-menu" class="hidden fixed top-16 left-0 w-full bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 shadow-md z-40 md:hidden">
-            <nav class="flex flex-col space-y-2 p-4">
-                <a href="/" class="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition">Dashboard</a>
-                <a href="/accounts" class="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition">Contas</a>
-                <a href="/transactions" class="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition">Transações</a>
-                <a href="/projects" class="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition">Projetos</a>
-            </nav>
-        </div>
-        <script>
-            // Script simples para abrir/fechar menu mobile
-            document.addEventListener('DOMContentLoaded', function() {
-                const btn = document.getElementById('mobile-menu-button');
-                const menu = document.getElementById('mobile-menu');
-                btn.addEventListener('click', function() {
-                    menu.classList.toggle('hidden');
-                });
-            });
-        </script>
+
         <!-- Fim do novo header -->
         <div class="pt-32">
-        <div x-data="{ sidebarOpen: false, open: '' }" class="flex min-h-screen w-full">
-            <!-- Sidebar sempre visível, nunca fixed -->
-            <aside :class="sidebarOpen ? 'w-64' : 'w-10'" class="relative border-r border-gray-200 dark:border-[#21262d] flex flex-col transition-all duration-200 ease-in-out animated-gradient-sidebar">
-                <!-- Botão de expandir/comprimir -->
-                <button @click="sidebarOpen = !sidebarOpen"
-                    :class="!sidebarOpen ? 'animate-pulse-arrow' : ''"
-                    class="absolute top-2 right-2 z-20 bg-gray-100 dark:bg-[#161b22] rounded-full p-1 shadow-md focus:outline-none mb-4 transition-all">
-                    <i :class="sidebarOpen ? 'fa-solid fa-chevron-left' : 'fa-solid fa-chevron-right'" class="text-gray-700 dark:text-gray-200"></i>
-                </button>
-                <!-- Espaço extra antes do menu -->
-                <nav class="flex-1 py-6 space-y-1 mt-6">
-                    <div>
-                        @include('layouts.navigation-items')
-                    </div>
-                </nav>
-                <div class="mt-auto px-2 md:px-4 py-4 border-t border-gray-200 dark:border-[#21262d]" x-show="sidebarOpen">
-                    <div class="flex items-center space-x-3">
-                        @if(Auth::user()->photo)
-                            <img src="{{ Storage::url(Auth::user()->photo) }}" alt="Foto de perfil" class="w-10 h-10 rounded-full object-cover border-2 border-blue-200 dark:border-blue-700">
-                        @else
-                            <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 font-bold">{{ strtoupper(substr(Auth::user()->name, 0, 1)) }}</span>
-                        @endif
-                        <div class="flex-1 min-w-0">
-                            <div class="font-medium text-base text-gray-800 dark:text-gray-200">{{ Auth::user()->name }}</div>
-                            <div class="font-medium text-sm text-gray-500 dark:text-gray-400">{{ Auth::user()->email }}</div>
-                        </div>
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <button type="submit" class="text-gray-400 hover:text-red-600 dark:hover:text-red-400" title="Sair">
-                                <i class="fa-solid fa-right-from-bracket"></i>
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </aside>
+        <div class="flex min-h-screen w-full">
+            <!-- Incluir bottom navigation -->
+            @component('components.bottom-navigation')
+            @endcomponent
+            
             <!-- Conteúdo principal -->
-            <div class="flex-1 flex flex-col bg-white dark:bg-[#0d1117] min-h-screen p-0 m-0 relative z-10">
-                <main class="flex-1 w-full max-w-full overflow-x-auto">
+            <div class="flex-1 flex flex-col bg-white dark:bg-[#0d1117] min-h-screen p-0 m-0 relative z-10 md:ml-64">
+                <main class="flex-1 w-full max-w-full overflow-x-auto pb-16 md:pb-0">
                     @yield('content')
                 </main>
             </div>
@@ -280,6 +231,35 @@
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/service-worker.js');
         }
+        
+        // Toggle da sidebar lateral
+        document.addEventListener('DOMContentLoaded', function() {
+            const sidebarToggle = document.getElementById('sidebar-toggle');
+            const sidebar = document.querySelector('aside');
+            const mainContent = document.querySelector('.md\\:ml-64');
+            
+            if (sidebarToggle && sidebar && mainContent) {
+                sidebarToggle.addEventListener('click', function() {
+                    const isCollapsed = sidebar.classList.contains('collapsed');
+                    
+                    if (isCollapsed) {
+                        // Expandir sidebar
+                        sidebar.classList.remove('collapsed');
+                        sidebar.style.width = '16rem'; // w-64
+                        mainContent.classList.add('md:ml-64');
+                        mainContent.classList.remove('md:ml-16');
+                        sidebarToggle.querySelector('i').className = 'fa-solid fa-bars text-lg';
+                    } else {
+                        // Comprimir sidebar
+                        sidebar.classList.add('collapsed');
+                        sidebar.style.width = '4rem'; // w-16
+                        mainContent.classList.remove('md:ml-64');
+                        mainContent.classList.add('md:ml-16');
+                        sidebarToggle.querySelector('i').className = 'fa-solid fa-chevron-right text-lg';
+                    }
+                });
+            }
+        });
         </script>
         @stack('scripts')
         <script src="https://unpkg.com/alpinejs" defer></script>
