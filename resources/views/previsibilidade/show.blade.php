@@ -2,15 +2,11 @@
 
 @section('content')
 <div class="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
-    <div class="container mx-auto px-4 py-8">
+    <div class="container mx-auto max-w-6xl px-2 sm:px-4 py-4 md:py-8 w-full">
         <!-- Header -->
-        <div class="text-center mb-8 fade-in-up">
-            <h1 class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
-                Detalhes da Pessoa
-            </h1>
-            <p class="text-slate-600 dark:text-slate-300 text-lg max-w-2xl mx-auto">
-                Visualize e gerencie as informações de {{ $pessoa->name }}.
-            </p>
+        <div class="text-center mb-8 fade-in-up w-full flex flex-col items-center justify-center">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4 w-full">Detalhes da Pessoa</h1>
+            <p class="text-slate-600 dark:text-slate-300 text-base sm:text-lg max-w-2xl mx-auto w-full">Visualize e gerencie as informações de {{ $pessoa->name }}.</p>
         </div>
 
         <!-- Card Principal -->

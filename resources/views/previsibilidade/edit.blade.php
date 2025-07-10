@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
-    <div class="container mx-auto px-4 py-8">
-        <div class="max-w-2xl mx-auto bg-white rounded-2xl shadow-lg p-8">
-            <h2 class="text-3xl font-bold mb-6 text-center bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Editar Pessoa</h2>
-            <form action="{{ route('previsibilidade.update', $pessoa->id) }}" method="POST" enctype="multipart/form-data" class="space-y-6">
+<div class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-8">
+    <div class="max-w-4xl mx-auto px-2 sm:px-4 w-full">
+        <div class="bg-white rounded-2xl shadow-lg p-4 sm:p-8 w-full">
+            <h2 class="text-3xl sm:text-4xl font-bold mb-6 text-center bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent w-full">Editar Pessoa</h2>
+            <form action="{{ route('previsibilidade.update', $pessoa->id) }}" method="POST" enctype="multipart/form-data" class="space-y-6 w-full">
                 @csrf
                 @method('PUT')
                 <div class="flex flex-col items-center mb-6">

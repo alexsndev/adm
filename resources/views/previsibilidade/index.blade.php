@@ -2,20 +2,14 @@
 
 @section('content')
 <div class="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
-    <div class="container mx-auto max-w-7xl px-2 md:px-6 py-4 md:py-8 w-full">
+    <div class="container mx-auto max-w-7xl px-2 sm:px-4 py-4 md:py-8 w-full">
         <!-- Header com estatísticas -->
-        <div class="mb-8">
-            <div class="text-center mb-8 fade-in-up">
-                <h1 class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
-                    Pessoas de Previsibilidade
-                </h1>
-                <p class="text-slate-600 dark:text-slate-300 text-lg max-w-2xl mx-auto">
-                    Gerencie familiares, amigos e grupos pessoais para previsibilidade.
-                </p>
-            </div>
-
-            <!-- Cards de estatísticas -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-8 fade-in-up w-full">
+        <div class="mb-8 w-full flex flex-col items-center justify-center text-center fade-in-up">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4 w-full">Pessoas de Previsibilidade</h1>
+            <p class="text-slate-600 dark:text-slate-300 text-base sm:text-lg max-w-2xl mx-auto w-full">Gerencie familiares, amigos e grupos pessoais para previsibilidade.</p>
+        </div>
+        <!-- Cards de estatísticas -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-8 fade-in-up w-full">
                 <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg border border-slate-200 dark:border-slate-700 hover:shadow-xl transition-all duration-300">
                     <div class="flex items-center justify-between">
                         <div>
@@ -72,10 +66,8 @@
                     </div>
                 </div>
             </div>
-        </div>
-
         <!-- Filtros e busca -->
-        <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg border border-slate-200 dark:border-slate-700 mb-8 fade-in-up w-full overflow-x-auto">
+        <div class="bg-white dark:bg-slate-800 rounded-2xl p-4 sm:p-6 shadow-lg border border-slate-200 dark:border-slate-700 mb-8 fade-in-up w-full overflow-x-auto">
             <div class="flex flex-col lg:flex-row justify-between items-center gap-4 w-full">
                 <div class="flex flex-col sm:flex-row items-center gap-4 w-full lg:w-auto">
                     <!-- Busca -->
@@ -109,7 +101,7 @@
 
                 <!-- Botão adicionar -->
                 <a href="{{ route('previsibilidade.create') }}" 
-                   class="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-xl font-semibold shadow-lg flex items-center space-x-2 transition-all duration-200 transform hover:scale-105">
+                   class="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-4 py-3 sm:px-6 rounded-xl font-semibold shadow-lg flex items-center space-x-2 transition-all duration-200 transform hover:scale-105 mt-4 sm:mt-0 w-full sm:w-auto justify-center">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                     </svg>
@@ -135,7 +127,7 @@
             </div>
         @else
             <!-- Grid de pessoas -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full" id="pessoas-grid">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 w-full" id="pessoas-grid">
                 @foreach($pessoas as $index => $pessoa)
                     <div class="pessoa-card bg-white dark:bg-slate-800 rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700 overflow-hidden group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 fade-in-up" 
                          data-categoria="{{ $pessoa->category }}"

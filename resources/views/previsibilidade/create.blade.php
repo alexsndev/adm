@@ -2,20 +2,15 @@
 
 @section('content')
 <div class="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 py-8">
-    <div class="max-w-4xl mx-auto px-4">
+    <div class="max-w-4xl mx-auto px-2 sm:px-4 w-full">
         <!-- Header -->
-        <div class="text-center mb-8 fade-in-up">
-            <h1 class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
-                Nova Pessoa
-            </h1>
-            <p class="text-slate-600 dark:text-slate-300 text-lg max-w-2xl mx-auto">
-                Cadastre uma nova pessoa para sua lista de previsibilidade.
-            </p>
+        <div class="text-center mb-8 fade-in-up w-full flex flex-col items-center justify-center">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4 w-full">Nova Pessoa</h1>
+            <p class="text-slate-600 dark:text-slate-300 text-base sm:text-lg max-w-2xl mx-auto w-full">Cadastre uma nova pessoa para sua lista de previsibilidade.</p>
         </div>
-
         <!-- Formulário -->
-        <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 overflow-hidden fade-in-up" style="animation-delay: 0.1s;">
-            <form method="POST" action="{{ route('previsibilidade.store') }}" enctype="multipart/form-data" class="p-8">
+        <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 overflow-hidden fade-in-up w-full" style="animation-delay: 0.1s;">
+            <form method="POST" action="{{ route('previsibilidade.store') }}" enctype="multipart/form-data" class="p-4 sm:p-8 w-full">
                 @csrf
                 
                 <!-- Informações Básicas -->
