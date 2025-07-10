@@ -23,5 +23,6 @@
             </main>
         </div>
     </div>
+    @component('components.bottom-navigation') @endcomponent
 </body>
 </html>
