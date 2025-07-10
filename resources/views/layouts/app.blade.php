@@ -15,6 +15,7 @@
 </head>
 <body class="font-sans antialiased bg-gray-100 dark:bg-gray-900 overflow-x-hidden">
     @include('components.header')
+    @include('components.sidebar')
     <div class="main-content-padding">
         <div class="flex min-h-screen w-full">
             @component('components.bottom-navigation') @endcomponent
