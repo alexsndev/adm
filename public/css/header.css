@@ -1,0 +1,66 @@
+/* Header fixo no topo */
+.site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 64px;
+    background: #18181b;
+    color: #fff;
+    z-index: 1000;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    border-bottom: 1px solid #23232a;
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+}
+
+.header-logo img {
+    height: 40px;
+    width: auto;
+}
+
+.header-nav ul {
+    display: flex;
+    gap: 24px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.header-nav a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: color 0.2s;
+}
+
+.header-nav a:hover {
+    color: #38bdf8;
+}
+
+@media (max-width: 768px) {
+    .header-container {
+        flex-direction: column;
+        height: auto;
+        padding: 8px 12px;
+    }
+    .header-nav ul {
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-start;
+    }
+}
+
+/* Espaço para o conteúdo não ficar por baixo do header */
+.main-content-padding {
+    padding-top: 64px !important;
+} 

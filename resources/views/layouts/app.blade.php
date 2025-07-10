@@ -10,9 +10,11 @@
     <link rel="stylesheet" href="/css/frases-motivacionais.css">
     <link rel="stylesheet" href="/css/bottom-navigation.css">
     <link rel="stylesheet" href="/css/notifications.css">
+    <link rel="stylesheet" href="/css/header.css">
     @stack('styles')
 </head>
 <body class="font-sans antialiased bg-gray-100 dark:bg-gray-900 overflow-x-hidden">
+    @include('components.header')
     <div class="main-content-padding">
         <div class="flex min-h-screen w-full">
             @component('components.bottom-navigation') @endcomponent
