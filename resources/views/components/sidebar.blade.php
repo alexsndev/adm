@@ -1,147 +1,157 @@
-<aside id="sidebar" class="fixed top-0 left-0 h-full w-64 bg-gray-900 text-white shadow-lg z-40 flex flex-col transition-transform duration-300 transform -translate-x-0 md:translate-x-0">
-    <!-- Logo e botão mobile -->
-    <div class="flex items-center justify-between h-16 px-4 border-b border-gray-800">
-        <span class="text-xl font-bold tracking-wide flex items-center gap-2">
-            <i class="fa-solid fa-layer-group"></i> Grow
-        </span>
-        <button class="md:hidden text-gray-400 hover:text-white focus:outline-none" onclick="toggleSidebar()">
+<aside id="sidebar" class="hidden md:flex flex-col fixed top-0 left-0 h-full bg-gray-900 text-white shadow-2xl z-40 transition-all duration-300 sidebar-collapsed">
+    <div class="flex items-center justify-center h-16 border-b border-gray-800">
+        <button id="sidebarToggle" class="text-gray-400 hover:text-white focus:outline-none transition">
             <i class="fa-solid fa-xmark text-2xl"></i>
+            <i class="fa-solid fa-bars text-2xl"></i>
         </button>
     </div>
-    <nav class="flex-1 overflow-y-auto py-4 px-2">
+    <nav class="flex-1 overflow-y-auto py-4 px-1">
         <ul class="space-y-2">
-            <!-- Dashboard -->
-            <li>
-                <a href="{{ route('dashboard') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-800 transition">
-                    <i class="fa-solid fa-house"></i> Dashboard
-                </a>
-            </li>
-            <!-- Profissional -->
-            <li class="mt-4 mb-1 text-xs text-gray-400 uppercase px-3">Profissional</li>
-            <li>
-                <a href="{{ route('tarefas.create') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-800 transition">
-                    <i class="fa-solid fa-plus"></i> Nova Tarefa
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('categories.index') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-800 transition">
-                    <i class="fa-solid fa-tags"></i> Categorias
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('projetos.index') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-800 transition">
-                    <i class="fa-solid fa-briefcase"></i> Projetos
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('projetos.index') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-800 transition">
-                    <i class="fa-solid fa-list"></i> Todos Projetos
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('projetos.create') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-800 transition">
-                    <i class="fa-solid fa-plus"></i> Novo Projeto
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('tarefas.index') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-800 transition">
-                    <i class="fa-solid fa-tasks"></i> Tarefas Profissionais
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('clientes.index') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-800 transition">
-                    <i class="fa-solid fa-users"></i> Clientes
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('faturas.index') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-800 transition">
-                    <i class="fa-solid fa-file-invoice-dollar"></i> Faturas
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('registros-horas.index') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-800 transition">
-                    <i class="fa-solid fa-clock"></i> Registros de Horas
-                </a>
-            </li>
-            <!-- Finanças -->
-            <li class="mt-4 mb-1 text-xs text-gray-400 uppercase px-3">Finanças</li>
-            <li>
-                <a href="{{ route('finance.dashboard') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-800 transition">
-                    <i class="fa-solid fa-chart-pie"></i> Dashboard Financeiro
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('accounts.index') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-800 transition">
-                    <i class="fa-solid fa-wallet"></i> Contas
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('transactions.index') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-800 transition">
-                    <i class="fa-solid fa-arrow-right-arrow-left"></i> Transações
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('debts.index') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-800 transition">
-                    <i class="fa-solid fa-money-bill-trend-up"></i> Dívidas
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('financial-goals.index') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-800 transition">
-                    <i class="fa-solid fa-bullseye"></i> Metas Financeiras
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('faturas.index') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-800 transition">
-                    <i class="fa-solid fa-file-invoice"></i> Faturas
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('categories.index') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-800 transition">
-                    <i class="fa-solid fa-layer-group"></i> Categorias de Transação
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('credit-cards.index') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-800 transition">
-                    <i class="fa-solid fa-credit-card"></i> Cartões de Crédito
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('clientes.index') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-800 transition">
-                    <i class="fa-solid fa-users"></i> Clientes
-                </a>
-            </li>
-            <!-- Eventos -->
-            <li class="mt-4 mb-1 text-xs text-gray-400 uppercase px-3">Eventos</li>
-            <li>
-                <a href="{{ route('events.index') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-800 transition">
-                    <i class="fa-solid fa-list-ul"></i> Todos Eventos
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('events.create') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-800 transition">
-                    <i class="fa-solid fa-plus"></i> Novo Evento
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('events.calendar') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-800 transition">
-                    <i class="fa-solid fa-calendar-days"></i> Calendário
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('previsibilidade.index') }}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-800 transition">
-                    <i class="fa-solid fa-user-group"></i> Previsibilidade
-                </a>
-            </li>
+            @foreach([
+                ['label'=>'Casa','icon'=>'fa-house-chimney','sub'=>[
+                    ['label'=>'Dashboard','route'=>'household-tasks.dashboard','icon'=>'fa-gauge'],
+                    ['label'=>'Todas as Tarefas','route'=>'household-tasks.index','icon'=>'fa-list-check'],
+                    ['label'=>'Nova Tarefa','route'=>'household-tasks.create','icon'=>'fa-plus'],
+                    ['label'=>'Categorias','route'=>'task-categories.index','icon'=>'fa-tags'],
+                ]],
+                ['label'=>'Financeiro','icon'=>'fa-coins','sub'=>[
+                    ['label'=>'Dashboard','route'=>'finance.dashboard','icon'=>'fa-chart-pie'],
+                    ['label'=>'Contas','route'=>'accounts.index','icon'=>'fa-wallet'],
+                    ['label'=>'Transações','route'=>'transactions.index','icon'=>'fa-arrow-right-arrow-left'],
+                    ['label'=>'Dívidas','route'=>'debts.index','icon'=>'fa-money-bill-trend-up'],
+                    ['label'=>'Metas Financeiras','route'=>'financial-goals.index','icon'=>'fa-bullseye'],
+                    ['label'=>'Faturas','route'=>'faturas.index','icon'=>'fa-file-invoice'],
+                    ['label'=>'Categorias de Transação','route'=>'categories.index','icon'=>'fa-layer-group'],
+                    ['label'=>'Cartões de Crédito','route'=>'credit-cards.index','icon'=>'fa-credit-card'],
+                    ['label'=>'Clientes','route'=>'clientes.index','icon'=>'fa-users'],
+                ]],
+                ['label'=>'Eventos','icon'=>'fa-calendar-days','sub'=>[
+                    ['label'=>'Todos Eventos','route'=>'events.index','icon'=>'fa-list-ul'],
+                    ['label'=>'Novo Evento','route'=>'events.create','icon'=>'fa-plus'],
+                    ['label'=>'Calendário','route'=>'events.calendar','icon'=>'fa-calendar-days'],
+                    ['label'=>'Previsibilidade','route'=>'previsibilidade.index','icon'=>'fa-user-group'],
+                ]],
+                ['label'=>'Projetos','icon'=>'fa-briefcase','sub'=>[
+                    ['label'=>'Todos Projetos','route'=>'projetos.index','icon'=>'fa-list'],
+                    ['label'=>'Novo Projeto','route'=>'projetos.create','icon'=>'fa-plus'],
+                    ['label'=>'Tarefas Profissionais','route'=>'tarefas.index','icon'=>'fa-tasks'],
+                    ['label'=>'Clientes','route'=>'clientes.index','icon'=>'fa-users'],
+                    ['label'=>'Faturas','route'=>'faturas.index','icon'=>'fa-file-invoice-dollar'],
+                    ['label'=>'Registros de Horas','route'=>'registros-horas.index','icon'=>'fa-clock'],
+                    ['label'=>'Categorias','route'=>'categories.index','icon'=>'fa-tags'],
+                ]],
+            ] as $i => $menu)
+                <li>
+                    <button type="button"
+                        class="w-full flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-gray-800 transition sidebar-main-btn font-semibold text-base"
+                        onclick="toggleGroup({{ $i }})">
+                        <i class="fa-solid {{ $menu['icon'] }} text-xl"></i>
+                        <span class="sidebar-label">{{ $menu['label'] }}</span>
+                        <i class="fa-solid fa-chevron-down text-xs ml-auto transition-transform" id="arrow-{{ $i }}"></i>
+                    </button>
+                    <ul class="sidebar-submenu space-y-1 mt-1 ml-6 border-l-2 border-blue-700/40 pl-2 hidden" id="submenu-{{ $i }}">
+                        @foreach($menu['sub'] as $sub)
+                            <li>
+                                <a href="{{ route($sub['route']) }}"
+                                   class="flex items-center gap-2 px-3 py-2 rounded hover:bg-blue-700/80 transition sidebar-final-item text-sm font-medium"
+                                   onclick="sidebarAutoCollapse()">
+                                    <i class="fa-solid {{ $sub['icon'] }} text-base"></i>
+                                    <span class="sidebar-label">{{ $sub['label'] }}</span>
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+                </li>
+            @endforeach
         </ul>
     </nav>
 </aside>
-<!-- Botão mobile -->
-<button id="sidebarToggle" class="fixed top-4 left-4 z-50 p-2 rounded bg-gray-900 text-white shadow-lg md:hidden" onclick="toggleSidebar()">
-    <i class="fa-solid fa-bars text-2xl"></i>
-</button>
+
+<style>
+.sidebar-collapsed { width: 4.5rem !important; }
+.sidebar-expanded { width: 16rem !important; }
+.sidebar-collapsed .sidebar-label { display: none !important; }
+.sidebar-collapsed .sidebar-submenu { display: none !important; }
+.sidebar-expanded .sidebar-label { display: inline !important; }
+.sidebar-main-btn.active, .sidebar-main-btn:focus { background: #1e293b !important; }
+.sidebar-main-btn { position: relative; }
+.sidebar-submenu { background: #111827; border-radius: 0.5rem; }
+.rotate-180 { transform: rotate(180deg); }
+</style>
+
 <script>
-    function toggleSidebar() {
-        const sidebar = document.getElementById('sidebar');
-        sidebar.classList.toggle('-translate-x-full');
+if (!localStorage.getItem('sidebarState')) {
+    localStorage.setItem('sidebarState', 'collapsed');
+}
+let openGroup = null;
+
+function applySidebarState() {
+    const sidebar = document.getElementById('sidebar');
+    const icon = document.getElementById('sidebarToggleIcon');
+    if (localStorage.getItem('sidebarState') === 'expanded') {
+        sidebar.classList.remove('sidebar-collapsed');
+        sidebar.classList.add('sidebar-expanded');
+        if(icon) { icon.classList.remove('fa-bars'); icon.classList.add('fa-xmark'); }
+        document.querySelectorAll('.sidebar-submenu').forEach(ul => ul.classList.add('hidden'));
+        document.querySelectorAll('.sidebar-main-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.fa-chevron-down').forEach(arrow => arrow.classList.remove('rotate-180'));
+        openGroup = null;
+    } else {
+        sidebar.classList.add('sidebar-collapsed');
+        sidebar.classList.remove('sidebar-expanded');
+        if(icon) { icon.classList.remove('fa-xmark'); icon.classList.add('fa-bars'); }
+        document.querySelectorAll('.sidebar-submenu').forEach(ul => ul.classList.add('hidden'));
+        document.querySelectorAll('.sidebar-main-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.fa-chevron-down').forEach(arrow => arrow.classList.remove('rotate-180'));
+        openGroup = null;
     }
+}
+
+function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const icon = document.getElementById('sidebarToggleIcon');
+    if (sidebar.classList.contains('sidebar-collapsed')) {
+        localStorage.setItem('sidebarState', 'expanded');
+        if(icon) { icon.classList.remove('fa-bars'); icon.classList.add('fa-xmark'); }
+    } else {
+        localStorage.setItem('sidebarState', 'collapsed');
+        if(icon) { icon.classList.remove('fa-xmark'); icon.classList.add('fa-bars'); }
+    }
+    applySidebarState();
+}
+
+function toggleGroup(idx) {
+    const sidebar = document.getElementById('sidebar');
+    if (!sidebar.classList.contains('sidebar-expanded')) {
+        localStorage.setItem('sidebarState', 'expanded');
+        applySidebarState();
+    }
+    document.querySelectorAll('.sidebar-submenu').forEach((ul, i) => {
+        if (i === idx) {
+            ul.classList.toggle('hidden');
+            document.getElementById('arrow-' + i).classList.toggle('rotate-180');
+            if (!ul.classList.contains('hidden')) {
+                openGroup = idx;
+            } else {
+                openGroup = null;
+            }
+        } else {
+            ul.classList.add('hidden');
+            document.getElementById('arrow-' + i).classList.remove('rotate-180');
+        }
+    });
+    document.querySelectorAll('.sidebar-main-btn').forEach((btn, i) => {
+        if (i === idx && openGroup === idx) {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
+        }
+    });
+}
+
+function sidebarAutoCollapse() {
+    localStorage.setItem('sidebarState', 'collapsed');
+    setTimeout(applySidebarState, 200);
+}
+document.addEventListener('DOMContentLoaded', applySidebarState);
 </script> 
