@@ -74,8 +74,6 @@ html body nav[class*="fixed"][class*="bottom-0"] {
   max-width: 200px !important;
   overflow: hidden !important;
   transition: all 0.2s ease-in-out !important;
-  max-height: calc(100vh - 8rem) !important;
-  overflow-y: auto !important;
 }
 
 /* Modo escuro para dropdowns */
@@ -154,31 +152,6 @@ html body nav[class*="fixed"][class*="bottom-0"] {
   width: 1rem !important;
   text-align: center !important;
   flex-shrink: 0 !important;
-}
-
-/* Animações suaves */
-.dropdown-menu {
-  opacity: 0 !important;
-  transform: translateY(-10px) !important;
-  transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out !important;
-}
-
-.dropdown-menu:not(.hidden) {
-  opacity: 1 !important;
-  transform: translateY(0) !important;
-}
-
-/* Garantir que funcione em diferentes tamanhos de tela */
-@media (max-width: 480px) {
-  .dropdown-menu {
-    min-width: 120px !important;
-    max-width: 160px !important;
-  }
-  
-  .dropdown-menu a {
-    padding: 0.375rem 0.75rem !important;
-    font-size: 0.875rem !important;
-  }
 }
 
 /* Garantir que dropdowns não sejam afetados por outros estilos */

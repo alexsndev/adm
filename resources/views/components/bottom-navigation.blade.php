@@ -62,5 +62,73 @@
             </ul>
         </div>
     </div>
-    <script src="/js/bottom-navigation.js"></script>
+    <script>
+        // Dropdown logic simples e funcional
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // Função simples para posicionar dropdowns
+            function positionDropdown(dropdown, button) {
+                // Reset classes
+                dropdown.classList.remove('bottom-16', 'top-16', 'left-0', 'left-1/2', 'right-0', '-translate-x-1/2');
+                
+                // Sempre posicionar para cima primeiro
+                dropdown.classList.add('bottom-16');
+                
+                // Posicionamento horizontal baseado no botão
+                const buttonIndex = Array.from(button.parentElement.parentElement.children).indexOf(button.parentElement);
+                const totalButtons = button.parentElement.parentElement.children.length;
+                
+                if (buttonIndex === 0) {
+                    dropdown.classList.add('left-0');
+                } else if (buttonIndex === totalButtons - 1) {
+                    dropdown.classList.add('right-0');
+                } else {
+                    dropdown.classList.add('left-1/2', '-translate-x-1/2');
+                }
+                
+                // Verificar se cabe na tela
+                const rect = dropdown.getBoundingClientRect();
+                if (rect.top < 0) {
+                    // Não cabe acima, posicionar para baixo
+                    dropdown.classList.remove('bottom-16');
+                    dropdown.classList.add('top-16');
+                }
+            }
+
+            // Event listeners para dropdowns
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    console.log('Botão clicado:', this.dataset.dropdown); // Debug
+                    
+                    // Fecha todos os outros dropdowns
+                    document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                        menu.classList.add('hidden');
+                    });
+                    
+                    // Abre o dropdown correspondente
+                    const dropdown = document.getElementById(this.dataset.dropdown);
+                    console.log('Dropdown encontrado:', dropdown); // Debug
+                    
+                    if (dropdown && dropdown.classList.contains('hidden')) {
+                        dropdown.classList.remove('hidden');
+                        positionDropdown(dropdown, this);
+                        console.log('Dropdown aberto'); // Debug
+                    } else if (dropdown) {
+                        dropdown.classList.add('hidden');
+                        console.log('Dropdown fechado'); // Debug
+                    }
+                });
+            });
+
+            // Fecha dropdown ao clicar fora
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.nav-btn') && !e.target.closest('.dropdown-menu')) {
+                    document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                        menu.classList.add('hidden');
+                    });
+                }
+            });
+        });
+    </script>
 </nav> 
