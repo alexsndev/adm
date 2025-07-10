@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
-    <div class="container mx-auto px-4 py-8">
+    <div class="container mx-auto max-w-7xl px-2 md:px-6 py-4 md:py-8 w-full">
         <!-- Header com estatísticas -->
         <div class="mb-8">
             <div class="text-center mb-8 fade-in-up">
@@ -15,7 +15,7 @@
             </div>
 
             <!-- Cards de estatísticas -->
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8 fade-in-up" style="animation-delay: 0.1s;">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-8 fade-in-up w-full">
                 <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg border border-slate-200 dark:border-slate-700 hover:shadow-xl transition-all duration-300">
                     <div class="flex items-center justify-between">
                         <div>
@@ -75,8 +75,8 @@
         </div>
 
         <!-- Filtros e busca -->
-        <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg border border-slate-200 dark:border-slate-700 mb-8 fade-in-up" style="animation-delay: 0.2s;">
-            <div class="flex flex-col lg:flex-row justify-between items-center gap-4">
+        <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg border border-slate-200 dark:border-slate-700 mb-8 fade-in-up w-full overflow-x-auto">
+            <div class="flex flex-col lg:flex-row justify-between items-center gap-4 w-full">
                 <div class="flex flex-col sm:flex-row items-center gap-4 w-full lg:w-auto">
                     <!-- Busca -->
                     <div class="relative w-full sm:w-80">
@@ -120,7 +120,7 @@
 
         @if($pessoas->isEmpty())
             <!-- Estado vazio -->
-            <div class="text-center py-16 fade-in-up" style="animation-delay: 0.3s;">
+            <div class="text-center py-16 fade-in-up w-full">
                 <div class="w-24 h-24 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900/30 dark:to-purple-900/30 rounded-full flex items-center justify-center mx-auto mb-6">
                     <svg class="w-12 h-12 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
@@ -135,7 +135,7 @@
             </div>
         @else
             <!-- Grid de pessoas -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="pessoas-grid">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full" id="pessoas-grid">
                 @foreach($pessoas as $index => $pessoa)
                     <div class="pessoa-card bg-white dark:bg-slate-800 rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700 overflow-hidden group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 fade-in-up" 
                          data-categoria="{{ $pessoa->category }}"
