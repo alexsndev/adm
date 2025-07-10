@@ -736,51 +736,6 @@
             floatingBtn.classList.add('hidden');
             localStorage.setItem('resumo-visual-hidden', 'false');
         });
-
-        // Carrossel de frases
-        const frases = [
-            {
-                texto: '"Cada centavo que você economiza hoje é um investimento no seu amanhã. <span class=\'text-blue-600 dark:text-blue-400 font-bold\'>Controle suas finanças, controle seu futuro.</span>"',
-                dica: '💡 Dica do dia: Revise suas despesas mensais e identifique oportunidades de economia'
-            },
-            {
-                texto: '"Disciplina financeira é a ponte entre sonhos e realizações. <span class=\'text-purple-600 dark:text-purple-400 font-bold\'>Planeje, aja, conquiste.</span>"',
-                dica: '🔎 Analise pequenos gastos: eles fazem grande diferença no final do mês.'
-            },
-            {
-                texto: '"O melhor momento para plantar uma árvore foi há 20 anos. O segundo melhor é agora. <span class=\'text-green-600 dark:text-green-400 font-bold\'>Invista no seu futuro hoje.</span>"',
-                dica: '🌱 Comece a investir, mesmo que pouco, e colha os frutos amanhã.'
-            },
-            {
-                texto: '"Não é sobre quanto você ganha, mas quanto você guarda. <span class=\'text-yellow-600 dark:text-yellow-400 font-bold\'>Poupar é poder.</span>"',
-                dica: '💰 Defina uma meta de economia mensal e seja fiel a ela.'
-            },
-            {
-                texto: '"Grandes conquistas financeiras começam com pequenas atitudes diárias. <span class=\'text-pink-600 dark:text-pink-400 font-bold\'>Valorize cada passo.</span>"',
-                dica: '📅 Anote seus gastos e acompanhe sua evolução.'
-            },
-            {
-                texto: '"O controle financeiro é o maior ato de autocuidado. <span class=\'text-blue-500 dark:text-blue-300 font-bold\'>Cuide do seu dinheiro, cuide de você.</span>"',
-                dica: '🧘‍♂️ Reserve um tempo semanal para revisar suas finanças.'
-            }
-        ];
-        let fraseAtual = 0;
-        const fraseEl = document.getElementById('frase-carrossel');
-        const fraseTexto = fraseEl.querySelectorAll('p')[0];
-        const fraseDica = fraseEl.querySelectorAll('p')[1];
-        function renderFrase(idx) {
-            fraseTexto.innerHTML = frases[idx].texto;
-            fraseDica.innerHTML = frases[idx].dica;
-        }
-        renderFrase(fraseAtual);
-        setInterval(() => {
-            fraseEl.style.opacity = 0;
-            setTimeout(() => {
-                fraseAtual = (fraseAtual + 1) % frases.length;
-                renderFrase(fraseAtual);
-                fraseEl.style.opacity = 1;
-            }, 700);
-        }, 8000);
     });
 </script>
 @endpush
