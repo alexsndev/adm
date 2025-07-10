@@ -31,6 +31,9 @@
             </button>
             <div id="user-dropdown" style="display: none; position: absolute; right: 0; top: 48px; background: #23232a; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.12); min-width: 160px; z-index: 2000;">
                 <a href="{{ route('profile.edit') }}" style="display: block; padding: 12px 20px; color: #fff; text-decoration: none; border-bottom: 1px solid #333;">Perfil</a>
+                @if($user && $user->is_admin)
+                <a href="{{ route('admin.home') }}" style="display: block; padding: 12px 20px; color: #fff; text-decoration: none; border-bottom: 1px solid #333;">Administração</a>
+                @endif
                 <form method="POST" action="{{ route('logout') }}" style="margin: 0;">
                     @csrf
                     <button type="submit" style="width: 100%; background: none; border: none; color: #fff; padding: 12px 20px; text-align: left; cursor: pointer;">Sair</button>

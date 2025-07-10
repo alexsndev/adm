@@ -293,26 +293,10 @@
         window.addEventListener('load', updateActiveSection);
     </script>
     <div id="dashboard-top"></div>
-    <div class="py-8 bg-gray-900 min-h-screen">
-        <div class="max-w-7xl mx-auto px-1.5 sm:px-6 lg:px-8">
-            <!-- Header -->
-            <div class="mb-8">
-                <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
-                    <div>
-                        <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-                            <i class="fa-solid fa-chart-line text-blue-600 mr-3"></i>
-                            Dashboard
-                        </h1>
-                        <p class="text-gray-600 dark:text-gray-300">Bem-vindo ao seu painel de controle personalizado</p>
-                    </div>
-                    <div class="text-sm text-gray-500 dark:text-gray-400">
-                        Última atualização: {{ now()->format('d/m/Y H:i') }}
-                    </div>
-                </div>
-            </div>
-
-            <!-- Cards de Estatísticas Principais -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
+    <div class="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 overflow-x-hidden w-full">
+        <div class="container mx-auto max-w-7xl px-2 md:px-6 py-4 md:py-8 w-full">
+            <!-- Cards de resumo -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-8 fade-in-up w-full">
                 <!-- Saldo Total -->
                 <div class="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-800">
                     <div class="flex items-center">
@@ -385,55 +369,46 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Transações Recentes -->
-            <div class="mb-8">
-                <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-200 dark:border-gray-800">
-                    <div class="p-6 border-b border-gray-200 dark:border-gray-700">
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white flex items-center">
-                            <i class="fa-solid fa-clock-rotate-left text-blue-500 mr-2"></i>
-                            Transações Recentes
-                        </h3>
-                    </div>
-                    <div class="p-6">
-                        <div class="overflow-x-auto w-full">
-                            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-800">
-                                <thead>
+            <!-- Tabela de Transações Recentes -->
+            <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg border border-slate-200 dark:border-slate-700 mb-8 fade-in-up flex flex-col items-center w-full overflow-x-auto">
+                <h2 class="text-lg font-semibold mb-4 text-slate-700 dark:text-slate-200 w-full">Transações Recentes</h2>
+                <div class="w-full flex justify-center">
+                    <div class="overflow-x-auto w-full">
+                        <table class="min-w-full text-xs sm:text-sm divide-y divide-gray-200 dark:divide-gray-800">
+                            <thead>
+                                <tr>
+                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Data</th>
+                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Conta</th>
+                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Categoria</th>
+                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Tipo</th>
+                                    <th class="px-4 py-2 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Valor</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($recentTransactions ?? [] as $transaction)
                                     <tr>
-                                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Data</th>
-                                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Conta</th>
-                                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Categoria</th>
-                                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Tipo</th>
-                                        <th class="px-4 py-2 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Valor</th>
+                                        <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-700 dark:text-gray-200">{{ \Carbon\Carbon::parse($transaction->date)->format('d/m/Y') }}</td>
+                                        <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-700 dark:text-gray-200">{{ $transaction->account->name ?? '-' }}</td>
+                                        <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-700 dark:text-gray-200">{{ $transaction->category->name ?? '-' }}</td>
+                                        <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-700 dark:text-gray-200">
+                                            <span class="px-2 py-1 rounded-full text-xs font-bold {{ $transaction->type === 'income' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' }}">
+                                                {{ $transaction->type === 'income' ? 'Receita' : 'Despesa' }}
+                                            </span>
+                                        </td>
+                                        <td class="px-4 py-2 whitespace-nowrap text-sm text-right font-bold {{ $transaction->type === 'income' ? 'text-green-600' : 'text-red-600' }}">
+                                            R$ {{ number_format($transaction->amount, 2, ',', '.') }}
+                                        </td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    @forelse($recentTransactions ?? [] as $transaction)
-                                        <tr>
-                                            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-700 dark:text-gray-200">{{ \Carbon\Carbon::parse($transaction->date)->format('d/m/Y') }}</td>
-                                            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-700 dark:text-gray-200">{{ $transaction->account->name ?? '-' }}</td>
-                                            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-700 dark:text-gray-200">{{ $transaction->category->name ?? '-' }}</td>
-                                            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-700 dark:text-gray-200">
-                                                <span class="px-2 py-1 rounded-full text-xs font-bold {{ $transaction->type === 'income' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' }}">
-                                                    {{ $transaction->type === 'income' ? 'Receita' : 'Despesa' }}
-                                                </span>
-                                            </td>
-                                            <td class="px-4 py-2 whitespace-nowrap text-sm text-right font-bold {{ $transaction->type === 'income' ? 'text-green-600' : 'text-red-600' }}">
-                                                R$ {{ number_format($transaction->amount, 2, ',', '.') }}
-                                            </td>
-                                        </tr>
-                                    @empty
-                                        <tr>
-                                            <td colspan="5" class="text-center text-gray-500 dark:text-gray-400 py-8">Nenhuma transação recente.</td>
-                                        </tr>
-                                    @endforelse
-                                </tbody>
-                            </table>
-                        </div>
+                                @empty
+                                    <tr>
+                                        <td colspan="5" class="text-center text-gray-500 dark:text-gray-400 py-8">Nenhuma transação recente.</td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
-
             <!-- Metas Financeiras -->
             <div id="dashboard-goals" class="mb-8">
                 <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-200 dark:border-gray-800 p-6">

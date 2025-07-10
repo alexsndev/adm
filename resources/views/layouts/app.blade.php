@@ -13,17 +13,14 @@
     <link rel="stylesheet" href="/css/header.css">
     @stack('styles')
 </head>
-<body class="font-sans antialiased bg-gray-100 dark:bg-gray-900 overflow-x-hidden">
+<body class="font-sans antialiased bg-gray-100 dark:bg-gray-900 overflow-x-hidden min-h-screen w-full">
     @include('components.header')
     @include('components.sidebar')
-    <div class="main-content-padding">
-        <div class="flex min-h-screen w-full">
-            @component('components.bottom-navigation') @endcomponent
-            <div class="flex-1 flex flex-col bg-white dark:bg-[#0d1117] min-h-screen p-0 m-0 relative z-10">
-                <main class="flex-1 w-full max-w-full overflow-x-auto pb-16 md:pb-0">
-                    @yield('content')
-                </main>
-            </div>
+    <div class="main-content-padding w-full min-h-screen flex flex-col md:flex-row overflow-x-hidden">
+        <div class="flex-1 flex flex-col bg-white dark:bg-[#0d1117] min-h-screen p-0 m-0 relative z-10 w-full max-w-full">
+            <main class="flex-1 w-full max-w-full overflow-x-auto pb-16 md:pb-0">
+                @yield('content')
+            </main>
         </div>
     </div>
 </body>

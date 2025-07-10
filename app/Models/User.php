@@ -23,6 +23,7 @@ class User extends Authenticatable
         'email',
         'password',
         'photo',
+        'is_admin', // Adicionado para permitir atribuição em massa
     ];
 
     /**
@@ -45,6 +46,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_admin' => 'boolean', // Adicionado para garantir cast correto
         ];
     }
 

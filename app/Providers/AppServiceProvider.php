@@ -30,5 +30,10 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(TaskCategory::class, TaskCategoryPolicy::class);
         Gate::policy(HouseholdTask::class, HouseholdTaskPolicy::class);
         Gate::policy(Project::class, ProjectPolicy::class);
+
+        // Gate para admin
+        Gate::define('admin', function ($user) {
+            return $user->role === 'admin';
+        });
     }
 }

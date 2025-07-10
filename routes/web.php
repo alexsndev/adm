@@ -146,3 +146,29 @@ Route::prefix('projetos/{project}/links')->name('projetos.links.')->middleware([
 Route::get('/finance/dashboard', [FinanceDashboardController::class, 'index'])->name('finance.dashboard')->middleware(['auth', 'verified']);
 
 require __DIR__.'/auth.php';
+
+// Remover middleware 'role:admin' e 'admin' das rotas
+Route::get('/painel-admin', function () {
+    if (!auth()->check() || !auth()->user()->is_admin) {
+        abort(403, 'Acesso não autorizado');
+    }
+    return view('painel-admin');
+});
+
+Route::get('/admin-teste', function () {
+    if (!auth()->check() || !auth()->user()->is_admin) {
+        abort(403, 'Acesso não autorizado');
+    }
+    return view('admin-teste');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin', function() {
+        if (!auth()->check() || !auth()->user()->is_admin) {
+            abort(403, 'Acesso não autorizado');
+        }
+        return redirect()->route('admin.users.index');
+    })->name('admin.home');
+    Route::get('/admin/users', [\App\Http\Controllers\UserAdminController::class, 'index'])->name('admin.users.index');
+    Route::post('/admin/users/{user}/toggle-admin', [\App\Http\Controllers\UserAdminController::class, 'toggleAdmin'])->name('admin.users.toggle');
+});

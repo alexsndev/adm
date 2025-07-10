@@ -70,7 +70,7 @@
                 </div>
             </div>
         </div>
-        <!-- Adicione outras seções seguindo o mesmo padrão visual e responsivo -->
+        <!-- Outras seções podem ser adicionadas aqui, seguindo o mesmo padrão responsivo -->
     </div>
 </div>
 @endsection 
