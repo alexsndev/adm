@@ -58,4 +58,137 @@ html body nav[class*="fixed"][class*="bottom-0"] {
   right: 0 !important;
   z-index: 9999 !important;
   top: auto !important;
+}
+
+/* ===== DROPDOWNS DA NAVEGAÇÃO BOTTOM ===== */
+
+/* Estilos base para dropdowns */
+.dropdown-menu {
+  position: absolute !important;
+  z-index: 10000 !important;
+  background: white !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 0.5rem !important;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+  min-width: 140px !important;
+  max-width: 200px !important;
+  overflow: hidden !important;
+  transition: all 0.2s ease-in-out !important;
+  max-height: calc(100vh - 8rem) !important;
+  overflow-y: auto !important;
+}
+
+/* Modo escuro para dropdowns */
+.dark .dropdown-menu {
+  background: #1f2937 !important;
+  border-color: #374151 !important;
+  color: #f9fafb !important;
+}
+
+/* Posicionamento vertical - para cima */
+.dropdown-menu.bottom-16 {
+  bottom: 4rem !important;
+  top: auto !important;
+}
+
+/* Posicionamento vertical - para baixo */
+.dropdown-menu.top-16 {
+  top: 4rem !important;
+  bottom: auto !important;
+}
+
+/* Posicionamento horizontal - esquerda */
+.dropdown-menu.left-0 {
+  left: 0 !important;
+  right: auto !important;
+  transform: none !important;
+}
+
+/* Posicionamento horizontal - centro */
+.dropdown-menu.left-1/2 {
+  left: 50% !important;
+  right: auto !important;
+  transform: translateX(-50%) !important;
+}
+
+/* Posicionamento horizontal - direita */
+.dropdown-menu.right-0 {
+  right: 0 !important;
+  left: auto !important;
+  transform: none !important;
+}
+
+/* Estilos para itens do dropdown */
+.dropdown-menu li {
+  list-style: none !important;
+}
+
+.dropdown-menu a {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  padding: 0.5rem 1rem !important;
+  text-decoration: none !important;
+  color: #374151 !important;
+  transition: background-color 0.15s ease-in-out !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.dark .dropdown-menu a {
+  color: #f9fafb !important;
+}
+
+/* Hover states */
+.dropdown-menu a:hover {
+  background-color: #f3f4f6 !important;
+}
+
+.dark .dropdown-menu a:hover {
+  background-color: #374151 !important;
+}
+
+/* Garantir que ícones tenham tamanho consistente */
+.dropdown-menu i {
+  width: 1rem !important;
+  text-align: center !important;
+  flex-shrink: 0 !important;
+}
+
+/* Animações suaves */
+.dropdown-menu {
+  opacity: 0 !important;
+  transform: translateY(-10px) !important;
+  transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out !important;
+}
+
+.dropdown-menu:not(.hidden) {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+/* Garantir que funcione em diferentes tamanhos de tela */
+@media (max-width: 480px) {
+  .dropdown-menu {
+    min-width: 120px !important;
+    max-width: 160px !important;
+  }
+  
+  .dropdown-menu a {
+    padding: 0.375rem 0.75rem !important;
+    font-size: 0.875rem !important;
+  }
+}
+
+/* Garantir que dropdowns não sejam afetados por outros estilos */
+nav .dropdown-menu {
+  position: absolute !important;
+  z-index: 10000 !important;
+}
+
+/* Forçar posicionamento correto em produção */
+html body nav .dropdown-menu {
+  position: absolute !important;
+  z-index: 10000 !important;
 } 

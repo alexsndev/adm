@@ -7,7 +7,7 @@
                 <i class="fa-solid fa-house-chimney text-lg mb-1"></i>
                 <span class="text-xs">Dashboard</span>
             </button>
-            <ul id="dashboard-dropdown" class="dropdown-menu hidden absolute bottom-16 left-0 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg shadow-lg py-2 min-w-[140px] z-50">
+            <ul id="dashboard-dropdown" class="dropdown-menu hidden absolute bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg shadow-lg py-2 min-w-[140px] z-50 transform transition-all duration-200">
                 <li><a href="{{ route('dashboard') }}" class="flex items-center gap-2 px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-blue-100 dark:hover:bg-blue-800"><i class='fa-solid fa-gauge-high text-blue-500'></i> Visão Geral</a></li>
             </ul>
         </div>
@@ -17,7 +17,7 @@
                 <i class="fa-solid fa-coins text-lg mb-1"></i>
                 <span class="text-xs">Finanças</span>
             </button>
-            <ul id="finance-dropdown" class="dropdown-menu hidden absolute bottom-16 left-1/2 transform -translate-x-1/2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg shadow-lg py-2 min-w-[140px] z-50">
+            <ul id="finance-dropdown" class="dropdown-menu hidden absolute bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg shadow-lg py-2 min-w-[140px] z-50 transform transition-all duration-200">
                 <li><a href="{{ route('finance.dashboard') }}" class="flex items-center gap-2 px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-green-100 dark:hover:bg-green-800"><i class='fa-solid fa-chart-pie text-green-500'></i> Resumo</a></li>
                 <li><a href="{{ route('accounts.index') }}" class="flex items-center gap-2 px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-green-100 dark:hover:bg-green-800"><i class='fa-solid fa-wallet text-green-400'></i> Contas</a></li>
                 <li><a href="{{ route('transactions.index') }}" class="flex items-center gap-2 px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-green-100 dark:hover:bg-green-800"><i class='fa-solid fa-arrow-right-arrow-left text-green-400'></i> Transações</a></li>
@@ -31,7 +31,7 @@
                 <i class="fa-solid fa-soap text-lg mb-1"></i>
                 <span class="text-xs">Tarefas</span>
             </button>
-            <ul id="tasks-dropdown" class="dropdown-menu hidden absolute bottom-16 left-1/2 transform -translate-x-1/2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg shadow-lg py-2 min-w-[140px] z-50">
+            <ul id="tasks-dropdown" class="dropdown-menu hidden absolute bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg shadow-lg py-2 min-w-[140px] z-50 transform transition-all duration-200">
                 <li><a href="{{ route('household-tasks.dashboard') }}" class="flex items-center gap-2 px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-orange-100 dark:hover:bg-orange-800"><i class='fa-solid fa-list-check text-orange-500'></i> Painel</a></li>
                 <li><a href="{{ route('household-tasks.index') }}" class="flex items-center gap-2 px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-orange-100 dark:hover:bg-orange-800"><i class='fa-solid fa-broom text-orange-400'></i> Todas Tarefas</a></li>
             </ul>
@@ -42,7 +42,7 @@
                 <i class="fa-solid fa-briefcase text-lg mb-1"></i>
                 <span class="text-xs">Projetos</span>
             </button>
-            <ul id="projects-dropdown" class="dropdown-menu hidden absolute bottom-16 left-1/2 transform -translate-x-1/2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg shadow-lg py-2 min-w-[140px] z-50">
+            <ul id="projects-dropdown" class="dropdown-menu hidden absolute bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg shadow-lg py-2 min-w-[140px] z-50 transform transition-all duration-200">
                 <li><a href="{{ route('projetos.index') }}" class="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-purple-100 dark:hover:bg-purple-800">Projetos</a></li>
                 <li><a href="{{ route('tarefas.index') }}" class="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-purple-100 dark:hover:bg-purple-800">Tarefas</a></li>
                 <li><a href="{{ route('clientes.index') }}" class="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-purple-100 dark:hover:bg-purple-800">Clientes</a></li>
@@ -55,32 +55,12 @@
                 <i class="fa-solid fa-calendar-days text-lg mb-1"></i>
                 <span class="text-xs">Eventos</span>
             </button>
-            <ul id="events-dropdown" class="dropdown-menu hidden absolute bottom-16 right-0 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg shadow-lg py-2 min-w-[160px] z-50">
+            <ul id="events-dropdown" class="dropdown-menu hidden absolute bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg shadow-lg py-2 min-w-[160px] z-50 transform transition-all duration-200">
                 <li><a href="{{ route('events.calendar') }}" class="flex items-center gap-2 px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-blue-100 dark:hover:bg-blue-800"><i class='fa-solid fa-calendar-days text-blue-500'></i> Calendário</a></li>
                 <li><a href="{{ route('events.index') }}" class="flex items-center gap-2 px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-blue-100 dark:hover:bg-blue-800"><i class='fa-solid fa-list-ul text-blue-400'></i> Todos Eventos</a></li>
                 <li><a href="{{ route('previsibilidade.index') }}" class="flex items-center gap-2 px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-blue-100 dark:hover:bg-blue-800"><i class='fa-solid fa-user-group text-blue-300'></i> Previsibilidade</a></li>
             </ul>
         </div>
     </div>
-    <script>
-        // Dropdown logic
-        document.querySelectorAll('.nav-btn').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                // Fecha todos os outros dropdowns
-                document.querySelectorAll('.dropdown-menu').forEach(menu => menu.classList.add('hidden'));
-                // Abre o dropdown correspondente
-                const dropdown = document.getElementById(this.dataset.dropdown);
-                if (dropdown.classList.contains('hidden')) {
-                    dropdown.classList.remove('hidden');
-                } else {
-                    dropdown.classList.add('hidden');
-                }
-            });
-        });
-        // Fecha dropdown ao clicar fora
-        document.addEventListener('click', function() {
-            document.querySelectorAll('.dropdown-menu').forEach(menu => menu.classList.add('hidden'));
-        });
-    </script>
+    <script src="/js/bottom-navigation.js"></script>
 </nav> 
