@@ -1,9 +1,16 @@
 <header class="site-header">
     <div class="header-container">
         <div class="header-logo">
-            <a href="/">
-                <img src="/logo.png" alt="Logo" height="40">
-            </a>
+            @php $user = Auth::user(); @endphp
+            @if($user && $user->logo)
+                <a href="/">
+                    <img src="{{ Storage::url($user->logo) }}" alt="Logo" height="40" style="max-height:40px;max-width:120px;object-fit:contain;">
+                </a>
+            @else
+                <a href="/">
+                    <span style="font-size:2rem;color:#38bdf8;">🏷️</span>
+                </a>
+            @endif
         </div>
         <nav class="header-nav">
             <ul>
