@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/css/frases-motivacionais.css">
     <link rel="stylesheet" href="/css/notifications.css">
     <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/bottom-nav.css">
     @stack('styles')
 </head>
 <body class="font-sans antialiased bg-gray-100 dark:bg-gray-900 overflow-x-hidden min-h-screen w-full">

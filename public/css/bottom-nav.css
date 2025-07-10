@@ -1,0 +1,170 @@
+/* ===== BOTTOM NAVIGATION MODERNO E ESCURO ===== */
+.bottom-nav {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  background: #181c24;
+  border-top: 1px solid #23272f;
+  box-shadow: 0 -2px 8px rgba(0,0,0,0.10);
+  z-index: 1000;
+  padding: 0;
+}
+.bottom-nav ul {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 0; padding: 0;
+  list-style: none;
+  height: 60px;
+}
+.bottom-nav li {
+  position: relative;
+  flex: 1 1 0;
+  text-align: center;
+}
+.bottom-nav .nav-btn {
+  background: none;
+  border: none;
+  outline: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #e5e7eb;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 8px 0 0 0;
+  width: 100%;
+  height: 60px;
+  transition: color 0.2s, background 0.2s;
+  border-radius: 0;
+  position: relative;
+  z-index: 2;
+}
+.bottom-nav .nav-btn.active,
+.bottom-nav .nav-btn:focus,
+.bottom-nav .nav-btn:hover {
+  color: #60a5fa;
+  background: #23272f;
+}
+.bottom-nav .nav-btn span {
+  font-size: 12px;
+  margin-top: 2px;
+  color: inherit;
+}
+.bottom-nav .nav-btn i {
+  font-size: 22px;
+  margin-bottom: 2px;
+  color: inherit;
+  transition: color 0.2s;
+}
+
+/* ===== DROPDOWN HORIZONTAL SEM VAZAMENTO - VERSÃO AGRESSIVA ===== */
+.bottom-nav .dropdown {
+  display: none;
+  position: absolute;
+  left: 50%;
+  bottom: 60px;
+  transform: translateX(-50%);
+  background: #23272f;
+  border-radius: 14px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.22);
+  z-index: 10;
+  padding: 8px 10px;
+  border: none;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: center;
+  justify-content: center;
+  min-width: 180px;
+  max-width: calc(100vw - 60px);
+  width: max-content;
+  transition: opacity 0.18s, transform 0.18s;
+  opacity: 0;
+  pointer-events: none;
+  overflow: hidden;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+.bottom-nav .dropdown.show {
+  display: flex;
+  opacity: 1;
+  pointer-events: auto;
+}
+.bottom-nav .dropdown li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex-shrink: 0;
+  max-width: 120px;
+}
+.bottom-nav .dropdown a {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 8px;
+  color: #e5e7eb;
+  text-decoration: none;
+  font-size: 13px;
+  border-radius: 6px;
+  transition: background 0.18s, color 0.18s;
+  white-space: nowrap;
+  background: transparent;
+  flex-shrink: 0;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-sizing: border-box;
+}
+.bottom-nav .dropdown a:hover {
+  background: #374151;
+  color: #60a5fa;
+}
+
+/* ===== POSICIONAMENTO INTELIGENTE PARA ÚLTIMO ITEM ===== */
+.bottom-nav li:last-child .dropdown {
+  left: auto;
+  right: 10px;
+  transform: none;
+}
+.bottom-nav li:last-child .dropdown.show {
+  transform: none;
+}
+
+@media (max-width: 768px) {
+  .bottom-nav .dropdown {
+    min-width: 140px;
+    max-width: calc(100vw - 40px);
+    padding: 6px 8px;
+    gap: 3px;
+  }
+  .bottom-nav .dropdown li {
+    max-width: 100px;
+  }
+  .bottom-nav .dropdown a {
+    padding: 5px 6px;
+    font-size: 12px;
+    max-width: 100px;
+  }
+  .bottom-nav li:last-child .dropdown {
+    right: 5px;
+  }
+}
+@media (max-width: 480px) {
+  .bottom-nav .dropdown {
+    min-width: 100px;
+    max-width: calc(100vw - 20px);
+    padding: 4px 6px;
+    gap: 2px;
+  }
+  .bottom-nav .dropdown li {
+    max-width: 80px;
+  }
+  .bottom-nav .dropdown a {
+    padding: 4px 5px;
+    font-size: 11px;
+    max-width: 80px;
+  }
+  .bottom-nav li:last-child .dropdown {
+    right: 2px;
+  }
+} 
