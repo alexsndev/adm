@@ -116,6 +116,12 @@ html body nav[class*="fixed"][class*="bottom-0"] {
   transform: none !important;
 }
 
+/* Posicionamento vertical - bem mais para cima */
+.dropdown-menu.bottom-28 {
+  bottom: 7rem !important;
+  top: auto !important;
+}
+
 /* Estilos para itens do dropdown */
 .dropdown-menu li {
   list-style: none !important;
