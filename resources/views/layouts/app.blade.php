@@ -7,8 +7,9 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <link rel="stylesheet" href="/css/bottom-navigation.css">
     <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/frases-motivacionais.css">
+    <link rel="stylesheet" href="/css/bottom-navigation.css">
     <link rel="stylesheet" href="/css/notifications.css">
     @stack('styles')
 </head>
