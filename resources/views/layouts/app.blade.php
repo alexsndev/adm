@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="overflow-x-hidden">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="overflow-x-hidden" x-data="{ sidebarOpen: true }">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -18,14 +18,24 @@
     <link rel="stylesheet" href="/css/notifications.css">
     <link rel="stylesheet" href="/css/header.css">
     @stack('styles')
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 </head>
 <body class="font-sans antialiased bg-gray-100 dark:bg-gray-900 overflow-x-hidden min-h-screen w-full">
-    @include('components.header')
-    <div class="flex w-full min-h-screen">
-        <div class="hidden md:block">
-            @include('components.sidebar')
+    <header class="site-header">
+        <div class="header-container">
+            <!-- Botão hambúrguer desktop -->
+            <button class="hidden md:inline-flex items-center justify-center text-white text-2xl mr-4 focus:outline-none" @click="sidebarOpen = !sidebarOpen">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <!-- Restante do header -->
+            @include('components.header')
         </div>
-        <main class="main-content-padding flex-1 w-full max-w-full min-h-screen flex flex-col bg-white dark:bg-[#0d1117] p-0 m-0 relative z-10">
+    </header>
+    <div class="flex w-full min-h-screen">
+        <div :class="sidebarOpen ? 'md:flex' : 'md:hidden'" class="hidden transition-all duration-200">
+            @include('components.side-nav')
+        </div>
+        <main :class="sidebarOpen ? 'md:ml-56' : 'md:ml-0'" class="main-content-padding flex-1 w-full max-w-full min-h-screen flex flex-col bg-white dark:bg-[#0d1117] p-0 m-0 relative z-10 transition-all duration-200">
             <main class="flex-1 w-full max-w-full overflow-x-auto pb-16 md:pb-0">
                 @yield('content')
             </main>
