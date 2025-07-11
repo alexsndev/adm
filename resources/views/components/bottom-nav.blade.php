@@ -9,7 +9,7 @@
             [
                 'label' => 'Finanças',
                 'icon' => 'fa-coins',
-                'dropdown' => [
+                'options' => [
                     ['label' => 'Resumo', 'icon' => 'fa-chart-pie', 'route' => 'finance.dashboard'],
                     ['label' => 'Contas', 'icon' => 'fa-wallet', 'route' => 'accounts.index'],
                     ['label' => 'Transações', 'icon' => 'fa-arrow-right-arrow-left', 'route' => 'transactions.index'],
@@ -20,7 +20,7 @@
             [
                 'label' => 'Eventos',
                 'icon' => 'fa-calendar-days',
-                'dropdown' => [
+                'options' => [
                     ['label' => 'Todos Eventos', 'icon' => 'fa-list-ul', 'route' => 'events.index'],
                     ['label' => 'Novo Evento', 'icon' => 'fa-plus', 'route' => 'events.create'],
                     ['label' => 'Calendário', 'icon' => 'fa-calendar-days', 'route' => 'events.calendar'],
@@ -30,7 +30,7 @@
             [
                 'label' => 'Casa',
                 'icon' => 'fa-house-chimney',
-                'dropdown' => [
+                'options' => [
                     ['label' => 'Dashboard', 'icon' => 'fa-gauge', 'route' => 'household-tasks.dashboard'],
                     ['label' => 'Todas as Tarefas', 'icon' => 'fa-list-check', 'route' => 'household-tasks.index'],
                     ['label' => 'Nova Tarefa', 'icon' => 'fa-plus', 'route' => 'household-tasks.create'],
@@ -40,7 +40,7 @@
             [
                 'label' => 'Profissional',
                 'icon' => 'fa-briefcase',
-                'dropdown' => [
+                'options' => [
                     ['label' => 'Projetos', 'icon' => 'fa-briefcase', 'route' => 'projetos.index'],
                     ['label' => 'Tarefas', 'icon' => 'fa-tasks', 'route' => 'tarefas.index'],
                     ['label' => 'Clientes', 'icon' => 'fa-users', 'route' => 'clientes.index'],
@@ -51,27 +51,20 @@
         ];
         $current = Route::currentRouteName();
     @endphp
+    
     @foreach($items as $i => $item)
-        @if(isset($item['dropdown']))
-            <div class="relative flex-1 flex flex-col items-center justify-center">
-                <button type="button"
-                    class="group flex flex-col items-center justify-center w-full h-full transition relative text-gray-300 hover:text-blue-300 focus:outline-none"
-                    aria-label="{{ $item['label'] }}"
-                    onclick="openBottomDropdown('bottom-dropdown-{{ $i }}', event)">
-                    <span class="flex items-center justify-center w-10 h-10 rounded-full transition-all duration-200 group-hover:bg-gray-800/80">
-                        <i class="fa-solid {{ $item['icon'] }} text-xl"></i>
-                    </span>
-                    <span class="text-xs mt-1 font-medium tracking-tight">{{ $item['label'] }}</span>
-                </button>
-                <div id="bottom-dropdown-{{ $i }}" class="bottom-dropdown-menu hidden absolute bottom-16 left-1/2 -translate-x-1/2 bg-gray-900 border border-gray-700 shadow-2xl rounded-xl flex-nowrap flex-row gap-1 px-2 py-2 z-50 animate-fade-in flex overflow-x-auto no-scrollbar">
-                    @foreach($item['dropdown'] as $sub)
-                        <a href="{{ route($sub['route']) }}" class="flex flex-col items-center px-3 py-2 rounded-lg hover:bg-blue-800/70 transition text-gray-200 hover:text-white text-xs font-medium whitespace-nowrap">
-                            <i class="fa-solid {{ $sub['icon'] }} text-lg mb-1"></i>
-                            <span>{{ $sub['label'] }}</span>
-                        </a>
-                    @endforeach
-                </div>
-            </div>
+        @if(isset($item['options']))
+            <button type="button"
+                class="group flex flex-col items-center justify-center flex-1 h-full transition relative text-gray-300 hover:text-blue-300 focus:outline-none"
+                aria-label="{{ $item['label'] }}"
+                data-menu-title="{{ $item['label'] }}"
+                data-menu-options="{{ json_encode($item['options']) }}"
+                onclick="openFullScreenMenu(this, event)">
+                <span class="flex items-center justify-center w-10 h-10 rounded-full transition-all duration-200 group-hover:bg-gray-800/80">
+                    <i class="fa-solid {{ $item['icon'] }} text-xl"></i>
+                </span>
+                <span class="text-xs mt-1 font-medium tracking-tight">{{ $item['label'] }}</span>
+            </button>
         @else
             <a href="{{ route($item['route']) }}"
                class="group flex flex-col items-center justify-center flex-1 h-full transition relative {{ $current === $item['route'] ? 'text-blue-400' : 'text-gray-300 hover:text-blue-300' }}"
@@ -87,59 +80,229 @@
     @endforeach
 </nav>
 
+<!-- Overlay de tela completa -->
+<div id="fullscreen-overlay" class="fixed inset-0 bg-black/90 backdrop-blur-sm z-[60] hidden flex items-center justify-center">
+    <div class="bg-gray-900 rounded-2xl shadow-2xl border border-gray-700 max-w-md w-full mx-4 max-h-[80vh] overflow-hidden">
+        <!-- Header -->
+        <div class="flex items-center justify-between p-6 border-b border-gray-700">
+            <h2 id="menu-title" class="text-xl font-bold text-white"></h2>
+            <button onclick="closeFullScreenMenu()" class="text-gray-400 hover:text-white transition-colors">
+                <i class="fa-solid fa-xmark text-2xl"></i>
+            </button>
+        </div>
+        
+        <!-- Menu items -->
+        <div id="menu-items" class="p-4 space-y-2 max-h-[60vh] overflow-y-auto">
+            <!-- Items serão inseridos aqui via JavaScript -->
+        </div>
+    </div>
+</div>
+
 <style>
 nav.fixed.bottom-0 {
     backdrop-filter: blur(6px);
 }
-.bottom-dropdown-menu {
-    min-width: 180px;
-    max-width: 95vw;
-    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.25);
-    animation: fadeIn 0.18s;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    overflow-y: hidden;
-    white-space: nowrap;
-    scrollbar-width: none;
+
+#fullscreen-overlay {
+    animation: fadeIn 0.2s ease-out;
 }
-.bottom-dropdown-menu::-webkit-scrollbar {
-    display: none;
+
+#fullscreen-overlay > div {
+    animation: slideUp 0.3s ease-out;
 }
-.no-scrollbar::-webkit-scrollbar {
-    display: none;
-}
+
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px) scale(0.98); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
+
+@keyframes slideUp {
+    from { 
+        opacity: 0; 
+        transform: translateY(20px) scale(0.95); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0) scale(1); 
+    }
+}
+
 @media (max-width: 400px) {
     nav.fixed.bottom-0 span.text-xs { font-size: 0.7rem; }
     nav.fixed.bottom-0 .w-10 { width: 2.2rem; height: 2.2rem; }
-    .bottom-dropdown-menu { min-width: 120px; }
 }
 </style>
+
 <script>
-let currentBottomDropdown = null;
-function openBottomDropdown(id, event) {
+function openFullScreenMenu(button, event) {
+    event.preventDefault();
     event.stopPropagation();
-    // Fecha todos
-    document.querySelectorAll('.bottom-dropdown-menu').forEach(menu => menu.classList.add('hidden'));
-    // Abre só o clicado
-    const dropdown = document.getElementById(id);
-    if (dropdown) {
-        if (currentBottomDropdown === id) {
-            dropdown.classList.add('hidden');
-            currentBottomDropdown = null;
-        } else {
-            dropdown.classList.remove('hidden');
-            currentBottomDropdown = id;
-        }
+    
+    // Previne múltiplos cliques
+    if (document.getElementById('fullscreen-overlay').classList.contains('flex')) {
+        return;
+    }
+    
+    try {
+        // Pega os dados do botão
+        const title = button.getAttribute('data-menu-title');
+        const optionsJson = button.getAttribute('data-menu-options');
+        const options = JSON.parse(optionsJson);
+        
+        // Define o título
+        document.getElementById('menu-title').textContent = title;
+        
+        // Limpa e adiciona os itens
+        const menuItems = document.getElementById('menu-items');
+        menuItems.innerHTML = '';
+        
+        options.forEach(option => {
+            const item = document.createElement('a');
+            // Gera a URL baseada na rota
+            let href = '#';
+            if (option.route) {
+                // Mapeia as rotas para URLs
+                const routeMap = {
+                    'finance.dashboard': '{{ route("finance.dashboard") }}',
+                    'accounts.index': '{{ route("accounts.index") }}',
+                    'transactions.index': '{{ route("transactions.index") }}',
+                    'credit-cards.index': '{{ route("credit-cards.index") }}',
+                    'debts.index': '{{ route("debts.index") }}',
+                    'events.index': '{{ route("events.index") }}',
+                    'events.create': '{{ route("events.create") }}',
+                    'events.calendar': '{{ route("events.calendar") }}',
+                    'previsibilidade.index': '{{ route("previsibilidade.index") }}',
+                    'household-tasks.dashboard': '{{ route("household-tasks.dashboard") }}',
+                    'household-tasks.index': '{{ route("household-tasks.index") }}',
+                    'household-tasks.create': '{{ route("household-tasks.create") }}',
+                    'task-categories.index': '{{ route("task-categories.index") }}',
+                    'projetos.index': '{{ route("projetos.index") }}',
+                    'tarefas.index': '{{ route("tarefas.index") }}',
+                    'clientes.index': '{{ route("clientes.index") }}',
+                    'faturas.index': '{{ route("faturas.index") }}',
+                    'registros-horas.index': '{{ route("registros-horas.index") }}'
+                };
+                href = routeMap[option.route] || '#';
+            }
+            item.href = href;
+            item.className = 'flex items-center space-x-4 p-4 rounded-xl hover:bg-gray-800/80 transition-all duration-200 text-gray-200 hover:text-white group';
+            
+            item.innerHTML = `
+                <div class="flex items-center justify-center w-12 h-12 rounded-xl bg-blue-600/20 group-hover:bg-blue-600/30 transition-colors">
+                    <i class="fa-solid ${option.icon} text-xl text-blue-400"></i>
+                </div>
+                <div class="flex-1">
+                    <span class="font-medium">${option.label}</span>
+                </div>
+                <i class="fa-solid fa-chevron-right text-gray-500 group-hover:text-blue-400 transition-colors"></i>
+            `;
+            
+            menuItems.appendChild(item);
+        });
+        
+        // Mostra o overlay
+        const overlay = document.getElementById('fullscreen-overlay');
+        overlay.classList.remove('hidden');
+        overlay.classList.add('flex');
+        
+        // Foca no overlay para acessibilidade
+        overlay.focus();
+        
+    } catch (error) {
+        console.error('Erro ao abrir menu:', error);
+        // Fallback: mostra mensagem de erro
+        alert('Erro ao abrir menu. Tente novamente.');
     }
 }
-document.addEventListener('click', function() {
-    document.querySelectorAll('.bottom-dropdown-menu').forEach(menu => menu.classList.add('hidden'));
-    currentBottomDropdown = null;
+
+// Função para fechar o menu e restaurar scroll
+function closeFullScreenMenu() {
+    try {
+        const overlay = document.getElementById('fullscreen-overlay');
+        if (overlay) {
+            overlay.classList.add('hidden');
+            overlay.classList.remove('flex');
+            // Restaura o scroll do body
+            document.body.style.overflow = '';
+        }
+    } catch (error) {
+        console.error('Erro ao fechar menu:', error);
+    }
+}
+
+
+
+// Fecha ao clicar fora do menu
+document.addEventListener('click', function(event) {
+    const overlay = document.getElementById('fullscreen-overlay');
+    if (overlay && event.target === overlay) {
+        closeFullScreenMenu();
+    }
+});
+
+// Fecha com ESC
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        closeFullScreenMenu();
+    }
+});
+
+// Previne scroll do body quando menu está aberto
+function preventBodyScroll() {
+    const overlay = document.getElementById('fullscreen-overlay');
+    if (overlay && overlay.classList.contains('flex')) {
+        document.body.style.overflow = 'hidden';
+    } else {
+        document.body.style.overflow = '';
+    }
+}
+
+// Observa mudanças no overlay
+document.addEventListener('DOMContentLoaded', function() {
+    const overlay = document.getElementById('fullscreen-overlay');
+    if (overlay) {
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                    preventBodyScroll();
+                }
+            });
+        });
+
+        observer.observe(overlay, {
+            attributes: true,
+            attributeFilter: ['class']
+        });
+    }
+});
+
+// Inicialização e verificações
+document.addEventListener('DOMContentLoaded', function() {
+    // Verifica se o FontAwesome está carregado
+    if (typeof FontAwesome === 'undefined') {
+        console.warn('FontAwesome não detectado, carregando...');
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css';
+        document.head.appendChild(link);
+    }
+    
+    // Verifica se todos os elementos necessários existem
+    const requiredElements = ['fullscreen-overlay', 'menu-title', 'menu-items'];
+    requiredElements.forEach(id => {
+        if (!document.getElementById(id)) {
+            console.error(`Elemento necessário não encontrado: ${id}`);
+        }
+    });
+    
+    // Adiciona listeners para os botões do menu
+    const menuButtons = document.querySelectorAll('[data-menu-title]');
+    menuButtons.forEach(button => {
+        if (!button.hasAttribute('onclick')) {
+            button.addEventListener('click', function(event) {
+                openFullScreenMenu(this, event);
+            });
+        }
+    });
 });
 </script> 
