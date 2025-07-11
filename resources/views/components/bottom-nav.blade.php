@@ -1,465 +1,134 @@
-<nav class="bottom-nav">
-    <div class="nav-item">
-        <a href="{{ route('dashboard') }}" class="nav-link">
-            <i class="fas fa-house"></i>
-            <span>Dashboard</span>
-        </a>
-    </div>
-    
-    <div class="nav-item">
-        <button class="nav-button" onclick="openModal('financas')">
-            <i class="fas fa-coins"></i>
-            <span>Finanças</span>
+<nav class="fixed bottom-0 left-0 right-0 bg-gray-900 text-white shadow-lg z-50 md:hidden">
+    <div class="flex justify-around items-center h-16 px-4">
+        <!-- Casa -->
+        <button type="button" class="flex flex-col items-center justify-center text-gray-400 hover:text-white transition-colors" onclick="openBottomModal('casa')">
+            <i class="fa-solid fa-house-chimney text-xl mb-1"></i>
+            <span class="text-xs">Casa</span>
         </button>
-    </div>
-    
-    <div class="nav-item">
-        <button class="nav-button" onclick="openModal('eventos')">
-            <i class="fas fa-calendar-days"></i>
-            <span>Eventos</span>
+
+        <!-- Financeiro -->
+        <button type="button" class="flex flex-col items-center justify-center text-gray-400 hover:text-white transition-colors" onclick="openBottomModal('financeiro')">
+            <i class="fa-solid fa-coins text-xl mb-1"></i>
+            <span class="text-xs">Financeiro</span>
         </button>
-    </div>
-    
-    <div class="nav-item">
-        <button class="nav-button" onclick="openModal('casa')">
-            <i class="fas fa-house-chimney"></i>
-            <span>Casa</span>
+
+        <!-- Eventos -->
+        <button type="button" class="flex flex-col items-center justify-center text-gray-400 hover:text-white transition-colors" onclick="openBottomModal('eventos')">
+            <i class="fa-solid fa-calendar-days text-xl mb-1"></i>
+            <span class="text-xs">Eventos</span>
         </button>
-    </div>
-    
-    <div class="nav-item">
-        <button class="nav-button" onclick="openModal('profissional')">
-            <i class="fas fa-briefcase"></i>
-            <span>Profissional</span>
+
+        <!-- Projetos -->
+        <button type="button" class="flex flex-col items-center justify-center text-gray-400 hover:text-white transition-colors" onclick="openBottomModal('projetos')">
+            <i class="fa-solid fa-briefcase text-xl mb-1"></i>
+            <span class="text-xs">Projetos</span>
         </button>
     </div>
 </nav>
 
-<!-- Modal Finanças -->
-<div id="financas" class="modal">
-    <div class="modal-backdrop" onclick="closeModal('financas')"></div>
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3>Finanças</h3>
-            <button class="close-btn" onclick="closeModal('financas')">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <div class="modal-body">
-            <a href="{{ route('finance.dashboard') }}" class="modal-item">
-                <i class="fas fa-chart-pie"></i>
-                <span>Resumo</span>
-            </a>
-            <a href="{{ route('accounts.index') }}" class="modal-item">
-                <i class="fas fa-wallet"></i>
-                <span>Contas</span>
-            </a>
-            <a href="{{ route('transactions.index') }}" class="modal-item">
-                <i class="fas fa-arrow-right-arrow-left"></i>
-                <span>Transações</span>
-            </a>
-            <a href="{{ route('credit-cards.index') }}" class="modal-item">
-                <i class="fas fa-credit-card"></i>
-                <span>Cartões</span>
-            </a>
-            <a href="{{ route('debts.index') }}" class="modal-item">
-                <i class="fas fa-money-bill-trend-up"></i>
-                <span>Dívidas</span>
-            </a>
+<!-- Modal para navegação mobile -->
+<div id="bottom-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden md:hidden flex items-center justify-center">
+    <div class="bg-gray-900 rounded-2xl shadow-2xl max-w-sm w-full mx-4 max-h-96 overflow-y-auto">
+        <div class="p-6">
+            <div class="flex items-center justify-between mb-4">
+                <h3 id="modal-title" class="text-xl font-semibold text-white"></h3>
+                <button onclick="closeBottomModal()" class="text-gray-400 hover:text-white text-2xl">
+                    <i class="fa-solid fa-times"></i>
+                </button>
+            </div>
+            <div id="modal-content" class="space-y-2">
+                <!-- Conteúdo será inserido dinamicamente -->
+            </div>
         </div>
     </div>
 </div>
-
-<!-- Modal Eventos -->
-<div id="eventos" class="modal">
-    <div class="modal-backdrop" onclick="closeModal('eventos')"></div>
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3>Eventos</h3>
-            <button class="close-btn" onclick="closeModal('eventos')">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <div class="modal-body">
-            <a href="{{ route('events.index') }}" class="modal-item">
-                <i class="fas fa-list-ul"></i>
-                <span>Todos Eventos</span>
-            </a>
-            <a href="{{ route('events.create') }}" class="modal-item">
-                <i class="fas fa-plus"></i>
-                <span>Novo Evento</span>
-            </a>
-            <a href="{{ route('events.calendar') }}" class="modal-item">
-                <i class="fas fa-calendar-days"></i>
-                <span>Calendário</span>
-            </a>
-            <a href="{{ route('previsibilidade.index') }}" class="modal-item">
-                <i class="fas fa-user-group"></i>
-                <span>Previsibilidade</span>
-            </a>
-        </div>
-    </div>
-</div>
-
-<!-- Modal Casa -->
-<div id="casa" class="modal">
-    <div class="modal-backdrop" onclick="closeModal('casa')"></div>
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3>Casa</h3>
-            <button class="close-btn" onclick="closeModal('casa')">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <div class="modal-body">
-            <a href="{{ route('household-tasks.dashboard') }}" class="modal-item">
-                <i class="fas fa-gauge"></i>
-                <span>Dashboard</span>
-            </a>
-            <a href="{{ route('household-tasks.index') }}" class="modal-item">
-                <i class="fas fa-list-check"></i>
-                <span>Todas as Tarefas</span>
-            </a>
-            <a href="{{ route('household-tasks.create') }}" class="modal-item">
-                <i class="fas fa-plus"></i>
-                <span>Nova Tarefa</span>
-            </a>
-            <a href="{{ route('task-categories.index') }}" class="modal-item">
-                <i class="fas fa-tags"></i>
-                <span>Categorias</span>
-            </a>
-        </div>
-    </div>
-</div>
-
-<!-- Modal Profissional -->
-<div id="profissional" class="modal">
-    <div class="modal-backdrop" onclick="closeModal('profissional')"></div>
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3>Profissional</h3>
-            <button class="close-btn" onclick="closeModal('profissional')">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <div class="modal-body">
-            <a href="{{ route('projetos.index') }}" class="modal-item">
-                <i class="fas fa-briefcase"></i>
-                <span>Projetos</span>
-            </a>
-            <a href="{{ route('tarefas.index') }}" class="modal-item">
-                <i class="fas fa-tasks"></i>
-                <span>Tarefas</span>
-            </a>
-            <a href="{{ route('clientes.index') }}" class="modal-item">
-                <i class="fas fa-users"></i>
-                <span>Clientes</span>
-            </a>
-            <a href="{{ route('faturas.index') }}" class="modal-item">
-                <i class="fas fa-file-invoice-dollar"></i>
-                <span>Faturas</span>
-            </a>
-            <a href="{{ route('registros-horas.index') }}" class="modal-item">
-                <i class="fas fa-clock"></i>
-                <span>Registros de Horas</span>
-            </a>
-        </div>
-    </div>
-</div>
-
-<style>
-/* FontAwesome CDN */
-@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css');
-
-/* Bottom Navigation */
-.bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: #111827;
-    border-top: 1px solid #374151;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    height: 64px;
-    padding: 0 4px;
-    z-index: 50;
-    box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(8px);
-}
-
-.nav-item {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.nav-link, .nav-button {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    color: #9CA3AF;
-    text-decoration: none;
-    border: none;
-    background: none;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    font-size: 12px;
-    font-weight: 500;
-}
-
-.nav-link:hover, .nav-button:hover {
-    color: #93C5FD;
-}
-
-.nav-link i, .nav-button i {
-    font-size: 20px;
-    margin-bottom: 4px;
-    transition: all 0.2s ease;
-}
-
-.nav-link:hover i, .nav-button:hover i {
-    transform: scale(1.1);
-}
-
-/* Modal Styles */
-.modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 60;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 16px;
-}
-
-.modal.show {
-    display: flex;
-}
-
-.modal-backdrop {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.75);
-    backdrop-filter: blur(4px);
-}
-
-.modal-content {
-    position: relative;
-    background: #111827;
-    border-radius: 16px;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-    max-width: 400px;
-    width: 100%;
-    max-height: 80vh;
-    overflow: hidden;
-    animation: modalSlideIn 0.3s ease-out;
-}
-
-@keyframes modalSlideIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px) scale(0.95);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-.modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 24px;
-    border-bottom: 1px solid #374151;
-}
-
-.modal-header h3 {
-    color: white;
-    font-size: 20px;
-    font-weight: bold;
-    margin: 0;
-}
-
-.close-btn {
-    background: none;
-    border: none;
-    color: #9CA3AF;
-    font-size: 24px;
-    cursor: pointer;
-    padding: 4px;
-    border-radius: 4px;
-    transition: all 0.2s ease;
-}
-
-.close-btn:hover {
-    color: white;
-    background: rgba(255, 255, 255, 0.1);
-}
-
-.modal-body {
-    padding: 16px;
-    max-height: 60vh;
-    overflow-y: auto;
-}
-
-.modal-item {
-    display: flex;
-    align-items: center;
-    padding: 16px;
-    color: #E5E7EB;
-    text-decoration: none;
-    border-radius: 12px;
-    transition: all 0.2s ease;
-    margin-bottom: 8px;
-}
-
-.modal-item:hover {
-    background: #374151;
-    color: white;
-    transform: translateX(4px);
-}
-
-.modal-item i {
-    font-size: 20px;
-    color: #60A5FA;
-    margin-right: 16px;
-    width: 24px;
-    text-align: center;
-}
-
-.modal-item span {
-    font-weight: 500;
-    font-size: 14px;
-}
-
-/* Responsive */
-@media (max-width: 400px) {
-    .bottom-nav {
-        height: 60px;
-    }
-    
-    .nav-link, .nav-button {
-        font-size: 11px;
-    }
-    
-    .nav-link i, .nav-button i {
-        font-size: 18px;
-    }
-    
-    .modal {
-        padding: 8px;
-    }
-    
-    .modal-content {
-        max-width: 100%;
-    }
-}
-
-/* Hide on desktop */
-@media (min-width: 768px) {
-    .bottom-nav {
-        display: none;
-    }
-}
-
-/* Scrollbar styling */
-.modal-body::-webkit-scrollbar {
-    width: 6px;
-}
-
-.modal-body::-webkit-scrollbar-track {
-    background: #1F2937;
-    border-radius: 3px;
-}
-
-.modal-body::-webkit-scrollbar-thumb {
-    background: #4B5563;
-    border-radius: 3px;
-}
-
-.modal-body::-webkit-scrollbar-thumb:hover {
-    background: #6B7280;
-}
-</style>
 
 <script>
-// Modal functions
-function openModal(modalId) {
-    const modal = document.getElementById(modalId);
-    if (modal) {
-        modal.classList.add('show');
-        document.body.style.overflow = 'hidden';
+// Dados dos menus
+const menuData = {
+    casa: {
+        title: 'Casa',
+        items: [
+            { label: 'Dashboard', route: '{{ route("household-tasks.dashboard") }}', icon: 'fa-gauge' },
+            { label: 'Todas as Tarefas', route: '{{ route("household-tasks.index") }}', icon: 'fa-list-check' },
+            { label: 'Nova Tarefa', route: '{{ route("household-tasks.create") }}', icon: 'fa-plus' },
+            { label: 'Categorias', route: '{{ route("task-categories.index") }}', icon: 'fa-tags' }
+        ]
+    },
+    financeiro: {
+        title: 'Financeiro',
+        items: [
+            { label: 'Dashboard', route: '{{ route("finance.dashboard") }}', icon: 'fa-chart-pie' },
+            { label: 'Contas', route: '{{ route("accounts.index") }}', icon: 'fa-wallet' },
+            { label: 'Transações', route: '{{ route("transactions.index") }}', icon: 'fa-arrow-right-arrow-left' },
+            { label: 'Dívidas', route: '{{ route("debts.index") }}', icon: 'fa-money-bill-trend-up' },
+            { label: 'Metas Financeiras', route: '{{ route("financial-goals.index") }}', icon: 'fa-bullseye' },
+            { label: 'Faturas', route: '{{ route("faturas.index") }}', icon: 'fa-file-invoice' },
+            { label: 'Categorias', route: '{{ route("categories.index") }}', icon: 'fa-layer-group' },
+            { label: 'Cartões de Crédito', route: '{{ route("credit-cards.index") }}', icon: 'fa-credit-card' },
+            { label: 'Clientes', route: '{{ route("clientes.index") }}', icon: 'fa-users' }
+        ]
+    },
+    eventos: {
+        title: 'Eventos',
+        items: [
+            { label: 'Todos Eventos', route: '{{ route("events.index") }}', icon: 'fa-list-ul' },
+            { label: 'Novo Evento', route: '{{ route("events.create") }}', icon: 'fa-plus' },
+            { label: 'Calendário', route: '{{ route("events.calendar") }}', icon: 'fa-calendar-days' },
+            { label: 'Previsibilidade', route: '{{ route("previsibilidade.index") }}', icon: 'fa-user-group' }
+        ]
+    },
+    projetos: {
+        title: 'Projetos',
+        items: [
+            { label: 'Todos Projetos', route: '{{ route("projetos.index") }}', icon: 'fa-list' },
+            { label: 'Novo Projeto', route: '{{ route("projetos.create") }}', icon: 'fa-plus' },
+            { label: 'Tarefas Profissionais', route: '{{ route("tarefas.index") }}', icon: 'fa-tasks' },
+            { label: 'Clientes', route: '{{ route("clientes.index") }}', icon: 'fa-users' },
+            { label: 'Faturas', route: '{{ route("faturas.index") }}', icon: 'fa-file-invoice-dollar' },
+            { label: 'Registros de Horas', route: '{{ route("registros-horas.index") }}', icon: 'fa-clock' },
+            { label: 'Categorias', route: '{{ route("categories.index") }}', icon: 'fa-tags' }
+        ]
     }
-}
+};
 
-function closeModal(modalId) {
-    const modal = document.getElementById(modalId);
-    if (modal) {
-        modal.classList.remove('show');
-        document.body.style.overflow = '';
-    }
-}
-
-// Close modal with ESC key
-document.addEventListener('keydown', function(event) {
-    if (event.key === 'Escape') {
-        const modals = document.querySelectorAll('.modal');
-        modals.forEach(modal => {
-            if (modal.classList.contains('show')) {
-                modal.classList.remove('show');
-                document.body.style.overflow = '';
-            }
-        });
-    }
-});
-
-// Close modal when clicking outside
-document.addEventListener('click', function(event) {
-    if (event.target.classList.contains('modal')) {
-        event.target.classList.remove('show');
-        document.body.style.overflow = '';
-    }
-});
-
-// Prevent modal close when clicking inside modal content
-document.addEventListener('click', function(event) {
-    if (event.target.closest('.modal-content')) {
-        event.stopPropagation();
-    }
-});
-
-// Initialize when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
-    // Check if FontAwesome is loaded
-    if (!document.querySelector('.fas')) {
-        console.warn('FontAwesome não detectado, carregando...');
-        const link = document.createElement('link');
-        link.rel = 'stylesheet';
-        link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css';
-        document.head.appendChild(link);
-    }
+function openBottomModal(groupName) {
+    const modal = document.getElementById('bottom-modal');
+    const title = document.getElementById('modal-title');
+    const content = document.getElementById('modal-content');
     
-    // Add active state to current page
-    const currentPath = window.location.pathname;
-    const navLinks = document.querySelectorAll('.nav-link');
-    navLinks.forEach(link => {
-        if (link.getAttribute('href') === currentPath) {
-            link.style.color = '#60A5FA';
-            link.querySelector('i').style.color = '#60A5FA';
-        }
-    });
+    if (menuData[groupName]) {
+        title.textContent = menuData[groupName].title;
+        
+        content.innerHTML = menuData[groupName].items.map(item => `
+            <a href="${item.route}" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-800 transition-colors text-white">
+                <i class="fa-solid ${item.icon} text-lg"></i>
+                <span class="font-medium">${item.label}</span>
+            </a>
+        `).join('');
+        
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    }
+}
+
+function closeBottomModal() {
+    const modal = document.getElementById('bottom-modal');
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+}
+
+// Fechar modal ao clicar fora
+document.getElementById('bottom-modal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        closeBottomModal();
+    }
+});
+
+// Fechar modal com ESC
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closeBottomModal();
+    }
 });
 </script> 

@@ -4,7 +4,6 @@
 <div class="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 overflow-x-hidden">
     <div class="w-full max-w-7xl mx-auto px-1.5 sm:px-6 lg:px-8 min-w-0">
         <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-200 dark:border-gray-800 p-4 sm:p-6">
-            <h1 class="text-lg sm:text-2xl font-bold mb-4">Projetos</h1>
             <div class="overflow-x-auto w-full">
                 <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-800">
                     <!-- Header com estatísticas -->
@@ -80,21 +79,20 @@
 
                     <!-- Filtros e busca -->
                     <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg border border-slate-200 dark:border-slate-700 mb-8 fade-in-up" style="animation-delay: 0.2s;">
-                        <form method="GET" action="{{ route('projetos.index') }}" class="flex flex-col lg:flex-row justify-between items-center gap-4">
-                            <div class="flex flex-col sm:flex-row items-center gap-4 w-full lg:w-auto">
-                                <!-- Busca -->
-                                <div class="relative w-full sm:w-80">
+                        <form method="GET" action="{{ route('projetos.index') }}" class="flex flex-col gap-4 md:flex-row md:items-end md:gap-3 w-full">
+                            <div class="flex-1">
+                                <div class="relative">
                                     <input type="text" name="search" value="{{ request('search') }}" placeholder="Buscar projetos..." 
-                                           class="w-full pl-10 pr-4 py-3 border border-slate-300 dark:border-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-white placeholder-slate-500 dark:placeholder-slate-400 transition-all duration-200">
-                                    <svg class="absolute left-3 top-3.5 h-5 w-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                        class="w-full pl-10 pr-4 py-2 border border-slate-700 rounded-lg bg-[#232b36] text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm transition-all" />
+                                    <svg class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                                     </svg>
                                 </div>
-
-                                <!-- Filtro por status -->
-                                <div class="flex items-center space-x-2">
-                                    <span class="text-sm font-medium text-slate-600 dark:text-slate-300">Status:</span>
-                                    <select name="status" class="border border-slate-300 dark:border-slate-600 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-white transition-all duration-200">
+                            </div>
+                            <div class="flex flex-col md:flex-row gap-2 md:gap-3">
+                                <div class="flex-1 min-w-[120px]">
+                                    <label class="block text-xs text-slate-300 mb-1">Status:</label>
+                                    <select name="status" class="w-full border border-slate-700 rounded-lg px-3 py-2 bg-[#232b36] text-white text-xs">
                                         <option value="">Todos</option>
                                         <option value="planning" {{ request('status') == 'planning' ? 'selected' : '' }}>Planejamento</option>
                                         <option value="in_progress" {{ request('status') == 'in_progress' ? 'selected' : '' }}>Em Andamento</option>
@@ -103,11 +101,9 @@
                                         <option value="cancelled" {{ request('status') == 'cancelled' ? 'selected' : '' }}>Cancelado</option>
                                     </select>
                                 </div>
-
-                                <!-- Filtro por prioridade -->
-                                <div class="flex items-center space-x-2">
-                                    <span class="text-sm font-medium text-slate-600 dark:text-slate-300">Prioridade:</span>
-                                    <select name="priority" class="border border-slate-300 dark:border-slate-600 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-white transition-all duration-200">
+                                <div class="flex-1 min-w-[120px]">
+                                    <label class="block text-xs text-slate-300 mb-1">Prioridade:</label>
+                                    <select name="priority" class="w-full border border-slate-700 rounded-lg px-3 py-2 bg-[#232b36] text-white text-xs">
                                         <option value="">Todas</option>
                                         <option value="low" {{ request('priority') == 'low' ? 'selected' : '' }}>Baixa</option>
                                         <option value="medium" {{ request('priority') == 'medium' ? 'selected' : '' }}>Média</option>
@@ -115,11 +111,9 @@
                                         <option value="urgent" {{ request('priority') == 'urgent' ? 'selected' : '' }}>Urgente</option>
                                     </select>
                                 </div>
-
-                                <!-- Filtro por cliente -->
-                                <div class="flex items-center space-x-2">
-                                    <span class="text-sm font-medium text-slate-600 dark:text-slate-300">Cliente:</span>
-                                    <select name="client_id" class="border border-slate-300 dark:border-slate-600 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-white transition-all duration-200">
+                                <div class="flex-1 min-w-[120px]">
+                                    <label class="block text-xs text-slate-300 mb-1">Cliente:</label>
+                                    <select name="client_id" class="w-full border border-slate-700 rounded-lg px-3 py-2 bg-[#232b36] text-white text-xs">
                                         <option value="">Todos</option>
                                         @foreach($clients as $client)
                                             <option value="{{ $client->id }}" {{ request('client_id') == $client->id ? 'selected' : '' }}>{{ $client->name }}</option>
@@ -127,23 +121,18 @@
                                     </select>
                                 </div>
                             </div>
-
-                            <!-- Botões de ação -->
-                            <div class="flex items-center space-x-3">
-                                <button type="submit" 
-                                        class="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-xl font-semibold shadow-lg flex items-center space-x-2 transition-all duration-200 transform hover:scale-105">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            <div class="flex gap-2 mt-2 md:mt-0">
+                                <button type="submit" class="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg text-sm font-semibold shadow hover:from-blue-700 hover:to-purple-700 transition">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                                     </svg>
-                                    <span>Filtrar</span>
+                                    Filtrar
                                 </button>
-                                
-                                <a href="{{ route('projetos.create') }}" 
-                                   class="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-6 py-3 rounded-xl font-semibold shadow-lg flex items-center space-x-2 transition-all duration-200 transform hover:scale-105">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                <a href="{{ route('projetos.create') }}" class="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-semibold shadow hover:bg-green-700 transition">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
                                     </svg>
-                                    <span>Novo Projeto</span>
+                                    Novo Projeto
                                 </a>
                             </div>
                         </form>

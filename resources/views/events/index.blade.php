@@ -2,23 +2,23 @@
 
 @section('content')
     <div class="py-6 bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 min-h-screen">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Header com estatísticas rápidas -->
             <div class="mb-8">
-                <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 mb-6">
-                    <div>
-                        <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-                            <i class="fa-solid fa-calendar-days text-blue-600 mr-3"></i>
+                <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 lg:gap-6 mb-6">
+                    <div class="w-full lg:w-auto">
+                        <h1 class="text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                            <i class="fa-solid fa-calendar-days text-blue-600 mr-2 lg:mr-3"></i>
                             Sistema de Previsibilidade
                         </h1>
-                        <p class="text-gray-600 dark:text-gray-300">Gerencie seus eventos importantes e mantenha tudo organizado</p>
+                        <p class="text-sm lg:text-base text-gray-600 dark:text-gray-300">Gerencie seus eventos importantes e mantenha tudo organizado</p>
                     </div>
-                    <div class="flex flex-wrap gap-3">
-                        <a href="{{ route('events.calendar') }}" class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl">
+                    <div class="flex flex-col sm:flex-row gap-2 lg:gap-3 w-full lg:w-auto">
+                        <a href="{{ route('events.calendar') }}" class="inline-flex items-center justify-center px-3 lg:px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl text-sm lg:text-base">
                             <i class="fa-solid fa-calendar-week mr-2"></i>
                             Calendário
                         </a>
-                        <a href="{{ route('events.create') }}" class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl">
+                        <a href="{{ route('events.create') }}" class="inline-flex items-center justify-center px-3 lg:px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl text-sm lg:text-base">
                             <i class="fa-solid fa-plus mr-2"></i>
                             Novo Evento
                         </a>
@@ -26,51 +26,51 @@
                 </div>
 
                 <!-- Cards de estatísticas -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                    <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-700">
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-6 mb-8">
+                    <div class="bg-white dark:bg-gray-800 rounded-xl p-4 lg:p-6 shadow-lg border border-gray-200 dark:border-gray-700">
                         <div class="flex items-center">
-                            <div class="p-3 bg-blue-100 dark:bg-blue-900 rounded-lg">
-                                <i class="fa-solid fa-calendar text-blue-600 dark:text-blue-400 text-xl"></i>
+                            <div class="p-2 lg:p-3 bg-blue-100 dark:bg-blue-900 rounded-lg">
+                                <i class="fa-solid fa-calendar text-blue-600 dark:text-blue-400 text-lg lg:text-xl"></i>
                             </div>
-                            <div class="ml-4">
-                                <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total de Eventos</p>
-                                <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ $events->count() }}</p>
+                            <div class="ml-3 lg:ml-4">
+                                <p class="text-xs lg:text-sm font-medium text-gray-600 dark:text-gray-400">Total de Eventos</p>
+                                <p class="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">{{ $events->count() }}</p>
                             </div>
                         </div>
                     </div>
 
-                    <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-700">
+                    <div class="bg-white dark:bg-gray-800 rounded-xl p-4 lg:p-6 shadow-lg border border-gray-200 dark:border-gray-700">
                         <div class="flex items-center">
-                            <div class="p-3 bg-green-100 dark:bg-green-900 rounded-lg">
-                                <i class="fa-solid fa-clock text-green-600 dark:text-green-400 text-xl"></i>
+                            <div class="p-2 lg:p-3 bg-green-100 dark:bg-green-900 rounded-lg">
+                                <i class="fa-solid fa-clock text-green-600 dark:text-green-400 text-lg lg:text-xl"></i>
                             </div>
-                            <div class="ml-4">
-                                <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Próximos Eventos</p>
-                                <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ $upcomingOccurrences->count() }}</p>
+                            <div class="ml-3 lg:ml-4">
+                                <p class="text-xs lg:text-sm font-medium text-gray-600 dark:text-gray-400">Próximos Eventos</p>
+                                <p class="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">{{ $upcomingOccurrences->count() }}</p>
                             </div>
                         </div>
                     </div>
 
-                    <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-700">
+                    <div class="bg-white dark:bg-gray-800 rounded-xl p-4 lg:p-6 shadow-lg border border-gray-200 dark:border-gray-700">
                         <div class="flex items-center">
-                            <div class="p-3 bg-yellow-100 dark:bg-yellow-900 rounded-lg">
-                                <i class="fa-solid fa-users text-yellow-600 dark:text-yellow-400 text-xl"></i>
+                            <div class="p-2 lg:p-3 bg-yellow-100 dark:bg-yellow-900 rounded-lg">
+                                <i class="fa-solid fa-users text-yellow-600 dark:text-yellow-400 text-lg lg:text-xl"></i>
                             </div>
-                            <div class="ml-4">
-                                <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Pessoas Vinculadas</p>
-                                <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ $events->flatMap->predictabilityPeople->unique('id')->count() }}</p>
+                            <div class="ml-3 lg:ml-4">
+                                <p class="text-xs lg:text-sm font-medium text-gray-600 dark:text-gray-400">Pessoas Vinculadas</p>
+                                <p class="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">{{ $events->flatMap->predictabilityPeople->unique('id')->count() }}</p>
                             </div>
                         </div>
                     </div>
 
-                    <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-700">
+                    <div class="bg-white dark:bg-gray-800 rounded-xl p-4 lg:p-6 shadow-lg border border-gray-200 dark:border-gray-700">
                         <div class="flex items-center">
-                            <div class="p-3 bg-purple-100 dark:bg-purple-900 rounded-lg">
-                                <i class="fa-solid fa-chart-line text-purple-600 dark:text-purple-400 text-xl"></i>
+                            <div class="p-2 lg:p-3 bg-purple-100 dark:bg-purple-900 rounded-lg">
+                                <i class="fa-solid fa-chart-line text-purple-600 dark:text-purple-400 text-lg lg:text-xl"></i>
                             </div>
-                            <div class="ml-4">
-                                <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Tipos de Eventos</p>
-                                <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ $events->groupBy('type')->count() }}</p>
+                            <div class="ml-3 lg:ml-4">
+                                <p class="text-xs lg:text-sm font-medium text-gray-600 dark:text-gray-400">Tipos de Eventos</p>
+                                <p class="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">{{ $events->groupBy('type')->count() }}</p>
                             </div>
                         </div>
                     </div>
@@ -85,13 +85,13 @@
             @endif
 
             <!-- Filtros e busca avançados -->
-            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 mb-8">
-                <div class="p-6">
-                    <div class="flex flex-col lg:flex-row gap-6 items-end">
-                        <div class="flex-1 grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="bg-gradient-to-br from-gray-800 via-gray-900 to-gray-800 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 rounded-2xl shadow-2xl border border-gray-700 mb-10">
+                <div class="p-6 lg:p-8">
+                    <div class="flex flex-col lg:flex-row gap-6 lg:gap-8 items-center">
+                        <div class="flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
                             <div>
-                                <label for="event-type-filter" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Tipo de Evento</label>
-                                <select id="event-type-filter" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                <label for="event-type-filter" class="block text-base font-semibold text-gray-200 mb-3">Tipo de Evento</label>
+                                <select id="event-type-filter" class="w-full border-none rounded-xl px-4 py-3 bg-gray-700 text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent text-base shadow-sm transition-all">
                                     <option value="">Todos os tipos</option>
                                     <option value="birthday">Aniversário</option>
                                     <option value="anniversary">Aniversário de Casamento</option>
@@ -100,16 +100,16 @@
                                 </select>
                             </div>
                             <div>
-                                <label for="event-search" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Buscar Evento</label>
+                                <label for="event-search" class="block text-base font-semibold text-gray-200 mb-3">Buscar Evento</label>
                                 <div class="relative">
                                     <input type="text" id="event-search" placeholder="Digite o nome do evento..." 
-                                           class="w-full border border-gray-300 dark:border-gray-600 rounded-lg pl-10 pr-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                                    <i class="fa-solid fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                                           class="w-full border-none rounded-xl pl-12 pr-4 py-3 bg-gray-700 text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent text-base shadow-sm transition-all placeholder-gray-400">
+                                    <i class="fa-solid fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-orange-400 text-lg"></i>
                                 </div>
                             </div>
-                            <div>
-                                <label for="event-status-filter" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Status</label>
-                                <select id="event-status-filter" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            <div class="sm:col-span-2 lg:col-span-1">
+                                <label for="event-status-filter" class="block text-base font-semibold text-gray-200 mb-3">Status</label>
+                                <select id="event-status-filter" class="w-full border-none rounded-xl px-4 py-3 bg-gray-700 text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent text-base shadow-sm transition-all">
                                     <option value="">Todos</option>
                                     <option value="upcoming">Próximos</option>
                                     <option value="past">Passados</option>
@@ -117,15 +117,15 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="flex gap-3">
-                            <button id="clear-filters" class="px-4 py-2 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white font-medium">
-                                <i class="fa-solid fa-times mr-2"></i>Limpar
+                        <div class="flex flex-row gap-4 w-full lg:w-auto mt-4 lg:mt-0 justify-center">
+                            <button id="clear-filters" class="flex items-center justify-center w-40 px-4 py-3 text-orange-400 hover:text-white font-semibold text-base rounded-xl border border-orange-400 hover:bg-orange-500 transition-all duration-200 shadow-sm">
+                                <i class="fa-solid fa-times mr-2"></i> Limpar
                             </button>
-                            <form method="POST" action="{{ route('events.force-generate-occurrences') }}" class="inline">
+                            <form method="POST" action="{{ route('events.force-generate-occurrences') }}" class="inline w-40">
                                 @csrf
-                                <button type="submit" class="px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white font-semibold rounded-lg transition-all duration-200" 
+                                <button type="submit" class="flex items-center justify-center w-full px-4 py-3 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl transition-all duration-200 text-base shadow-lg" 
                                         onclick="return confirm('Deseja realmente regenerar todas as ocorrências dos eventos ativos?')">
-                                    <i class="fa-solid fa-sync-alt mr-2"></i>Regenerar
+                                    <i class="fa-solid fa-sync-alt mr-2"></i> Regenerar
                                 </button>
                             </form>
                         </div>
@@ -135,17 +135,17 @@
 
             <!-- Próximos Eventos -->
             <div class="mb-8">
-                <div class="flex items-center justify-between mb-6">
-                    <h2 class="text-2xl font-bold text-gray-900 dark:text-white flex items-center">
-                        <i class="fa-solid fa-bolt text-yellow-500 mr-3"></i>
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0 mb-6">
+                    <h2 class="text-xl lg:text-2xl font-bold text-gray-900 dark:text-white flex items-center">
+                        <i class="fa-solid fa-bolt text-yellow-500 mr-2 lg:mr-3"></i>
                         Próximos Eventos
                     </h2>
                     <span class="text-sm text-gray-600 dark:text-gray-400">{{ $upcomingOccurrences->count() }} eventos próximos</span>
                 </div>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="upcoming-events-list">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6" id="upcoming-events-list">
                     @forelse($upcomingOccurrences as $occurrence)
-                        <div class="group bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 p-6 hover:shadow-xl transition-all duration-300 event-card"
+                        <div class="group bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 p-4 lg:p-6 hover:shadow-xl transition-all duration-300 event-card"
                              data-type="{{ $occurrence->event->type }}"
                              data-title="{{ strtolower($occurrence->event->title) }}"
                              data-date="{{ $occurrence->occurrence_date }}">
@@ -247,20 +247,20 @@
 
             <!-- Todos os Eventos -->
             <div class="mb-8">
-                <div class="flex items-center justify-between mb-6">
-                    <h2 class="text-2xl font-bold text-gray-900 dark:text-white flex items-center">
-                        <i class="fa-solid fa-list text-gray-600 mr-3"></i>
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0 mb-6">
+                    <h2 class="text-xl lg:text-2xl font-bold text-gray-900 dark:text-white flex items-center">
+                        <i class="fa-solid fa-list text-gray-600 mr-2 lg:mr-3"></i>
                         Todos os Eventos
                     </h2>
                     <span class="text-sm text-gray-600 dark:text-gray-400">{{ $events->count() }} eventos cadastrados</span>
                 </div>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="all-events-list">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6" id="all-events-list">
                     @php
                         $upcomingEventIds = $upcomingOccurrences->pluck('event.id')->unique();
                     @endphp
                     @forelse($events->whereNotIn('id', $upcomingEventIds) as $event)
-                        <div class="group bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 p-6 hover:shadow-xl transition-all duration-300 event-card"
+                        <div class="group bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 p-4 lg:p-6 hover:shadow-xl transition-all duration-300 event-card"
                              data-type="{{ $event->type }}"
                              data-title="{{ strtolower($event->title) }}">
                             

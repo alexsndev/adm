@@ -47,7 +47,6 @@
                         onclick="toggleGroup({{ $i }})">
                         <i class="fa-solid {{ $menu['icon'] }} text-xl"></i>
                         <span class="sidebar-label">{{ $menu['label'] }}</span>
-                        <i class="fa-solid fa-chevron-down text-xs ml-auto transition-transform" id="arrow-{{ $i }}"></i>
                     </button>
                     <ul class="sidebar-submenu space-y-1 mt-1 ml-6 border-l-2 border-blue-700/40 pl-2 hidden" id="submenu-{{ $i }}">
                         @foreach($menu['sub'] as $sub)
@@ -75,8 +74,8 @@
 .sidebar-expanded .sidebar-label { display: inline !important; }
 .sidebar-main-btn.active, .sidebar-main-btn:focus { background: #1e293b !important; }
 .sidebar-main-btn { position: relative; }
+.sidebar-collapsed .sidebar-main-btn { justify-content: center !important; padding-left: 0 !important; padding-right: 0 !important; }
 .sidebar-submenu { background: #111827; border-radius: 0.5rem; }
-.rotate-180 { transform: rotate(180deg); }
 </style>
 
 <script>
@@ -94,7 +93,6 @@ function applySidebarState() {
         if(icon) { icon.classList.remove('fa-bars'); icon.classList.add('fa-xmark'); }
         document.querySelectorAll('.sidebar-submenu').forEach(ul => ul.classList.add('hidden'));
         document.querySelectorAll('.sidebar-main-btn').forEach(btn => btn.classList.remove('active'));
-        document.querySelectorAll('.fa-chevron-down').forEach(arrow => arrow.classList.remove('rotate-180'));
         openGroup = null;
     } else {
         sidebar.classList.add('sidebar-collapsed');
@@ -102,7 +100,6 @@ function applySidebarState() {
         if(icon) { icon.classList.remove('fa-xmark'); icon.classList.add('fa-bars'); }
         document.querySelectorAll('.sidebar-submenu').forEach(ul => ul.classList.add('hidden'));
         document.querySelectorAll('.sidebar-main-btn').forEach(btn => btn.classList.remove('active'));
-        document.querySelectorAll('.fa-chevron-down').forEach(arrow => arrow.classList.remove('rotate-180'));
         openGroup = null;
     }
 }
@@ -129,7 +126,6 @@ function toggleGroup(idx) {
     document.querySelectorAll('.sidebar-submenu').forEach((ul, i) => {
         if (i === idx) {
             ul.classList.toggle('hidden');
-            document.getElementById('arrow-' + i).classList.toggle('rotate-180');
             if (!ul.classList.contains('hidden')) {
                 openGroup = idx;
             } else {
@@ -137,7 +133,6 @@ function toggleGroup(idx) {
             }
         } else {
             ul.classList.add('hidden');
-            document.getElementById('arrow-' + i).classList.remove('rotate-180');
         }
     });
     document.querySelectorAll('.sidebar-main-btn').forEach((btn, i) => {

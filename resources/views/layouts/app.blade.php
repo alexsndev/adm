@@ -23,7 +23,7 @@
     @include('components.header')
     <div class="flex w-full min-h-screen">
         @include('components.sidebar')
-        <main class="flex-1 w-full max-w-full min-h-screen flex flex-col bg-white dark:bg-[#0d1117] p-0 m-0 relative z-10">
+        <main class="main-content-padding flex-1 w-full max-w-full min-h-screen flex flex-col bg-white dark:bg-[#0d1117] p-0 m-0 relative z-10">
             <main class="flex-1 w-full max-w-full overflow-x-auto pb-16 md:pb-0">
                 @yield('content')
             </main>

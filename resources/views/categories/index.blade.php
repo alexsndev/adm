@@ -26,7 +26,7 @@
                         @if($categories->count() > 0)
                             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
                                 @foreach($categories as $category)
-                                    <div class="bg-white dark:bg-gray-800 rounded-xl p-5 border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-shadow duration-150 group {{ $category->parent_id ? 'ml-6 border-l-4 border-l-blue-500' : '' }}">
+                                    <div class="bg-white dark:bg-gray-900 rounded-xl p-5 border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-shadow duration-150 group {{ $category->parent_id ? 'ml-6 border-l-4 border-l-blue-500' : '' }}">
                                         <div class="flex items-center justify-between mb-3">
                                             <div class="flex items-center">
                                                 <div class="w-4 h-4 rounded-full mr-2 border border-gray-300 dark:border-gray-600" style="background-color: {{ $category->color }}"></div>
