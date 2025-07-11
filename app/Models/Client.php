@@ -44,6 +44,11 @@ class Client extends Model
         return $this->hasMany(Invoice::class);
     }
 
+    public function chats()
+    {
+        return $this->hasMany(\App\Models\ClientChat::class);
+    }
+
     // Scopes
     public function scopeActive($query)
     {

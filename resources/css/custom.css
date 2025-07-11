@@ -119,3 +119,13 @@ div.bg-card:hover, div.bg-white:hover, section.bg-card:hover, section.bg-white:h
   0% { background-position: 200% 0; }
   100% { background-position: -200% 0; }
 } 
+
+.btn-gradient {
+  background: linear-gradient(90deg, #2563eb 0%, #7c3aed 100%);
+  color: #fff !important;
+  border: none;
+  transition: filter 0.2s;
+}
+.btn-gradient:hover, .btn-gradient:focus {
+  filter: brightness(1.1) contrast(1.2);
+} 

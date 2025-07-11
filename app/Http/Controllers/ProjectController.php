@@ -83,6 +83,10 @@ class ProjectController extends Controller
             'estimated_hours' => 'nullable|integer|min:0',
             'notes' => 'nullable|string|max:1000',
         ]);
+        // Definir valores padrão para campos numéricos opcionais
+        $validated['budget'] = $validated['budget'] ?? 0;
+        $validated['hourly_rate'] = $validated['hourly_rate'] ?? 0;
+        $validated['estimated_hours'] = $validated['estimated_hours'] ?? 0;
         
         // Verificar se o cliente pertence ao usuário
         $client = Client::where('id', $validated['client_id'])->where('user_id', $user->id)->first();
@@ -104,7 +108,13 @@ class ProjectController extends Controller
     {
         $this->authorize('view', $project);
         $project->load(['client', 'tasks', 'timeEntries']);
-        return view('projetos.show', compact('project'));
+        // Buscar mensagens do chat deste projeto
+        $messages = \App\Models\ClientChat::where('project_id', $project->id)
+            ->orderBy('created_at', 'asc')
+            ->with(['user', 'project', 'task'])
+            ->get();
+        $projectId = $project->id;
+        return view('projetos.show', compact('project', 'messages', 'projectId'));
     }
 
     /**

@@ -23,6 +23,7 @@ return new class extends Migration
             $table->decimal('hourly_rate', 10, 2)->nullable(); // Taxa horária padrão agora opcional
             $table->text('notes')->nullable();
             $table->boolean('is_active')->default(true);
+            $table->string('logo')->nullable();
             $table->timestamps();
         });
     }

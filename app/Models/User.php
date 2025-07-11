@@ -24,6 +24,8 @@ class User extends Authenticatable
         'password',
         'photo',
         'is_admin', // Adicionado para permitir atribuição em massa
+        'is_client', // Adicionado para permitir atribuição em massa
+        'client_id', // Adicionado para permitir atribuição em massa
     ];
 
     /**
@@ -99,6 +101,11 @@ class User extends Authenticatable
     public function goalContributions(): HasMany
     {
         return $this->hasMany(GoalContribution::class);
+    }
+
+    public function client()
+    {
+        return $this->belongsTo(\App\Models\Client::class, 'client_id');
     }
 
     // Métodos úteis para dashboard

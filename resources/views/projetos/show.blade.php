@@ -461,3 +461,106 @@
     </script>
     @endpush
 @endsection
+
+@section('after_content')
+<!-- Chat Flutuante do Projeto -->
+<style>
+#chat-float-btn {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    z-index: 9999;
+    background: #23232b;
+    color: #fff;
+    border-radius: 50%;
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.25);
+    font-size: 2rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+#chat-float-btn:hover {
+    background: #3b82f6;
+}
+#chat-modal {
+    position: fixed;
+    bottom: 110px;
+    right: 32px;
+    z-index: 10000;
+    width: 350px;
+    max-width: 95vw;
+    background: #23232b;
+    border-radius: 1rem;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+}
+#chat-modal.open {
+    display: flex;
+}
+#chat-modal-header {
+    background: #18181b;
+    color: #a78bfa;
+    font-weight: bold;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+#chat-modal-body {
+    padding: 1rem;
+    max-height: 300px;
+    overflow-y: auto;
+    background: #23232b;
+}
+#chat-modal-footer {
+    padding: 1rem;
+    background: #18181b;
+    display: flex;
+    gap: 0.5rem;
+}
+</style>
+<div id="chat-float-btn" onclick="document.getElementById('chat-modal').classList.toggle('open')">
+    <i class="fa-solid fa-comments"></i>
+</div>
+<div id="chat-modal">
+    <div id="chat-modal-header">
+        <span>Chat do Projeto</span>
+        <button onclick="document.getElementById('chat-modal').classList.remove('open')" style="background:none;border:none;color:#fff;font-size:1.2rem;cursor:pointer;">&times;</button>
+    </div>
+    <div id="chat-modal-body">
+        @forelse($messages as $msg)
+            <div class="mb-2 flex {{ $msg->user_id == (auth()->user()->id ?? null) ? 'justify-end' : 'justify-start' }}">
+                <div class="inline-block px-3 py-2 rounded-lg {{ $msg->user_id == (auth()->user()->id ?? null) ? 'bg-green-700 text-white' : 'bg-gray-700 text-gray-100' }}">
+                    <span class="block text-xs text-gray-300 mb-1">{{ $msg->user->name }}</span>
+                    {{ $msg->message }}
+                    <span class="block text-xs text-gray-400 mt-1 text-right">{{ $msg->created_at->format('d/m H:i') }}</span>
+                    @if($msg->task)
+                        <span class="block text-xs text-blue-300 mt-1">Tarefa: {{ $msg->task->title }}</span>
+                    @endif
+                </div>
+            </div>
+        @empty
+            <p class="text-gray-500">Nenhuma mensagem ainda.</p>
+        @endforelse
+    </div>
+    <form method="POST" action="{{ route('cliente.chat', ['project_id' => $projectId]) }}" id="chat-modal-footer">
+        @csrf
+        <input type="hidden" name="project_id" value="{{ $projectId }}">
+        <input type="text" name="message" class="flex-1 px-3 py-2 rounded bg-gray-800 text-gray-100 border border-gray-700" placeholder="Digite sua mensagem..." required maxlength="2000">
+        <button type="submit" class="px-4 py-2 rounded bg-green-700 hover:bg-green-800 text-white font-semibold shadow">Enviar</button>
+    </form>
+</div>
+<script>
+// Scroll automático para o final do chat
+(function(){
+    var body = document.getElementById('chat-modal-body');
+    if(body) body.scrollTop = body.scrollHeight;
+})();
+</script>
+@endsection

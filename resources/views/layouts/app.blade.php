@@ -20,7 +20,7 @@
     @stack('styles')
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 </head>
-<body class="font-sans antialiased bg-gray-100 dark:bg-gray-900 overflow-x-hidden min-h-screen w-full">
+<body class="font-sans antialiased bg-gray-900 text-gray-100 overflow-x-hidden min-h-screen w-full">
     <header class="site-header">
         <div class="header-container">
             <!-- Botão hambúrguer desktop -->
@@ -33,7 +33,7 @@
     </header>
     <div class="flex w-full min-h-screen">
         @include('components.side-nav')
-        <main id="main-content" class="flex-1 w-full max-w-full min-h-screen flex flex-col bg-white dark:bg-[#0d1117] p-0 m-0 relative z-10 transition-all duration-200" style="margin-left:220px; padding-top:64px;">
+        <main id="main-content" class="flex-1 w-full max-w-full min-h-screen flex flex-col bg-[#0d1117] p-0 m-0 relative z-10 transition-all duration-200" style="margin-left:220px; padding-top:64px;">
             <main class="flex-1 w-full max-w-full overflow-x-auto pb-16 md:pb-0">
                 @yield('content')
             </main>
@@ -77,5 +77,7 @@
         updateMainMargin();
     })();
     </script>
+    @stack('scripts')
+    @yield('after_content')
 </body>
 </html>

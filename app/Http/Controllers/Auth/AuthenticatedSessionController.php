@@ -44,4 +44,14 @@ class AuthenticatedSessionController extends Controller
 
         return redirect('/');
     }
+
+    protected function authenticated($request, $user)
+    {
+        if ($user->is_client) {
+            return redirect()->route('cliente.dashboard');
+        } elseif ($user->is_admin) {
+            return redirect()->route('admin.users.index');
+        }
+        return redirect()->route('dashboard');
+    }
 }

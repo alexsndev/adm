@@ -25,14 +25,26 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use App\Http\Controllers\NotificationController;
 
-Route::get('/', function () {
-    return redirect('/dashboard');
-});
-
-Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+require __DIR__.'/auth.php';
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::get('/', function () {
+        return redirect('/cliente/dashboard');
+    });
+
+    Route::get('/dashboard', function () {
+        if (auth()->check() && auth()->user()->is_client) {
+            return redirect()->route('cliente.dashboard');
+        }
+        return app(\App\Http\Controllers\DashboardController::class)->index();
+    })->middleware(['auth', 'verified'])->name('dashboard');
+
+    Route::get('/profile', function () {
+        if (auth()->check() && auth()->user()->is_client) {
+            return redirect()->route('cliente.dashboard');
+        }
+        return app(\App\Http\Controllers\ProfileController::class)->edit();
+    })->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     // Notificações
@@ -145,8 +157,6 @@ Route::prefix('projetos/{project}/links')->name('projetos.links.')->middleware([
 
 Route::get('/finance/dashboard', [FinanceDashboardController::class, 'index'])->name('finance.dashboard')->middleware(['auth', 'verified']);
 
-require __DIR__.'/auth.php';
-
 // Remover middleware 'role:admin' e 'admin' das rotas
 Route::get('/painel-admin', function () {
     if (!auth()->check() || !auth()->user()->is_admin) {
@@ -171,4 +181,62 @@ Route::middleware(['auth'])->group(function () {
     })->name('admin.home');
     Route::get('/admin/users', [\App\Http\Controllers\UserAdminController::class, 'index'])->name('admin.users.index');
     Route::post('/admin/users/{user}/toggle-admin', [\App\Http\Controllers\UserAdminController::class, 'toggleAdmin'])->name('admin.users.toggle');
+    Route::post('/admin/users/{user}/toggle-client', [\App\Http\Controllers\UserAdminController::class, 'toggleClient'])->name('admin.users.toggle-client');
+    Route::delete('/admin/users/{user}', [\App\Http\Controllers\UserAdminController::class, 'destroy'])->name('admin.users.destroy');
+});
+
+// Rotas para criar usuário de cliente no admin
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin/cliente-users/create', function() {
+        if (!auth()->check() || !auth()->user()->is_admin) {
+            abort(403, 'Acesso não autorizado');
+        }
+        return app(\App\Http\Controllers\Admin\ClienteUserController::class)->create();
+    })->name('admin.cliente-users.create');
+    Route::post('/admin/cliente-users', function() {
+        if (!auth()->check() || !auth()->user()->is_admin) {
+            abort(403, 'Acesso não autorizado');
+        }
+        return app(\App\Http\Controllers\Admin\ClienteUserController::class)->store(request());
+    })->name('admin.cliente-users.store');
+});
+
+// Rotas do chat do admin
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin/chats', [App\Http\Controllers\Admin\ChatController::class, 'index'])->name('admin.chats.index');
+    Route::get('/admin/chats/{client}', [App\Http\Controllers\Admin\ChatController::class, 'show'])->name('admin.chats.show');
+    Route::post('/admin/chats/{client}', [App\Http\Controllers\Admin\ChatController::class, 'store'])->name('admin.chats.store');
+});
+
+// Rotas da área do cliente
+Route::get('/cliente/dashboard', function() {
+    if (!auth()->check() || !auth()->user()->is_client) {
+        abort(403, 'Acesso não autorizado');
+    }
+    return app(\App\Http\Controllers\Cliente\DashboardController::class)->index();
+})->name('cliente.dashboard');
+Route::get('/cliente/projetos', function() {
+    if (!auth()->check() || !auth()->user()->is_client) {
+        abort(403, 'Acesso não autorizado');
+    }
+    return app(\App\Http\Controllers\Cliente\ProjetoController::class)->index();
+})->name('cliente.projetos');
+Route::get('/cliente/projetos/{id}', function($id) {
+    if (!auth()->check() || !auth()->user()->is_client) {
+        abort(403, 'Acesso não autorizado');
+    }
+    return app(\App\Http\Controllers\Cliente\ProjetoController::class)->show($id);
+})->name('cliente.projetos.show');
+Route::get('/cliente/tarefas', function() {
+    if (!auth()->check() || !auth()->user()->is_client) {
+        abort(403, 'Acesso não autorizado');
+    }
+    return app(\App\Http\Controllers\Cliente\TarefaController::class)->index();
+})->name('cliente.tarefas');
+// Corrigindo as rotas do chat do cliente para usar array controller
+Route::middleware(['auth'])->group(function () {
+    Route::get('/cliente/chat', [\App\Http\Controllers\Cliente\ChatController::class, 'index'])->name('cliente.chat');
+    Route::post('/cliente/chat', [\App\Http\Controllers\Cliente\ChatController::class, 'store'])->name('cliente.chat.store');
+    Route::delete('/cliente/chat/mensagem/{id}', [\App\Http\Controllers\Cliente\ChatController::class, 'destroy'])->name('cliente.chat.mensagem.destroy');
+    Route::delete('/cliente/chat/mensagens', [\App\Http\Controllers\Cliente\ChatController::class, 'destroyAll'])->name('cliente.chat.mensagens.destroyAll');
 });

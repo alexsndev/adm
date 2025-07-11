@@ -63,6 +63,16 @@
                 </li>
             @endforeach
         </ul>
+        @if(auth()->user() && auth()->user()->is_admin)
+            <ul class="space-y-2 mt-6">
+                <li>
+                    <a href="{{ route('admin.cliente-users.create') }}" class="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-purple-800 transition font-semibold text-base">
+                        <i class="fa-solid fa-user-plus text-xl"></i>
+                        <span class="sidebar-label">Gerar usuário para cliente</span>
+                    </a>
+                </li>
+            </ul>
+        @endif
     </nav>
 </aside>
 

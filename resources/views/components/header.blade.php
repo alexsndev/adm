@@ -7,15 +7,70 @@
             <button id="notification-btn" class="header-notification" style="font-size: 1.6rem; color: #38bdf8; background: none; border: none; cursor: pointer;">
                 <i class="fa-solid fa-bell"></i>
             </button>
+            @if(Auth::check() && Auth::user()->is_admin)
+                <div style="position: relative; display: inline-block;">
+                    <button id="admin-chat-btn" style="font-size: 1.6rem; color: #38bdf8; background: none; border: none; cursor: pointer; margin-left: 8px;">
+                        <i class="fa-solid fa-comments"></i>
+                    </button>
+                    <div id="admin-chat-dropdown" style="display: none; position: absolute; left: 0; top: 36px; background: #23232a; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.12); min-width: 260px; z-index: 2000; max-height: 340px; overflow-y: auto;">
+                        @php
+                            $clientesChat = \App\Models\Client::whereHas('chats')->with(['chats' => function($q){ $q->latest(); }])->get();
+                        @endphp
+                        @forelse($clientesChat as $cliente)
+                            @php $lastMsg = $cliente->chats->sortByDesc('created_at')->first(); @endphp
+                            <a href="{{ route('admin.chats.show', $cliente->id) }}" style="display: flex; align-items: center; gap: 10px; padding: 12px 16px; color: #fff; text-decoration: none; border-bottom: 1px solid #333;">
+                                @if($cliente->logo)
+                                    <img src="{{ Storage::url($cliente->logo) }}" class="h-8 w-8 rounded bg-white/10 object-contain" alt="Logo">
+                                @else
+                                    <span class="inline-flex items-center justify-center h-8 w-8 rounded bg-purple-700 text-white font-bold text-base">
+                                        <i class="fa-solid fa-user"></i>
+                                    </span>
+                                @endif
+                                <span style="flex:1;">
+                                    <span class="font-semibold">{{ $cliente->name }}</span><br>
+                                    <span class="text-xs text-gray-400">{{ $lastMsg ? Str::limit($lastMsg->message, 32) : 'Sem mensagens' }}</span>
+                                </span>
+                            </a>
+                        @empty
+                            <span style="display:block; padding: 16px; color: #aaa;">Nenhuma conversa</span>
+                        @endforelse
+                    </div>
+                </div>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const chatBtn = document.getElementById('admin-chat-btn');
+                        const chatDropdown = document.getElementById('admin-chat-dropdown');
+                        if(chatBtn && chatDropdown) {
+                            chatBtn.addEventListener('click', function(e) {
+                                e.stopPropagation();
+                                chatDropdown.style.display = chatDropdown.style.display === 'block' ? 'none' : 'block';
+                            });
+                            document.addEventListener('click', function() {
+                                chatDropdown.style.display = 'none';
+                            });
+                        }
+                    });
+                </script>
+            @endif
         </div>
         <div class="header-logo" style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);">
             @php $user = Auth::user(); @endphp
+            {{-- DEBUG TEMPORÁRIO --}}
+            {{-- @php dd($user, $logoHref); @endphp --}}
+            @php
+                $logoHref = route('dashboard');
+                if ($user && (int)$user->is_admin === 1) {
+                    $logoHref = route('dashboard'); // dashboard geral para admin
+                } elseif ($user && (int)$user->is_client === 1) {
+                    $logoHref = route('cliente.dashboard');
+                }
+            @endphp
             @if($user && $user->logo)
-                <a href="/">
+                <a href="{{ $logoHref }}">
                     <img src="{{ Storage::url($user->logo) }}" alt="Logo" height="40" style="max-height:40px;max-width:120px;object-fit:contain;">
                 </a>
             @else
-                <a href="/">
+                <a href="{{ $logoHref }}">
                     <span style="font-size:2rem;color:#38bdf8;">🏷️</span>
                 </a>
             @endif
