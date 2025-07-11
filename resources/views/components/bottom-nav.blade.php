@@ -57,7 +57,7 @@
                 <button type="button"
                     class="group flex flex-col items-center justify-center w-full h-full transition relative text-gray-300 hover:text-blue-300 focus:outline-none"
                     aria-label="{{ $item['label'] }}"
-                    onclick="toggleBottomDropdown('bottom-dropdown-{{ $i }}', event)">
+                    onclick="openBottomDropdown('bottom-dropdown-{{ $i }}', event)">
                     <span class="flex items-center justify-center w-10 h-10 rounded-full transition-all duration-200 group-hover:bg-gray-800/80">
                         <i class="fa-solid {{ $item['icon'] }} text-xl"></i>
                     </span>
@@ -121,15 +121,25 @@ nav.fixed.bottom-0 {
 }
 </style>
 <script>
-function toggleBottomDropdown(id, event) {
+let currentBottomDropdown = null;
+function openBottomDropdown(id, event) {
     event.stopPropagation();
+    // Fecha todos
     document.querySelectorAll('.bottom-dropdown-menu').forEach(menu => menu.classList.add('hidden'));
+    // Abre só o clicado
     const dropdown = document.getElementById(id);
     if (dropdown) {
-        dropdown.classList.toggle('hidden');
+        if (currentBottomDropdown === id) {
+            dropdown.classList.add('hidden');
+            currentBottomDropdown = null;
+        } else {
+            dropdown.classList.remove('hidden');
+            currentBottomDropdown = id;
+        }
     }
 }
 document.addEventListener('click', function() {
     document.querySelectorAll('.bottom-dropdown-menu').forEach(menu => menu.classList.add('hidden'));
+    currentBottomDropdown = null;
 });
 </script> 
