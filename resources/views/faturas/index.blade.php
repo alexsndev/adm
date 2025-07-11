@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mx-auto py-6 bg-main">
+<div class="w-full py-6 bg-main" style="max-width:100%;">
     <h1 class="text-2xl font-bold mb-4 text-main">Faturas</h1>
     <a href="{{ route('faturas.create') }}" class="bg-accent text-main px-4 py-2 rounded mb-4 inline-block border border-main hover:bg-main hover:text-accent">Nova Fatura</a>
     @if($faturas->isEmpty())

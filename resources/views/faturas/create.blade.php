@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mx-auto py-6">
+<div class="w-full py-6" style="max-width:100%;">
     <h1 class="text-2xl font-bold mb-4">Nova Fatura</h1>
     
     @if ($errors->any())

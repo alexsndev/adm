@@ -294,7 +294,7 @@
     </script>
     <div id="dashboard-top"></div>
     <div class="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 overflow-x-hidden w-full">
-        <div class="container mx-auto max-w-7xl px-2 md:px-6 py-4 md:py-8 w-full">
+        <div class="w-full px-0 py-4 md:py-8" style="max-width:100%;">
             <!-- Cards de resumo -->
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-8 fade-in-up w-full">
                 <!-- Saldo Total -->

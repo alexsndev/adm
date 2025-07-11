@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 py-6 w-full">
-    <div class="container mx-auto max-w-6xl px-2 sm:px-4 w-full">
+    <div class="w-full px-0 w-full" style="max-width:100%;">
         <!-- Header -->
         <div class="mb-8 w-full flex flex-col items-center justify-center text-center">
             <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2 w-full">Calendário de Eventos</h1>

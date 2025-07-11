@@ -24,7 +24,7 @@
     <header class="site-header">
         <div class="header-container">
             <!-- Botão hambúrguer desktop -->
-            <button class="hidden md:inline-flex items-center justify-center text-white text-2xl mr-4 focus:outline-none" @click="sidebarOpen = !sidebarOpen">
+            <button class="hidden md:inline-flex items-center justify-center text-white text-2xl mr-4 focus:outline-none" id="sidebar-toggle-btn-layout">
                 <i class="fa-solid fa-bars"></i>
             </button>
             <!-- Restante do header -->
@@ -32,10 +32,8 @@
         </div>
     </header>
     <div class="flex w-full min-h-screen">
-        <div :class="sidebarOpen ? 'md:flex' : 'md:hidden'" class="hidden transition-all duration-200">
-            @include('components.side-nav')
-        </div>
-        <main :class="sidebarOpen ? 'md:ml-56' : 'md:ml-0'" class="main-content-padding flex-1 w-full max-w-full min-h-screen flex flex-col bg-white dark:bg-[#0d1117] p-0 m-0 relative z-10 transition-all duration-200">
+        @include('components.side-nav')
+        <main id="main-content" class="flex-1 w-full max-w-full min-h-screen flex flex-col bg-white dark:bg-[#0d1117] p-0 m-0 relative z-10 transition-all duration-200" style="margin-left:220px; padding-top:64px;">
             <main class="flex-1 w-full max-w-full overflow-x-auto pb-16 md:pb-0">
                 @yield('content')
             </main>
@@ -44,5 +42,40 @@
     <div class="md:hidden">
         @include('components.bottom-nav')
     </div>
+    <script>
+    // Ajusta o margin-left do main-content conforme a sidebar
+    (function() {
+        var sidebar = document.getElementById('side-nav');
+        var main = document.getElementById('main-content');
+        function updateMainMargin() {
+            if (window.innerWidth < 768) {
+                main.style.marginLeft = '0';
+                return;
+            }
+            if (sidebar.classList.contains('collapsed')) {
+                main.style.marginLeft = '56px';
+            } else {
+                main.style.marginLeft = '220px';
+            }
+        }
+        // Integrar com toggleSidebar global
+        var oldToggleSidebar = window.toggleSidebar;
+        window.toggleSidebar = function() {
+            if (typeof oldToggleSidebar === 'function') oldToggleSidebar();
+            updateMainMargin();
+        };
+        // Botão hambúrguer do layout
+        var btn = document.getElementById('sidebar-toggle-btn-layout');
+        if (btn) {
+            btn.addEventListener('click', function() {
+                window.toggleSidebar();
+            });
+        }
+        // Atualiza ao redimensionar
+        window.addEventListener('resize', updateMainMargin);
+        // Inicial
+        updateMainMargin();
+    })();
+    </script>
 </body>
 </html>

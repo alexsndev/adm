@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 overflow-x-hidden w-full max-w-full">
-    <div class="container mx-auto px-2 md:px-4 py-4 md:py-8 w-full max-w-full">
+    <div class="w-full px-0 py-4 md:py-8" style="max-width:100%;">
         <div class="mb-8 text-center fade-in-up w-full max-w-full">
             <h1 class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent mb-4 w-full max-w-full">
                 Dashboard Financeiro

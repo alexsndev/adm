@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
-    <div class="container mx-auto max-w-7xl px-2 sm:px-4 py-4 md:py-8 w-full">
+    <div class="w-full px-0 py-4 md:py-8" style="max-width:100%;">
         <!-- Header com estatísticas -->
         <div class="mb-8 w-full flex flex-col items-center justify-center text-center fade-in-up">
             <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4 w-full">Pessoas de Previsibilidade</h1>

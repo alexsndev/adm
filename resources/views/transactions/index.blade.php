@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="py-6 bg-gray-50 dark:bg-gray-900 w-full max-w-full">
-        <div class="w-full max-w-7xl mx-auto px-1.5 sm:px-6 lg:px-8 min-w-0">
+        <div class="w-full px-0 min-w-0">
             <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-200 dark:border-gray-800 p-4 sm:p-6">
                 @if(session('success'))
                     <div class="mb-6 bg-green-100 dark:bg-green-900 border border-green-200 dark:border-green-700 text-green-800 dark:text-green-200 px-4 py-3 rounded relative animate-fade-in" role="alert">

@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
-    <div class="container mx-auto px-4 py-8">
+    <div class="w-full px-0 py-8" style="max-width:100%;">
         <!-- Header com estatísticas -->
         <div class="mb-8">
             <div class="text-center mb-8 fade-in-up">

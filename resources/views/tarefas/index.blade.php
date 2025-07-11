@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="py-8 w-full max-w-full">
-    <div class="max-w-4xl mx-auto px-2 sm:px-4 w-full max-w-full">
+    <div class="w-full px-0">
         <div class="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4 sticky top-0 z-30 bg-white/90 dark:bg-gray-900/90 pt-2 pb-4 sm:pb-0">
             <h2 class="text-2xl sm:text-3xl font-extrabold text-gray-900 dark:text-gray-100 flex items-center gap-2">
                 <i class="fa-solid fa-briefcase text-blue-500"></i>
