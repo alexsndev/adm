@@ -1,257 +1,406 @@
-<nav class="fixed bottom-0 left-0 right-0 z-50 bg-gray-900 shadow-2xl border-t border-gray-800 flex justify-around items-center h-16 px-1 md:hidden">
-    @php
-        $items = [
-            [
-                'label' => 'Dashboard',
-                'icon' => 'fa-house',
-                'route' => 'dashboard',
-            ],
-            [
-                'label' => 'Finanças',
-                'icon' => 'fa-coins',
-                'modal_id' => 'financas-modal',
-                'options' => [
-                    ['label' => 'Resumo', 'icon' => 'fa-chart-pie', 'route' => 'finance.dashboard'],
-                    ['label' => 'Contas', 'icon' => 'fa-wallet', 'route' => 'accounts.index'],
-                    ['label' => 'Transações', 'icon' => 'fa-arrow-right-arrow-left', 'route' => 'transactions.index'],
-                    ['label' => 'Cartões', 'icon' => 'fa-credit-card', 'route' => 'credit-cards.index'],
-                    ['label' => 'Dívidas', 'icon' => 'fa-money-bill-trend-up', 'route' => 'debts.index'],
-                ],
-            ],
-            [
-                'label' => 'Eventos',
-                'icon' => 'fa-calendar-days',
-                'modal_id' => 'eventos-modal',
-                'options' => [
-                    ['label' => 'Todos Eventos', 'icon' => 'fa-list-ul', 'route' => 'events.index'],
-                    ['label' => 'Novo Evento', 'icon' => 'fa-plus', 'route' => 'events.create'],
-                    ['label' => 'Calendário', 'icon' => 'fa-calendar-days', 'route' => 'events.calendar'],
-                    ['label' => 'Previsibilidade', 'icon' => 'fa-user-group', 'route' => 'previsibilidade.index'],
-                ],
-            ],
-            [
-                'label' => 'Casa',
-                'icon' => 'fa-house-chimney',
-                'modal_id' => 'casa-modal',
-                'options' => [
-                    ['label' => 'Dashboard', 'icon' => 'fa-gauge', 'route' => 'household-tasks.dashboard'],
-                    ['label' => 'Todas as Tarefas', 'icon' => 'fa-list-check', 'route' => 'household-tasks.index'],
-                    ['label' => 'Nova Tarefa', 'icon' => 'fa-plus', 'route' => 'household-tasks.create'],
-                    ['label' => 'Categorias', 'icon' => 'fa-tags', 'route' => 'task-categories.index'],
-                ],
-            ],
-            [
-                'label' => 'Profissional',
-                'icon' => 'fa-briefcase',
-                'modal_id' => 'profissional-modal',
-                'options' => [
-                    ['label' => 'Projetos', 'icon' => 'fa-briefcase', 'route' => 'projetos.index'],
-                    ['label' => 'Tarefas', 'icon' => 'fa-tasks', 'route' => 'tarefas.index'],
-                    ['label' => 'Clientes', 'icon' => 'fa-users', 'route' => 'clientes.index'],
-                    ['label' => 'Faturas', 'icon' => 'fa-file-invoice-dollar', 'route' => 'faturas.index'],
-                    ['label' => 'Registros de Horas', 'icon' => 'fa-clock', 'route' => 'registros-horas.index'],
-                ],
-            ],
-        ];
-        $current = Route::currentRouteName();
-    @endphp
+<nav class="bottom-nav">
+    <div class="nav-item">
+        <a href="{{ route('dashboard') }}" class="nav-link">
+            <i class="fas fa-house"></i>
+            <span>Dashboard</span>
+        </a>
+    </div>
     
-    @foreach($items as $item)
-        @if(isset($item['modal_id']))
-            <button type="button"
-                class="group flex flex-col items-center justify-center flex-1 h-full transition relative text-gray-300 hover:text-blue-300 focus:outline-none"
-                aria-label="{{ $item['label'] }}"
-                onclick="openModal('{{ $item['modal_id'] }}')">
-                <span class="flex items-center justify-center w-10 h-10 rounded-full transition-all duration-200 group-hover:bg-gray-800/80">
-                    <i class="fa-solid {{ $item['icon'] }} text-xl"></i>
-                </span>
-                <span class="text-xs mt-1 font-medium tracking-tight">{{ $item['label'] }}</span>
-            </button>
-        @else
-            <a href="{{ route($item['route']) }}"
-               class="group flex flex-col items-center justify-center flex-1 h-full transition relative {{ $current === $item['route'] ? 'text-blue-400' : 'text-gray-300 hover:text-blue-300' }}"
-               aria-label="{{ $item['label'] }}">
-                <span class="flex items-center justify-center w-10 h-10 rounded-full transition-all duration-200 {{ $current === $item['route'] ? 'bg-blue-900/60 shadow-lg scale-110' : 'group-hover:bg-gray-800/80' }}">
-                    <i class="fa-solid {{ $item['icon'] }} text-xl"></i>
-                </span>
-                <span class="text-xs mt-1 font-medium tracking-tight transition-all duration-200 {{ $current === $item['route'] ? 'text-blue-400' : 'text-gray-400 group-hover:text-blue-300' }}">
-                    {{ $item['label'] }}
-                </span>
-            </a>
-        @endif
-    @endforeach
+    <div class="nav-item">
+        <button class="nav-button" onclick="openModal('financas')">
+            <i class="fas fa-coins"></i>
+            <span>Finanças</span>
+        </button>
+    </div>
+    
+    <div class="nav-item">
+        <button class="nav-button" onclick="openModal('eventos')">
+            <i class="fas fa-calendar-days"></i>
+            <span>Eventos</span>
+        </button>
+    </div>
+    
+    <div class="nav-item">
+        <button class="nav-button" onclick="openModal('casa')">
+            <i class="fas fa-house-chimney"></i>
+            <span>Casa</span>
+        </button>
+    </div>
+    
+    <div class="nav-item">
+        <button class="nav-button" onclick="openModal('profissional')">
+            <i class="fas fa-briefcase"></i>
+            <span>Profissional</span>
+        </button>
+    </div>
 </nav>
 
 <!-- Modal Finanças -->
-<div id="financas-modal" class="modal hidden fixed inset-0 z-[60] overflow-y-auto">
-    <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
-        <div class="fixed inset-0 transition-opacity bg-black bg-opacity-75" onclick="closeModal('financas-modal')"></div>
-        <div class="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-gray-900 shadow-xl rounded-2xl">
-            <div class="flex items-center justify-between mb-6">
-                <h3 class="text-xl font-bold text-white">Finanças</h3>
-                <button onclick="closeModal('financas-modal')" class="text-gray-400 hover:text-white">
-                    <i class="fa-solid fa-xmark text-2xl"></i>
-                </button>
-            </div>
-            <div class="space-y-3">
-                <a href="{{ route('finance.dashboard') }}" class="flex items-center space-x-4 p-4 rounded-xl hover:bg-gray-800 transition-colors text-gray-200 hover:text-white">
-                    <i class="fa-solid fa-chart-pie text-xl text-blue-400"></i>
-                    <span class="font-medium">Resumo</span>
-                </a>
-                <a href="{{ route('accounts.index') }}" class="flex items-center space-x-4 p-4 rounded-xl hover:bg-gray-800 transition-colors text-gray-200 hover:text-white">
-                    <i class="fa-solid fa-wallet text-xl text-blue-400"></i>
-                    <span class="font-medium">Contas</span>
-                </a>
-                <a href="{{ route('transactions.index') }}" class="flex items-center space-x-4 p-4 rounded-xl hover:bg-gray-800 transition-colors text-gray-200 hover:text-white">
-                    <i class="fa-solid fa-arrow-right-arrow-left text-xl text-blue-400"></i>
-                    <span class="font-medium">Transações</span>
-                </a>
-                <a href="{{ route('credit-cards.index') }}" class="flex items-center space-x-4 p-4 rounded-xl hover:bg-gray-800 transition-colors text-gray-200 hover:text-white">
-                    <i class="fa-solid fa-credit-card text-xl text-blue-400"></i>
-                    <span class="font-medium">Cartões</span>
-                </a>
-                <a href="{{ route('debts.index') }}" class="flex items-center space-x-4 p-4 rounded-xl hover:bg-gray-800 transition-colors text-gray-200 hover:text-white">
-                    <i class="fa-solid fa-money-bill-trend-up text-xl text-blue-400"></i>
-                    <span class="font-medium">Dívidas</span>
-                </a>
-            </div>
+<div id="financas" class="modal">
+    <div class="modal-backdrop" onclick="closeModal('financas')"></div>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Finanças</h3>
+            <button class="close-btn" onclick="closeModal('financas')">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <a href="{{ route('finance.dashboard') }}" class="modal-item">
+                <i class="fas fa-chart-pie"></i>
+                <span>Resumo</span>
+            </a>
+            <a href="{{ route('accounts.index') }}" class="modal-item">
+                <i class="fas fa-wallet"></i>
+                <span>Contas</span>
+            </a>
+            <a href="{{ route('transactions.index') }}" class="modal-item">
+                <i class="fas fa-arrow-right-arrow-left"></i>
+                <span>Transações</span>
+            </a>
+            <a href="{{ route('credit-cards.index') }}" class="modal-item">
+                <i class="fas fa-credit-card"></i>
+                <span>Cartões</span>
+            </a>
+            <a href="{{ route('debts.index') }}" class="modal-item">
+                <i class="fas fa-money-bill-trend-up"></i>
+                <span>Dívidas</span>
+            </a>
         </div>
     </div>
 </div>
 
 <!-- Modal Eventos -->
-<div id="eventos-modal" class="modal hidden fixed inset-0 z-[60] overflow-y-auto">
-    <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
-        <div class="fixed inset-0 transition-opacity bg-black bg-opacity-75" onclick="closeModal('eventos-modal')"></div>
-        <div class="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-gray-900 shadow-xl rounded-2xl">
-            <div class="flex items-center justify-between mb-6">
-                <h3 class="text-xl font-bold text-white">Eventos</h3>
-                <button onclick="closeModal('eventos-modal')" class="text-gray-400 hover:text-white">
-                    <i class="fa-solid fa-xmark text-2xl"></i>
-                </button>
-            </div>
-            <div class="space-y-3">
-                <a href="{{ route('events.index') }}" class="flex items-center space-x-4 p-4 rounded-xl hover:bg-gray-800 transition-colors text-gray-200 hover:text-white">
-                    <i class="fa-solid fa-list-ul text-xl text-blue-400"></i>
-                    <span class="font-medium">Todos Eventos</span>
-                </a>
-                <a href="{{ route('events.create') }}" class="flex items-center space-x-4 p-4 rounded-xl hover:bg-gray-800 transition-colors text-gray-200 hover:text-white">
-                    <i class="fa-solid fa-plus text-xl text-blue-400"></i>
-                    <span class="font-medium">Novo Evento</span>
-                </a>
-                <a href="{{ route('events.calendar') }}" class="flex items-center space-x-4 p-4 rounded-xl hover:bg-gray-800 transition-colors text-gray-200 hover:text-white">
-                    <i class="fa-solid fa-calendar-days text-xl text-blue-400"></i>
-                    <span class="font-medium">Calendário</span>
-                </a>
-                <a href="{{ route('previsibilidade.index') }}" class="flex items-center space-x-4 p-4 rounded-xl hover:bg-gray-800 transition-colors text-gray-200 hover:text-white">
-                    <i class="fa-solid fa-user-group text-xl text-blue-400"></i>
-                    <span class="font-medium">Previsibilidade</span>
-                </a>
-            </div>
+<div id="eventos" class="modal">
+    <div class="modal-backdrop" onclick="closeModal('eventos')"></div>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Eventos</h3>
+            <button class="close-btn" onclick="closeModal('eventos')">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <a href="{{ route('events.index') }}" class="modal-item">
+                <i class="fas fa-list-ul"></i>
+                <span>Todos Eventos</span>
+            </a>
+            <a href="{{ route('events.create') }}" class="modal-item">
+                <i class="fas fa-plus"></i>
+                <span>Novo Evento</span>
+            </a>
+            <a href="{{ route('events.calendar') }}" class="modal-item">
+                <i class="fas fa-calendar-days"></i>
+                <span>Calendário</span>
+            </a>
+            <a href="{{ route('previsibilidade.index') }}" class="modal-item">
+                <i class="fas fa-user-group"></i>
+                <span>Previsibilidade</span>
+            </a>
         </div>
     </div>
 </div>
 
 <!-- Modal Casa -->
-<div id="casa-modal" class="modal hidden fixed inset-0 z-[60] overflow-y-auto">
-    <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
-        <div class="fixed inset-0 transition-opacity bg-black bg-opacity-75" onclick="closeModal('casa-modal')"></div>
-        <div class="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-gray-900 shadow-xl rounded-2xl">
-            <div class="flex items-center justify-between mb-6">
-                <h3 class="text-xl font-bold text-white">Casa</h3>
-                <button onclick="closeModal('casa-modal')" class="text-gray-400 hover:text-white">
-                    <i class="fa-solid fa-xmark text-2xl"></i>
-                </button>
-            </div>
-            <div class="space-y-3">
-                <a href="{{ route('household-tasks.dashboard') }}" class="flex items-center space-x-4 p-4 rounded-xl hover:bg-gray-800 transition-colors text-gray-200 hover:text-white">
-                    <i class="fa-solid fa-gauge text-xl text-blue-400"></i>
-                    <span class="font-medium">Dashboard</span>
-                </a>
-                <a href="{{ route('household-tasks.index') }}" class="flex items-center space-x-4 p-4 rounded-xl hover:bg-gray-800 transition-colors text-gray-200 hover:text-white">
-                    <i class="fa-solid fa-list-check text-xl text-blue-400"></i>
-                    <span class="font-medium">Todas as Tarefas</span>
-                </a>
-                <a href="{{ route('household-tasks.create') }}" class="flex items-center space-x-4 p-4 rounded-xl hover:bg-gray-800 transition-colors text-gray-200 hover:text-white">
-                    <i class="fa-solid fa-plus text-xl text-blue-400"></i>
-                    <span class="font-medium">Nova Tarefa</span>
-                </a>
-                <a href="{{ route('task-categories.index') }}" class="flex items-center space-x-4 p-4 rounded-xl hover:bg-gray-800 transition-colors text-gray-200 hover:text-white">
-                    <i class="fa-solid fa-tags text-xl text-blue-400"></i>
-                    <span class="font-medium">Categorias</span>
-                </a>
-            </div>
+<div id="casa" class="modal">
+    <div class="modal-backdrop" onclick="closeModal('casa')"></div>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Casa</h3>
+            <button class="close-btn" onclick="closeModal('casa')">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <a href="{{ route('household-tasks.dashboard') }}" class="modal-item">
+                <i class="fas fa-gauge"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="{{ route('household-tasks.index') }}" class="modal-item">
+                <i class="fas fa-list-check"></i>
+                <span>Todas as Tarefas</span>
+            </a>
+            <a href="{{ route('household-tasks.create') }}" class="modal-item">
+                <i class="fas fa-plus"></i>
+                <span>Nova Tarefa</span>
+            </a>
+            <a href="{{ route('task-categories.index') }}" class="modal-item">
+                <i class="fas fa-tags"></i>
+                <span>Categorias</span>
+            </a>
         </div>
     </div>
 </div>
 
 <!-- Modal Profissional -->
-<div id="profissional-modal" class="modal hidden fixed inset-0 z-[60] overflow-y-auto">
-    <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
-        <div class="fixed inset-0 transition-opacity bg-black bg-opacity-75" onclick="closeModal('profissional-modal')"></div>
-        <div class="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-gray-900 shadow-xl rounded-2xl">
-            <div class="flex items-center justify-between mb-6">
-                <h3 class="text-xl font-bold text-white">Profissional</h3>
-                <button onclick="closeModal('profissional-modal')" class="text-gray-400 hover:text-white">
-                    <i class="fa-solid fa-xmark text-2xl"></i>
-                </button>
-            </div>
-            <div class="space-y-3">
-                <a href="{{ route('projetos.index') }}" class="flex items-center space-x-4 p-4 rounded-xl hover:bg-gray-800 transition-colors text-gray-200 hover:text-white">
-                    <i class="fa-solid fa-briefcase text-xl text-blue-400"></i>
-                    <span class="font-medium">Projetos</span>
-                </a>
-                <a href="{{ route('tarefas.index') }}" class="flex items-center space-x-4 p-4 rounded-xl hover:bg-gray-800 transition-colors text-gray-200 hover:text-white">
-                    <i class="fa-solid fa-tasks text-xl text-blue-400"></i>
-                    <span class="font-medium">Tarefas</span>
-                </a>
-                <a href="{{ route('clientes.index') }}" class="flex items-center space-x-4 p-4 rounded-xl hover:bg-gray-800 transition-colors text-gray-200 hover:text-white">
-                    <i class="fa-solid fa-users text-xl text-blue-400"></i>
-                    <span class="font-medium">Clientes</span>
-                </a>
-                <a href="{{ route('faturas.index') }}" class="flex items-center space-x-4 p-4 rounded-xl hover:bg-gray-800 transition-colors text-gray-200 hover:text-white">
-                    <i class="fa-solid fa-file-invoice-dollar text-xl text-blue-400"></i>
-                    <span class="font-medium">Faturas</span>
-                </a>
-                <a href="{{ route('registros-horas.index') }}" class="flex items-center space-x-4 p-4 rounded-xl hover:bg-gray-800 transition-colors text-gray-200 hover:text-white">
-                    <i class="fa-solid fa-clock text-xl text-blue-400"></i>
-                    <span class="font-medium">Registros de Horas</span>
-                </a>
-            </div>
+<div id="profissional" class="modal">
+    <div class="modal-backdrop" onclick="closeModal('profissional')"></div>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Profissional</h3>
+            <button class="close-btn" onclick="closeModal('profissional')">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <a href="{{ route('projetos.index') }}" class="modal-item">
+                <i class="fas fa-briefcase"></i>
+                <span>Projetos</span>
+            </a>
+            <a href="{{ route('tarefas.index') }}" class="modal-item">
+                <i class="fas fa-tasks"></i>
+                <span>Tarefas</span>
+            </a>
+            <a href="{{ route('clientes.index') }}" class="modal-item">
+                <i class="fas fa-users"></i>
+                <span>Clientes</span>
+            </a>
+            <a href="{{ route('faturas.index') }}" class="modal-item">
+                <i class="fas fa-file-invoice-dollar"></i>
+                <span>Faturas</span>
+            </a>
+            <a href="{{ route('registros-horas.index') }}" class="modal-item">
+                <i class="fas fa-clock"></i>
+                <span>Registros de Horas</span>
+            </a>
         </div>
     </div>
 </div>
 
 <style>
-nav.fixed.bottom-0 {
-    backdrop-filter: blur(6px);
+/* FontAwesome CDN */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css');
+
+/* Bottom Navigation */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #111827;
+    border-top: 1px solid #374151;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 64px;
+    padding: 0 4px;
+    z-index: 50;
+    box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(8px);
 }
 
+.nav-item {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav-link, .nav-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    color: #9CA3AF;
+    text-decoration: none;
+    border: none;
+    background: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.nav-link:hover, .nav-button:hover {
+    color: #93C5FD;
+}
+
+.nav-link i, .nav-button i {
+    font-size: 20px;
+    margin-bottom: 4px;
+    transition: all 0.2s ease;
+}
+
+.nav-link:hover i, .nav-button:hover i {
+    transform: scale(1.1);
+}
+
+/* Modal Styles */
 .modal {
-    transition: opacity 0.3s ease-in-out;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 60;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
 }
 
-.modal.hidden {
-    opacity: 0;
-    pointer-events: none;
+.modal.show {
+    display: flex;
 }
 
-.modal:not(.hidden) {
-    opacity: 1;
-    pointer-events: auto;
+.modal-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(4px);
 }
 
+.modal-content {
+    position: relative;
+    background: #111827;
+    border-radius: 16px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+    max-height: 80vh;
+    overflow: hidden;
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px;
+    border-bottom: 1px solid #374151;
+}
+
+.modal-header h3 {
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: #9CA3AF;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.close-btn:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.modal-body {
+    padding: 16px;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.modal-item {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    color: #E5E7EB;
+    text-decoration: none;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+    margin-bottom: 8px;
+}
+
+.modal-item:hover {
+    background: #374151;
+    color: white;
+    transform: translateX(4px);
+}
+
+.modal-item i {
+    font-size: 20px;
+    color: #60A5FA;
+    margin-right: 16px;
+    width: 24px;
+    text-align: center;
+}
+
+.modal-item span {
+    font-weight: 500;
+    font-size: 14px;
+}
+
+/* Responsive */
 @media (max-width: 400px) {
-    nav.fixed.bottom-0 span.text-xs { font-size: 0.7rem; }
-    nav.fixed.bottom-0 .w-10 { width: 2.2rem; height: 2.2rem; }
+    .bottom-nav {
+        height: 60px;
+    }
+    
+    .nav-link, .nav-button {
+        font-size: 11px;
+    }
+    
+    .nav-link i, .nav-button i {
+        font-size: 18px;
+    }
+    
+    .modal {
+        padding: 8px;
+    }
+    
+    .modal-content {
+        max-width: 100%;
+    }
+}
+
+/* Hide on desktop */
+@media (min-width: 768px) {
+    .bottom-nav {
+        display: none;
+    }
+}
+
+/* Scrollbar styling */
+.modal-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.modal-body::-webkit-scrollbar-track {
+    background: #1F2937;
+    border-radius: 3px;
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+    background: #4B5563;
+    border-radius: 3px;
+}
+
+.modal-body::-webkit-scrollbar-thumb:hover {
+    background: #6B7280;
 }
 </style>
 
 <script>
+// Modal functions
 function openModal(modalId) {
     const modal = document.getElementById(modalId);
     if (modal) {
-        modal.classList.remove('hidden');
+        modal.classList.add('show');
         document.body.style.overflow = 'hidden';
     }
 }
@@ -259,29 +408,58 @@ function openModal(modalId) {
 function closeModal(modalId) {
     const modal = document.getElementById(modalId);
     if (modal) {
-        modal.classList.add('hidden');
+        modal.classList.remove('show');
         document.body.style.overflow = '';
     }
 }
 
-// Fecha modal com ESC
+// Close modal with ESC key
 document.addEventListener('keydown', function(event) {
     if (event.key === 'Escape') {
         const modals = document.querySelectorAll('.modal');
         modals.forEach(modal => {
-            if (!modal.classList.contains('hidden')) {
-                modal.classList.add('hidden');
+            if (modal.classList.contains('show')) {
+                modal.classList.remove('show');
                 document.body.style.overflow = '';
             }
         });
     }
 });
 
-// Fecha modal ao clicar fora
+// Close modal when clicking outside
 document.addEventListener('click', function(event) {
     if (event.target.classList.contains('modal')) {
-        event.target.classList.add('hidden');
+        event.target.classList.remove('show');
         document.body.style.overflow = '';
     }
+});
+
+// Prevent modal close when clicking inside modal content
+document.addEventListener('click', function(event) {
+    if (event.target.closest('.modal-content')) {
+        event.stopPropagation();
+    }
+});
+
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Check if FontAwesome is loaded
+    if (!document.querySelector('.fas')) {
+        console.warn('FontAwesome não detectado, carregando...');
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css';
+        document.head.appendChild(link);
+    }
+    
+    // Add active state to current page
+    const currentPath = window.location.pathname;
+    const navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(link => {
+        if (link.getAttribute('href') === currentPath) {
+            link.style.color = '#60A5FA';
+            link.querySelector('i').style.color = '#60A5FA';
+        }
+    });
 });
 </script> 
