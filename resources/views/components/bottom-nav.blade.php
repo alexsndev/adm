@@ -20,17 +20,33 @@
             [
                 'label' => 'Eventos',
                 'icon' => 'fa-calendar-days',
-                'route' => 'events.index',
+                'dropdown' => [
+                    ['label' => 'Todos Eventos', 'icon' => 'fa-list-ul', 'route' => 'events.index'],
+                    ['label' => 'Novo Evento', 'icon' => 'fa-plus', 'route' => 'events.create'],
+                    ['label' => 'Calendário', 'icon' => 'fa-calendar-days', 'route' => 'events.calendar'],
+                    ['label' => 'Previsibilidade', 'icon' => 'fa-user-group', 'route' => 'previsibilidade.index'],
+                ],
             ],
             [
                 'label' => 'Casa',
                 'icon' => 'fa-house-chimney',
-                'route' => 'household-tasks.dashboard',
+                'dropdown' => [
+                    ['label' => 'Dashboard', 'icon' => 'fa-gauge', 'route' => 'household-tasks.dashboard'],
+                    ['label' => 'Todas as Tarefas', 'icon' => 'fa-list-check', 'route' => 'household-tasks.index'],
+                    ['label' => 'Nova Tarefa', 'icon' => 'fa-plus', 'route' => 'household-tasks.create'],
+                    ['label' => 'Categorias', 'icon' => 'fa-tags', 'route' => 'task-categories.index'],
+                ],
             ],
             [
                 'label' => 'Profissional',
                 'icon' => 'fa-briefcase',
-                'route' => 'projetos.index',
+                'dropdown' => [
+                    ['label' => 'Projetos', 'icon' => 'fa-briefcase', 'route' => 'projetos.index'],
+                    ['label' => 'Tarefas', 'icon' => 'fa-tasks', 'route' => 'tarefas.index'],
+                    ['label' => 'Clientes', 'icon' => 'fa-users', 'route' => 'clientes.index'],
+                    ['label' => 'Faturas', 'icon' => 'fa-file-invoice-dollar', 'route' => 'faturas.index'],
+                    ['label' => 'Registros de Horas', 'icon' => 'fa-clock', 'route' => 'registros-horas.index'],
+                ],
             ],
         ];
         $current = Route::currentRouteName();
