@@ -88,91 +88,139 @@
                                 </div>
                             </div>
                         </div>
-                        @if($project->notes)
-                            <div class="bg-gradient-to-br from-yellow-50 to-white dark:from-gray-800 dark:to-gray-900 rounded-2xl p-6 border shadow-lg">
-                                <h4 class="text-lg font-bold text-gray-900 dark:text-white mb-2 flex items-center gap-2"><i class="fa-solid fa-sticky-note text-yellow-500"></i> Notas</h4>
-                                <p class="text-gray-600 dark:text-gray-300 text-sm">{{ $project->notes }}</p>
-                            </div>
-                        @endif
                     </div>
                 </div>
             </div>
-            <!-- Bloco de Notas do Projeto (Rich Text) -->
-            <div class="bg-yellow-50 dark:bg-gray-800 rounded-2xl p-6 border border-yellow-200 dark:border-gray-700 shadow-lg mb-8">
-                <h4 class="text-lg font-bold text-yellow-800 dark:text-yellow-200 mb-4 flex items-center gap-2">
-                    <i class="fa-solid fa-note-sticky text-yellow-500"></i> Bloco de Notas Rápido
-                </h4>
-                <div id="quill-toolbar" style="background: #fff; border-radius: 6px 6px 0 0;">
-                  <span class="ql-formats">
-                    <select class="ql-font"></select>
-                    <select class="ql-size"></select>
-                  </span>
-                  <span class="ql-formats">
-                    <button class="ql-bold"></button>
-                    <button class="ql-italic"></button>
-                    <button class="ql-underline"></button>
-                    <button class="ql-strike"></button>
-                  </span>
-                  <span class="ql-formats">
-                    <select class="ql-color"></select>
-                    <select class="ql-background"></select>
-                  </span>
-                  <span class="ql-formats">
-                    <button class="ql-list" value="ordered"></button>
-                    <button class="ql-list" value="bullet"></button>
-                  </span>
-                  <span class="ql-formats">
-                    <button class="ql-link"></button>
-                  </span>
+            <!-- Anexos do Projeto -->
+            <div class="mb-8">
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                    <svg class="w-5 h-5 mr-2 text-orange-600 dark:text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.586-6.586a4 4 0 10-5.656-5.656l-6.586 6.586"></path>
+                    </svg>
+                    Anexos do Projeto
+                </h3>
+                <!-- Formulário de Upload -->
+                <div class="bg-slate-50 dark:bg-slate-700/50 rounded-xl p-6 mb-6">
+                    <form id="attachment-form" class="flex flex-col sm:flex-row gap-4">
+                        @csrf
+                        <div class="flex-1">
+                            <input type="file" name="arquivo" accept="*/*" required
+                                   class="w-full px-4 py-3 border border-slate-300 dark:border-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-slate-700 text-slate-900 dark:text-white file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 dark:file:bg-blue-900/30 dark:file:text-blue-400 transition-all duration-200">
+                        </div>
+                        <div class="flex-1">
+                            <input type="text" name="descricao" placeholder="Descrição do anexo" 
+                                   class="w-full px-4 py-3 border border-slate-300 dark:border-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-slate-700 text-slate-900 dark:text-white placeholder-slate-500 dark:placeholder-slate-400 transition-all duration-200">
+                        </div>
+                        <button type="submit" id="upload-btn"
+                                class="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-xl font-semibold transition-all duration-200 transform hover:scale-105">
+                            <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                            </svg>
+                            <span id="upload-text">Anexar</span>
+                        </button>
+                    </form>
+                    <div id="upload-status" class="mt-3 text-sm hidden"></div>
                 </div>
-                <div id="project-notes-quill" style="height: 200px; background: #fff; color: #222; border-radius: 0 0 6px 6px;"></div>
-                <div class="flex items-center gap-4 mt-2">
-                    <span id="notes-status" class="text-xs text-gray-600 dark:text-gray-200">Salvo</span>
-                    <button onclick="copyNotes()" class="bg-yellow-400 hover:bg-yellow-500 text-yellow-900 font-bold px-4 py-2 rounded shadow transition">Copiar Tudo</button>
+                <!-- Lista de Anexos -->
+                <div id="attachments-list">
+                    @if($project->attachments->isEmpty())
+                        <div class="bg-slate-50 dark:bg-slate-700/50 rounded-xl p-8 text-center">
+                            <svg class="w-12 h-12 text-slate-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.586-6.586a4 4 0 10-5.656-5.656l-6.586 6.586"></path>
+                            </svg>
+                            <p class="text-slate-600 dark:text-slate-300">Nenhum anexo cadastrado.</p>
+                        </div>
+                    @else
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            @foreach($project->attachments as $anexo)
+                                <div class="attachment-item bg-slate-50 dark:bg-slate-700/50 rounded-xl p-4 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all duration-200" data-id="{{ $anexo->id }}">
+                                    @php
+                                        $extension = strtolower(pathinfo($anexo->name, PATHINFO_EXTENSION));
+                                        $isImage = in_array($extension, ['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp']);
+                                        $isPdf = $extension === 'pdf';
+                                        $isDoc = in_array($extension, ['doc', 'docx']);
+                                        $isExcel = in_array($extension, ['xls', 'xlsx']);
+                                        $isPpt = in_array($extension, ['ppt', 'pptx']);
+                                        $isZip = in_array($extension, ['zip', 'rar', '7z']);
+                                        $isVideo = in_array($extension, ['mp4', 'avi', 'mov', 'wmv']);
+                                        $isAudio = in_array($extension, ['mp3', 'wav', 'ogg']);
+                                    @endphp
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-12 h-12 rounded-lg flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-600 dark:to-slate-700 border border-slate-200 dark:border-slate-600 shadow-sm hover:shadow-md transition-all duration-200" title="{{ strtoupper($extension) }}">
+                                            
+                                            @if($isImage)
+                                                <img src="{{ Storage::url($anexo->file) }}" alt="Preview" class="w-full h-full object-cover">
+                                            @elseif($isPdf)
+                                                <div class="w-full h-full bg-red-500 flex items-center justify-center">
+                                                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                                        <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+                                                    </svg>
+                                                </div>
+                                            @elseif($isDoc)
+                                                <div class="w-full h-full bg-blue-500 flex items-center justify-center">
+                                                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                                        <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+                                                    </svg>
+                                                </div>
+                                            @elseif($isExcel)
+                                                <div class="w-full h-full bg-green-500 flex items-center justify-center">
+                                                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                                        <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+                                                    </svg>
+                                                </div>
+                                            @elseif($isPpt)
+                                                <div class="w-full h-full bg-orange-500 flex items-center justify-center">
+                                                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                                        <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+                                                    </svg>
+                                                </div>
+                                            @elseif($isZip)
+                                                <div class="w-full h-full bg-purple-500 flex items-center justify-center">
+                                                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                                        <path d="M20,6H16V4A2,2 0 0,0 14,2H10A2,2 0 0,0 8,4V6H4A2,2 0 0,0 2,8V19A2,2 0 0,0 4,21H20A2,2 0 0,0 22,19V8A2,2 0 0,0 20,6M10,4H14V6H10V4Z"/>
+                                                    </svg>
+                                                </div>
+                                            @elseif($isVideo)
+                                                <div class="w-full h-full bg-pink-500 flex items-center justify-center">
+                                                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                                        <path d="M17,10.5V7A1,1 0 0,0 16,6H4A1,1 0 0,0 3,7V17A1,1 0 0,0 4,18H16A1,1 0 0,0 17,17V13.5L21,17.5V6.5L17,10.5Z"/>
+                                                    </svg>
+                                                </div>
+                                            @elseif($isAudio)
+                                                <div class="w-full h-full bg-indigo-500 flex items-center justify-center">
+                                                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                                        <path d="M12,3V12.26C11.5,12.09 11,12 10.5,12C7.46,12 5,14.46 5,17.5C5,20.54 7.46,23 10.5,23C13.54,23 16,20.54 16,17.5V6H22V3H12Z"/>
+                                                    </svg>
+                                                </div>
+                                            @else
+                                                <div class="w-full h-full bg-slate-500 flex items-center justify-center">
+                                                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                                        <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+                                                    </svg>
+                                                </div>
+                                            @endif
+                                        </div>
+                                        <div class="flex-1">
+                                            <a href="{{ Storage::url($anexo->file) }}" target="_blank" 
+                                               class="font-medium text-slate-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                                                {{ $anexo->descricao ?? $anexo->name }}
+                                            </a>
+                                            <p class="text-xs text-slate-500 dark:text-slate-400">
+                                                {{ \Carbon\Carbon::parse($anexo->created_at)->format('d/m/Y H:i') }} • {{ strtoupper($extension) }}
+                                            </p>
+                                        </div>
+                                        <button onclick="deleteAttachment({{ $anexo->id }})" class="text-red-500 hover:text-red-700 transition-colors">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
                 </div>
             </div>
-            <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-            <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
-            <script>
-                let timeout;
-                const status = document.getElementById('notes-status');
-                const quill = new Quill('#project-notes-quill', {
-                    theme: 'snow',
-                    modules: {
-                        toolbar: '#quill-toolbar'
-                    }
-                });
-                // Set initial content
-                quill.root.innerHTML = @json($project->notes ?? '');
-                quill.on('text-change', function() {
-                    status.textContent = 'Salvando...';
-                    clearTimeout(timeout);
-                    timeout = setTimeout(() => {
-                        fetch('{{ route('projetos.update-notes', $project) }}', {
-                            method: 'POST',
-                            headers: {
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({ notes: quill.root.innerHTML })
-                        }).then(() => {
-                            status.textContent = 'Salvo!';
-                            setTimeout(() => status.textContent = 'Salvo', 2000);
-                        });
-                    }, 800);
-                });
-                function copyNotes() {
-                    const temp = document.createElement('textarea');
-                    temp.value = quill.root.innerHTML;
-                    document.body.appendChild(temp);
-                    temp.select();
-                    document.execCommand('copy');
-                    document.body.removeChild(temp);
-                    status.textContent = 'Copiado!';
-                    setTimeout(() => status.textContent = 'Salvo', 2000);
-                }
-            </script>
-            @include('components.attachment-upload', ['project' => $project])
             <!-- Tarefas do Projeto -->
             <div class="bg-white dark:bg-gray-900 rounded-3xl shadow-2xl border-2 border-blue-600/20 mb-10 p-8 animate-fade-in">
                 <div class="flex items-center justify-between mb-8">
@@ -321,25 +369,45 @@
                     <i class="fa-solid fa-link text-blue-500"></i> Links Importantes
                 </h4>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6" id="project-links-list">
-                    @foreach($project->links as $link)
-                        <div class="rounded-xl bg-blue-50 dark:bg-gray-800 border border-blue-200 dark:border-gray-700 p-4 flex flex-col gap-2 shadow relative">
-                            <div class="flex items-center gap-3 mb-2">
+                    @if($project->links->isEmpty())
+                        <div class="col-span-full text-center py-12">
+                            <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fa-solid fa-link text-blue-600 dark:text-blue-400 text-2xl"></i>
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Nenhum link importante</h3>
+                            <p class="text-gray-500 dark:text-gray-400">Adicione links importantes para este projeto.</p>
+                        </div>
+                    @else
+                        @foreach($project->links as $link)
+                        <div class="rounded-xl bg-blue-50 dark:bg-gray-800 border border-blue-200 dark:border-gray-700 p-4 flex flex-col gap-2 shadow relative min-h-[120px] hover:shadow-lg hover:border-blue-300 dark:hover:border-gray-600 transition-all duration-200">
+                            <div class="flex items-start gap-3 mb-2">
                                 @if($link->image)
-                                    <img src="{{ asset('storage/' . $link->image) }}" alt="Imagem do link" class="w-10 h-10 rounded shadow border object-cover">
+                                    <img src="{{ asset('storage/' . $link->image) }}" alt="Imagem do link" class="w-10 h-10 rounded shadow border object-cover flex-shrink-0">
                                 @else
-                                    <img src="https://www.google.com/s2/favicons?domain={{ parse_url($link->url, PHP_URL_HOST) }}&sz=64" alt="Favicon" class="w-10 h-10 rounded shadow border object-cover">
+                                    <img src="https://www.google.com/s2/favicons?domain={{ parse_url($link->url, PHP_URL_HOST) }}&sz=64" alt="Favicon" class="w-10 h-10 rounded shadow border object-cover flex-shrink-0">
                                 @endif
-                                <div>
-                                    <div class="font-bold text-lg text-blue-900 dark:text-blue-100">{{ $link->title }}</div>
-                                    <div class="text-xs text-gray-500 dark:text-gray-300">{{ $link->description }}</div>
+                                <div class="flex-1 min-w-0">
+                                    <div class="font-bold text-lg text-blue-900 dark:text-blue-100 truncate" title="{{ $link->title }}">{{ $link->title }}</div>
+                                    <div class="text-xs text-gray-500 dark:text-gray-300 line-clamp-2" title="{{ $link->description }}">
+                                        {{ $link->description ?: 'Sem descrição' }}
+                                    </div>
                                 </div>
                             </div>
-                            <a href="{{ $link->url }}" target="_blank" class="text-blue-600 hover:text-blue-800 text-sm flex items-center gap-1"><i class="fa-solid fa-arrow-up-right-from-square"></i> {{ $link->url }}</a>
-                            <div class="flex gap-2 mt-2">
-                                <button type="button" onclick="deleteProjectLink({{ $link->id }})" class="text-red-600 hover:text-red-800 text-xs font-bold"><i class="fa-solid fa-trash"></i> Remover</button>
+                            <div class="flex-1 flex flex-col justify-between">
+                                <a href="{{ $link->url }}" target="_blank" class="text-blue-600 hover:text-blue-800 text-sm flex items-start gap-1 group">
+                                    <i class="fa-solid fa-arrow-up-right-from-square mt-0.5 flex-shrink-0"></i>
+                                    <span class="break-all line-clamp-2 group-hover:underline" title="{{ $link->url }}">{{ $link->url }}</span>
+                                </a>
+                                <div class="flex gap-2 mt-3">
+                                    <button type="button" onclick="deleteProjectLink({{ $link->id }})" class="text-red-600 hover:text-red-800 text-xs font-bold flex items-center gap-1 px-2 py-1 rounded hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
+                                        <i class="fa-solid fa-trash"></i> 
+                                        <span class="hidden sm:inline">Remover</span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                    @endforeach
+                        @endforeach
+                    @endif
                 </div>
                 <!-- Formulário para adicionar novo link -->
                 <form id="add-link-form" class="flex flex-col md:flex-row gap-4 items-end" enctype="multipart/form-data">
@@ -391,6 +459,70 @@
                     });
                 }
             </script>
+            <!-- Bloco de Notas Simples do Projeto -->
+            <div class="bg-slate-900/80 dark:bg-slate-800/80 rounded-2xl shadow-xl border border-blue-900/40 p-6 mt-8 mb-8">
+                <h3 class="text-xl font-bold text-blue-200 mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-sticky-note text-yellow-400"></i> Notas do Projeto
+                </h3>
+                <form id="notes-form" class="flex flex-col gap-4">
+                    <textarea id="notes-textarea" name="notes" rows="6" maxlength="1000"
+                        class="w-full bg-slate-800 text-slate-100 border border-blue-900/40 rounded-xl p-4 focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-slate-400 resize-vertical transition-all duration-200"
+                        placeholder="Digite suas notas do projeto...">{{ $project->notes }}</textarea>
+                    <div class="flex items-center gap-2">
+                        <button type="submit" class="px-6 py-2 rounded-xl bg-blue-700 hover:bg-blue-800 text-white font-semibold flex items-center gap-2 transition-all duration-200">
+                            <i class="fa fa-save"></i> Salvar
+                        </button>
+                        <span id="notes-status" class="text-sm ml-2"></span>
+                    </div>
+                </form>
+            </div>
+            @push('scripts')
+            <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const form = document.getElementById('notes-form');
+                const textarea = document.getElementById('notes-textarea');
+                const status = document.getElementById('notes-status');
+                form.onsubmit = function(e) {
+                    e.preventDefault();
+                    const value = textarea.value.trim();
+                    if (!value) {
+                        status.textContent = 'As notas não podem estar vazias.';
+                        status.className = 'text-sm text-red-400 ml-2';
+                        return;
+                    }
+                    if (value.length > 1000) {
+                        status.textContent = 'Limite de 1000 caracteres.';
+                        status.className = 'text-sm text-red-400 ml-2';
+                        return;
+                    }
+                    status.textContent = 'Salvando...';
+                    status.className = 'text-sm text-blue-400 ml-2';
+                    fetch(`{{ route('projetos.update-notes', $project->id) }}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        },
+                        body: JSON.stringify({ notes: value })
+                    })
+                    .then(r => r.json())
+                    .then(data => {
+                        if (data.success) {
+                            status.textContent = 'Notas salvas!';
+                            status.className = 'text-sm text-green-400 ml-2';
+                        } else {
+                            status.textContent = data.message || 'Erro ao salvar notas.';
+                            status.className = 'text-sm text-red-400 ml-2';
+                        }
+                    })
+                    .catch(() => {
+                        status.textContent = 'Erro ao salvar notas.';
+                        status.className = 'text-sm text-red-400 ml-2';
+                    });
+                };
+            });
+            </script>
+            @endpush
         </div>
     </div>
 
@@ -463,104 +595,649 @@
 @endsection
 
 @section('after_content')
-<!-- Chat Flutuante do Projeto -->
 <style>
-#chat-float-btn {
-    position: fixed;
-    bottom: 32px;
-    right: 32px;
-    z-index: 9999;
-    background: #23232b;
-    color: #fff;
-    border-radius: 50%;
-    width: 64px;
-    height: 64px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.25);
-    font-size: 2rem;
-    cursor: pointer;
-    transition: background 0.2s;
+/* Scrollbar personalizada para o chat */
+#chat-messages::-webkit-scrollbar {
+    width: 6px;
 }
-#chat-float-btn:hover {
-    background: #3b82f6;
-}
-#chat-modal {
-    position: fixed;
-    bottom: 110px;
-    right: 32px;
-    z-index: 10000;
-    width: 350px;
-    max-width: 95vw;
-    background: #23232b;
-    border-radius: 1rem;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.35);
-    display: none;
-    flex-direction: column;
+
+/* Estilos para line-clamp */
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
     overflow: hidden;
 }
-#chat-modal.open {
-    display: flex;
+
+.line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
-#chat-modal-header {
-    background: #18181b;
-    color: #a78bfa;
-    font-weight: bold;
-    padding: 1rem;
+
+/* Quebra de palavras para URLs longas */
+.break-all {
+    word-break: break-all;
+}
+
+/* Truncate para títulos longos */
+.truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#chat-messages::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#chat-messages::-webkit-scrollbar-thumb {
+    background: #CBD5E0;
+    border-radius: 3px;
+}
+
+#chat-messages::-webkit-scrollbar-thumb:hover {
+    background: #A0AEC0;
+}
+
+/* Animações para mensagens */
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.message-own {
+    animation: slideInRight 0.3s ease-out;
+}
+
+.message-other {
+    animation: slideInLeft 0.3s ease-out;
+}
+
+/* Efeito de hover nas mensagens */
+.message-bubble {
+    transition: all 0.2s ease;
+}
+
+.message-bubble:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Indicador de digitação */
+.typing-indicator {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    gap: 4px;
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 12px;
+    font-size: 12px;
+    color: #666;
 }
-#chat-modal-body {
-    padding: 1rem;
-    max-height: 300px;
-    overflow-y: auto;
-    background: #23232b;
-}
-#chat-modal-footer {
-    padding: 1rem;
-    background: #18181b;
+
+.typing-dots {
     display: flex;
-    gap: 0.5rem;
+    gap: 2px;
+}
+
+.typing-dots span {
+    width: 4px;
+    height: 4px;
+    background: #999;
+    border-radius: 50%;
+    animation: typing 1.4s infinite ease-in-out;
+}
+
+.typing-dots span:nth-child(1) { animation-delay: -0.32s; }
+.typing-dots span:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes typing {
+    0%, 80%, 100% {
+        transform: scale(0.8);
+        opacity: 0.5;
+    }
+    40% {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 </style>
-<div id="chat-float-btn" onclick="document.getElementById('chat-modal').classList.toggle('open')">
-    <i class="fa-solid fa-comments"></i>
-</div>
-<div id="chat-modal">
-    <div id="chat-modal-header">
-        <span>Chat do Projeto</span>
-        <button onclick="document.getElementById('chat-modal').classList.remove('open')" style="background:none;border:none;color:#fff;font-size:1.2rem;cursor:pointer;">&times;</button>
-    </div>
-    <div id="chat-modal-body">
-        @forelse($messages as $msg)
-            <div class="mb-2 flex {{ $msg->user_id == (auth()->user()->id ?? null) ? 'justify-end' : 'justify-start' }}">
-                <div class="inline-block px-3 py-2 rounded-lg {{ $msg->user_id == (auth()->user()->id ?? null) ? 'bg-green-700 text-white' : 'bg-gray-700 text-gray-100' }}">
-                    <span class="block text-xs text-gray-300 mb-1">{{ $msg->user->name }}</span>
-                    {{ $msg->message }}
-                    <span class="block text-xs text-gray-400 mt-1 text-right">{{ $msg->created_at->format('d/m H:i') }}</span>
-                    @if($msg->task)
-                        <span class="block text-xs text-blue-300 mt-1">Tarefa: {{ $msg->task->title }}</span>
-                    @endif
+
+<!-- Chat Flutuante do Projeto -->
+<div x-data="{ chatAberto: true }">
+    <template x-if="chatAberto">
+        <div id="floating-chat" style="position: fixed; bottom: 30px; right: 30px; z-index: 9999; width: 380px; max-width: 90vw;">
+            <div class="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden">
+                <!-- Header do Chat -->
+                <div class="bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-4">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                                <i class="fa-solid fa-comments text-white text-lg"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-bold text-lg">Chat do Projeto</h4>
+                                <p class="text-blue-100 text-sm">{{ $project->name }}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                            <span class="text-blue-100 text-xs">Online</span>
+                            <button @click="chatAberto = false" class="ml-2 text-white hover:text-red-300 text-lg px-2 py-1 rounded-full focus:outline-none" title="Fechar chat">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Área de Mensagens -->
+                <div id="chat-messages" class="h-80 overflow-y-auto p-4 space-y-4 bg-gray-50 dark:bg-gray-800" style="scrollbar-width: thin; scrollbar-color: #CBD5E0 #F7FAFC;">
+                    @foreach($project->clientChats as $msg)
+                        <div class="flex {{ $msg->user_id == auth()->id() ? 'justify-end' : 'justify-start' }}" data-message-id="{{ $msg->id }}">
+                            @if($msg->user_id != auth()->id())
+                                <!-- Avatar do outro usuário -->
+                                <div class="flex-shrink-0 w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white text-sm font-bold mr-3">
+                                    {{ strtoupper(substr($msg->user->name, 0, 1)) }}
+                                </div>
+                            @endif
+                            <div class="max-w-xs lg:max-w-md">
+                                @if($msg->user_id != auth()->id())
+                                    <!-- Nome do usuário -->
+                                    <div class="text-xs text-gray-500 dark:text-gray-400 mb-1 font-medium">
+                                        {{ $msg->user->name }}
+                                    </div>
+                                @endif
+                                <!-- Mensagem -->
+                                <div class="relative">
+                                    <div class="px-4 py-3 rounded-2xl {{ $msg->user_id == auth()->id() 
+                                        ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-br-md' 
+                                        : 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-600 rounded-bl-md' }}">
+                                        <p class="text-sm leading-relaxed">{{ $msg->message }}</p>
+                                    </div>
+                                    <!-- Timestamp -->
+                                    <div class="text-xs text-gray-400 dark:text-gray-500 mt-1 {{ $msg->user_id == auth()->id() ? 'text-right' : 'text-left' }}">
+                                        {{ $msg->created_at->format('H:i') }}
+                                        @if($msg->created_at->isToday())
+                                            <span class="ml-1">• Hoje</span>
+                                        @elseif($msg->created_at->isYesterday())
+                                            <span class="ml-1">• Ontem</span>
+                                        @else
+                                            <span class="ml-1">• {{ $msg->created_at->format('d/m') }}</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                            @if($msg->user_id == auth()->id())
+                                <!-- Avatar do usuário atual -->
+                                <div class="flex-shrink-0 w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white text-sm font-bold ml-3">
+                                    {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                                </div>
+                            @endif
+                        </div>
+                    @endforeach
+                </div>
+                <!-- Área de Input -->
+                <div class="p-4 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700">
+                    <form id="floating-chat-form" class="flex gap-3">
+                        <div class="flex-1 relative">
+                            <input type="text" name="message" id="floating-message" 
+                                   class="w-full px-4 py-3 pr-12 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200" 
+                                   placeholder="Digite sua mensagem..." required maxlength="2000">
+                            <button type="button" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-blue-500 transition-colors">
+                                <i class="fa-solid fa-paperclip text-sm"></i>
+                            </button>
+                        </div>
+                        <button type="submit" class="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 flex items-center gap-2">
+                            <i class="fa-solid fa-paper-plane text-sm"></i>
+                            <span class="hidden sm:inline">Enviar</span>
+                        </button>
+                    </form>
                 </div>
             </div>
-        @empty
-            <p class="text-gray-500">Nenhuma mensagem ainda.</p>
-        @endforelse
-    </div>
-    <form method="POST" action="{{ route('cliente.chat', ['project_id' => $projectId]) }}" id="chat-modal-footer">
-        @csrf
-        <input type="hidden" name="project_id" value="{{ $projectId }}">
-        <input type="text" name="message" class="flex-1 px-3 py-2 rounded bg-gray-800 text-gray-100 border border-gray-700" placeholder="Digite sua mensagem..." required maxlength="2000">
-        <button type="submit" class="px-4 py-2 rounded bg-green-700 hover:bg-green-800 text-white font-semibold shadow">Enviar</button>
-    </form>
+        </div>
+    </template>
+    <button x-show="!chatAberto" @click="chatAberto = true"
+        class="fixed bottom-6 right-6 bg-blue-600 hover:bg-blue-700 text-white rounded-full p-4 shadow-lg z-50 flex items-center justify-center"
+        title="Abrir chat">
+        <i class="fa-solid fa-comments text-2xl"></i>
+    </button>
 </div>
 <script>
-// Scroll automático para o final do chat
-(function(){
-    var body = document.getElementById('chat-modal-body');
-    if(body) body.scrollTop = body.scrollHeight;
-})();
+document.addEventListener('DOMContentLoaded', function() {
+    const chatForm = document.getElementById('floating-chat-form');
+    const messageInput = document.getElementById('floating-message');
+    const chatList = document.getElementById('chat-messages');
+    let lastMessageId = 0;
+    let autoRefreshInterval;
+    
+    if (!chatForm || !messageInput || !chatList) {
+        console.error('Elementos do chat não encontrados');
+        return;
+    }
+    
+    // Função para rolar para o final do chat
+    function scrollToBottom() {
+        chatList.scrollTop = chatList.scrollHeight;
+    }
+    
+    // Definir o último ID de mensagem baseado nas mensagens existentes
+    const existingMessages = chatList.querySelectorAll('[data-message-id]');
+    if (existingMessages.length > 0) {
+        const lastMsg = existingMessages[existingMessages.length - 1];
+        lastMessageId = parseInt(lastMsg.getAttribute('data-message-id'));
+    }
+    scrollToBottom();
+    
+    // Função para criar mensagem com design moderno
+    function createMessageElement(message, userName, isOwnMessage, timestamp, id) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'flex ' + (isOwnMessage ? 'justify-end' : 'justify-start') + ' ' + (isOwnMessage ? 'message-own' : 'message-other');
+        if (id) messageDiv.setAttribute('data-message-id', id);
+        const currentTime = new Date();
+        const messageTime = new Date(timestamp.replace(/(\d{2})\/(\d{2})\/(\d{4})/, '$2/$1/$3'));
+        let timeDisplay = messageTime.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        if (currentTime.toDateString() === messageTime.toDateString()) {
+            timeDisplay += ' • Hoje';
+        } else if (new Date(currentTime.getTime() - 24*60*60*1000).toDateString() === messageTime.toDateString()) {
+            timeDisplay += ' • Ontem';
+        } else {
+            timeDisplay += ' • ' + messageTime.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
+        }
+        const userInitial = userName.charAt(0).toUpperCase();
+        const avatarColor = isOwnMessage ? 'from-blue-500 to-indigo-600' : 'from-purple-500 to-pink-500';
+        messageDiv.innerHTML = `
+            ${!isOwnMessage ? `<div class=\"flex-shrink-0 w-8 h-8 bg-gradient-to-br ${avatarColor} rounded-full flex items-center justify-center text-white text-sm font-bold mr-3 shadow-lg\">${userInitial}</div>` : ''}
+            <div class=\"max-w-xs lg:max-w-md\">
+                ${!isOwnMessage ? `<div class=\"text-xs text-gray-500 dark:text-gray-400 mb-1 font-medium\">${userName}</div>` : ''}
+                <div class=\"relative\">
+                    <div class=\"px-4 py-3 rounded-2xl message-bubble ${isOwnMessage ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-br-md shadow-lg' : 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-600 rounded-bl-md shadow-md'}\"><p class=\"text-sm leading-relaxed\">${message}</p></div>
+                    <div class=\"text-xs text-gray-400 dark:text-gray-500 mt-1 ${isOwnMessage ? 'text-right' : 'text-left'}\">${timeDisplay}</div>
+                </div>
+            </div>
+            ${isOwnMessage ? `<div class=\"flex-shrink-0 w-8 h-8 bg-gradient-to-br ${avatarColor} rounded-full flex items-center justify-center text-white text-sm font-bold ml-3 shadow-lg\">${userInitial}</div>` : ''}
+        `;
+        return messageDiv;
+    }
+    
+    // Função para carregar mensagens automaticamente (incremental)
+    function loadNewMessages() {
+        const projectId = {{ $project->id }};
+        const url = '/projetos/' + projectId + '/chat';
+        fetch(url + '?ajax=1&last_id=' + lastMessageId, {
+            method: 'GET',
+            headers: { 'Accept': 'application/json' }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.messages && data.messages.length > 0) {
+                data.messages.forEach(msg => {
+                    // Só adiciona se ainda não existe
+                    if (!chatList.querySelector(`[data-message-id="${msg.id}"]`)) {
+                        const isOwnMessage = msg.user_name === '{{ auth()->user()->name }}';
+                        const newMsg = createMessageElement(
+                            msg.message,
+                            msg.user_name,
+                            isOwnMessage,
+                            msg.created_at,
+                            msg.id
+                        );
+                        chatList.appendChild(newMsg);
+                        lastMessageId = Math.max(lastMessageId, msg.id);
+                    }
+                });
+                setTimeout(scrollToBottom, 100);
+            }
+        })
+        .catch(error => {
+            console.log('Erro ao carregar mensagens:', error);
+        });
+    }
+    autoRefreshInterval = setInterval(loadNewMessages, 3000);
+    
+    chatForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const message = messageInput.value.trim();
+        if (!message) return;
+        const projectId = {{ $project->id }};
+        const url = '/projetos/' + projectId + '/chat';
+        const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        const submitButton = chatForm.querySelector('button[type="submit"]');
+        const originalText = submitButton.textContent;
+        submitButton.disabled = true;
+        submitButton.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-sm"></i><span class="hidden sm:inline ml-2">Enviando...</span>';
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': token
+            },
+            body: JSON.stringify({ message: message })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Adicionar mensagem na tela
+                const newMsg = createMessageElement(
+                    data.message,
+                    '{{ auth()->user()->name }}',
+                    true,
+                    data.created_at,
+                    data.id || Date.now()
+                );
+                chatList.appendChild(newMsg);
+                lastMessageId = Math.max(lastMessageId, data.id || lastMessageId);
+                messageInput.value = '';
+                setTimeout(scrollToBottom, 100);
+            } else {
+                alert('Erro ao enviar mensagem');
+            }
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            alert('Erro ao enviar mensagem');
+        })
+        .finally(() => {
+            submitButton.disabled = false;
+            submitButton.innerHTML = '<i class="fa-solid fa-paper-plane text-sm"></i><span class="hidden sm:inline">Enviar</span>';
+        });
+    });
+    // Parar atualização quando a página for fechada
+    window.addEventListener('beforeunload', function() {
+        if (autoRefreshInterval) {
+            clearInterval(autoRefreshInterval);
+        }
+    });
+});
+
+// Upload de anexos via AJAX
+document.addEventListener('DOMContentLoaded', function() {
+    const attachmentForm = document.getElementById('attachment-form');
+    const uploadBtn = document.getElementById('upload-btn');
+    const uploadText = document.getElementById('upload-text');
+    const uploadStatus = document.getElementById('upload-status');
+    const attachmentsList = document.getElementById('attachments-list');
+    
+    if (!attachmentForm) return;
+    
+    attachmentForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData();
+        const fileInput = attachmentForm.querySelector('input[name="arquivo"]');
+        const descricaoInput = attachmentForm.querySelector('input[name="descricao"]');
+        
+        if (!fileInput.files[0]) {
+            showStatus('Por favor, selecione um arquivo.', 'error');
+            return;
+        }
+        
+        // Adicionar arquivo e descrição ao FormData
+        formData.append('arquivo', fileInput.files[0]);
+        if (descricaoInput.value) {
+            formData.append('descricao', descricaoInput.value);
+        }
+        
+        // Mostrar loading
+        uploadBtn.disabled = true;
+        uploadText.textContent = 'Enviando...';
+        uploadBtn.innerHTML = '<svg class="w-5 h-5 inline mr-2 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>Enviando...';
+        
+        fetch('{{ route('projetos.attachments.store', $project->id) }}', {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                showStatus('Anexo enviado com sucesso!', 'success');
+                addAttachmentToList(data.attachment);
+                attachmentForm.reset();
+            } else {
+                showStatus(data.message || 'Erro ao enviar anexo.', 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            showStatus('Erro ao enviar anexo.', 'error');
+        })
+        .finally(() => {
+            uploadBtn.disabled = false;
+            uploadText.textContent = 'Anexar';
+            uploadBtn.innerHTML = '<svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg><span id="upload-text">Anexar</span>';
+        });
+    });
+    
+    function showStatus(message, type) {
+        uploadStatus.textContent = message;
+        uploadStatus.className = `mt-3 text-sm ${type === 'success' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`;
+        uploadStatus.classList.remove('hidden');
+        
+        setTimeout(() => {
+            uploadStatus.classList.add('hidden');
+        }, 3000);
+    }
+    
+    function addAttachmentToList(attachment) {
+        // Remover mensagem de "nenhum anexo" se existir
+        const emptyMessage = attachmentsList.querySelector('.bg-slate-50.rounded-xl.p-8.text-center');
+        if (emptyMessage) {
+            emptyMessage.remove();
+        }
+        
+        // Verificar se já existe um grid, senão criar
+        let grid = attachmentsList.querySelector('.grid');
+        if (!grid) {
+            grid = document.createElement('div');
+            grid.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4';
+            attachmentsList.appendChild(grid);
+        }
+        
+        // Criar novo item de anexo
+        const attachmentItem = document.createElement('div');
+        attachmentItem.className = 'attachment-item bg-slate-50 dark:bg-slate-700/50 rounded-xl p-4 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all duration-200';
+        attachmentItem.setAttribute('data-id', attachment.id);
+        
+        // Determinar o tipo de arquivo e criar o preview
+        const extension = attachment.name.split('.').pop().toLowerCase();
+        const isImage = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp'].includes(extension);
+        const isPdf = extension === 'pdf';
+        const isDoc = ['doc', 'docx'].includes(extension);
+        const isExcel = ['xls', 'xlsx'].includes(extension);
+        const isPpt = ['ppt', 'pptx'].includes(extension);
+        const isZip = ['zip', 'rar', '7z'].includes(extension);
+        const isVideo = ['mp4', 'avi', 'mov', 'wmv'].includes(extension);
+        const isAudio = ['mp3', 'wav', 'ogg'].includes(extension);
+        
+        let previewHtml = '';
+        
+        if (isImage) {
+            previewHtml = `<img src="${attachment.url}" alt="Preview" class="w-full h-full object-cover">`;
+        } else if (isPdf) {
+            previewHtml = `
+                <div class="w-full h-full bg-red-500 flex items-center justify-center">
+                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+                    </svg>
+                </div>
+            `;
+        } else if (isDoc) {
+            previewHtml = `
+                <div class="w-full h-full bg-blue-500 flex items-center justify-center">
+                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+                    </svg>
+                </div>
+            `;
+        } else if (isExcel) {
+            previewHtml = `
+                <div class="w-full h-full bg-green-500 flex items-center justify-center">
+                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+                    </svg>
+                </div>
+            `;
+        } else if (isPpt) {
+            previewHtml = `
+                <div class="w-full h-full bg-orange-500 flex items-center justify-center">
+                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+                    </svg>
+                </div>
+            `;
+        } else if (isZip) {
+            previewHtml = `
+                <div class="w-full h-full bg-purple-500 flex items-center justify-center">
+                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M20,6H16V4A2,2 0 0,0 14,2H10A2,2 0 0,0 8,4V6H4A2,2 0 0,0 2,8V19A2,2 0 0,0 4,21H20A2,2 0 0,0 22,19V8A2,2 0 0,0 20,6M10,4H14V6H10V4Z"/>
+                    </svg>
+                </div>
+            `;
+        } else if (isVideo) {
+            previewHtml = `
+                <div class="w-full h-full bg-pink-500 flex items-center justify-center">
+                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M17,10.5V7A1,1 0 0,0 16,6H4A1,1 0 0,0 3,7V17A1,1 0 0,0 4,18H16A1,1 0 0,0 17,17V13.5L21,17.5V6.5L17,10.5Z"/>
+                    </svg>
+                </div>
+            `;
+        } else if (isAudio) {
+            previewHtml = `
+                <div class="w-full h-full bg-indigo-500 flex items-center justify-center">
+                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12,3V12.26C11.5,12.09 11,12 10.5,12C7.46,12 5,14.46 5,17.5C5,20.54 7.46,23 10.5,23C13.54,23 16,20.54 16,17.5V6H22V3H12Z"/>
+                    </svg>
+                </div>
+            `;
+        } else {
+            previewHtml = `
+                <div class="w-full h-full bg-slate-500 flex items-center justify-center">
+                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+                    </svg>
+                </div>
+            `;
+        }
+        
+        attachmentItem.innerHTML = `
+            <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 rounded-lg flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-600 dark:to-slate-700 border border-slate-200 dark:border-slate-600 shadow-sm hover:shadow-md transition-all duration-200" title="${extension.toUpperCase()}">
+                    ${previewHtml}
+                </div>
+                <div class="flex-1">
+                    <a href="${attachment.url}" target="_blank" 
+                       class="font-medium text-slate-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                        ${attachment.descricao || attachment.name}
+                    </a>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">
+                        ${attachment.created_at} • ${extension.toUpperCase()}
+                    </p>
+                </div>
+                <button onclick="deleteAttachment(${attachment.id})" class="text-red-500 hover:text-red-700 transition-colors">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                    </svg>
+                </button>
+            </div>
+        `;
+        
+        grid.appendChild(attachmentItem);
+    }
+});
+
+// Função para deletar anexo
+function deleteAttachment(attachmentId) {
+    if (!confirm('Tem certeza que deseja excluir este anexo?')) {
+        return;
+    }
+    
+    fetch(`{{ route('projetos.attachments.destroy', [$project, 'attachment' => 'ATTACHMENT_ID']) }}`.replace('ATTACHMENT_ID', attachmentId), {
+        method: 'DELETE',
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            const attachmentItem = document.querySelector(`[data-id="${attachmentId}"]`);
+            if (attachmentItem) {
+                attachmentItem.remove();
+                
+                // Verificar se não há mais anexos
+                const remainingAttachments = document.querySelectorAll('.attachment-item');
+                if (remainingAttachments.length === 0) {
+                    const grid = document.querySelector('#attachments-list .grid');
+                    if (grid) {
+                        grid.remove();
+                    }
+                    
+                    const attachmentsList = document.getElementById('attachments-list');
+                    attachmentsList.innerHTML = `
+                        <div class="bg-slate-50 dark:bg-slate-700/50 rounded-xl p-8 text-center">
+                            <svg class="w-12 h-12 text-slate-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.586-6.586a4 4 0 10-5.656-5.656l-6.586 6.586"></path>
+                            </svg>
+                            <p class="text-slate-600 dark:text-slate-300">Nenhum anexo cadastrado.</p>
+                        </div>
+                    `;
+                }
+            }
+        } else {
+            alert('Erro ao excluir anexo.');
+        }
+    })
+    .catch(error => {
+        console.error('Erro:', error);
+        alert('Erro ao excluir anexo.');
+    });
+}
 </script>
 @endsection
+
+@push('scripts')
+// ... existing code ...
+<script>
+// Corrige múltiplos espaços na visualização das notas
+function fixSpacesInNotesView() {
+    const notesView = document.getElementById('notes-view');
+    if (!notesView) return;
+    // Só processa se não estiver editando
+    if (notesView.classList.contains('hidden')) return;
+    // Substitui 2 ou mais espaços por &nbsp; (mas só fora de tags HTML)
+    let html = notesView.innerHTML;
+    // Regex: só substitui espaços fora de tags
+    html = html.replace(/(>[^<]*)  /g, function(match) {
+        return match.replace(/  /g, ' &nbsp;');
+    });
+    notesView.innerHTML = html;
+}
+document.addEventListener('DOMContentLoaded', fixSpacesInNotesView);
+// Também corrige após salvar notas
+if (typeof saveBtn !== 'undefined') {
+    saveBtn.addEventListener('click', function() {
+        setTimeout(fixSpacesInNotesView, 300);
+    });
+}
+</script>
+// ... existing code ...

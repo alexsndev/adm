@@ -129,3 +129,6 @@ div.bg-card:hover, div.bg-white:hover, section.bg-card:hover, section.bg-white:h
 .btn-gradient:hover, .btn-gradient:focus {
   filter: brightness(1.1) contrast(1.2);
 } 
+
+/* --- COR VISÍVEL PARA INPUTS E PLACEHOLDER EM TODO O SITE --- */
+// (removido) 

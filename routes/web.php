@@ -29,7 +29,10 @@ require __DIR__.'/auth.php';
 
 Route::middleware('auth')->group(function () {
     Route::get('/', function () {
-        return redirect('/cliente/dashboard');
+        if (auth()->check() && auth()->user()->is_client) {
+            return redirect('/cliente/dashboard');
+        }
+        return redirect('/dashboard');
     });
 
     Route::get('/dashboard', function () {
@@ -39,11 +42,16 @@ Route::middleware('auth')->group(function () {
         return app(\App\Http\Controllers\DashboardController::class)->index();
     })->middleware(['auth', 'verified'])->name('dashboard');
 
+    // Rota de teste para a sidebar
+    Route::get('/test-sidebar', function () {
+        return view('test-sidebar');
+    })->middleware(['auth', 'verified'])->name('test-sidebar');
+
     Route::get('/profile', function () {
         if (auth()->check() && auth()->user()->is_client) {
             return redirect()->route('cliente.dashboard');
         }
-        return app(\App\Http\Controllers\ProfileController::class)->edit();
+        return app(\App\Http\Controllers\ProfileController::class)->edit(request());
     })->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -237,6 +245,15 @@ Route::get('/cliente/tarefas', function() {
 Route::middleware(['auth'])->group(function () {
     Route::get('/cliente/chat', [\App\Http\Controllers\Cliente\ChatController::class, 'index'])->name('cliente.chat');
     Route::post('/cliente/chat', [\App\Http\Controllers\Cliente\ChatController::class, 'store'])->name('cliente.chat.store');
+    Route::get('/cliente/chat/messages', [\App\Http\Controllers\Cliente\ChatController::class, 'getMessages'])->name('cliente.chat.messages');
     Route::delete('/cliente/chat/mensagem/{id}', [\App\Http\Controllers\Cliente\ChatController::class, 'destroy'])->name('cliente.chat.mensagem.destroy');
     Route::delete('/cliente/chat/mensagens', [\App\Http\Controllers\Cliente\ChatController::class, 'destroyAll'])->name('cliente.chat.mensagens.destroyAll');
 });
+Route::post('/projetos/{id}/chat', [\App\Http\Controllers\Cliente\ProjetoController::class, 'enviarMensagem'])->name('projetos.chat')->middleware('auth');
+Route::post('/cliente/projetos/{id}/chat', [\App\Http\Controllers\Cliente\ProjetoController::class, 'enviarMensagem'])->name('cliente.projetos.chat');
+
+// Rota AJAX para chat do admin (mesma lógica do cliente, mas retorna JSON)
+Route::post('/admin/projetos/{id}/chat', [\App\Http\Controllers\Cliente\ProjetoController::class, 'enviarMensagemAdmin'])->name('admin.projetos.chat')->middleware('auth');
+Route::get('/admin/projetos/{id}/chat', [\App\Http\Controllers\Cliente\ProjetoController::class, 'enviarMensagemAdmin'])->name('admin.projetos.chat.get')->middleware('auth');
+Route::get('/cliente/projetos/{id}/chat', [\App\Http\Controllers\Cliente\ProjetoController::class, 'enviarMensagem'])->name('cliente.projetos.chat.get')->middleware('auth');
+Route::get('/projetos/{id}/chat', [\App\Http\Controllers\Cliente\ProjetoController::class, 'enviarMensagemAdmin'])->name('projetos.chat.get')->middleware('auth');

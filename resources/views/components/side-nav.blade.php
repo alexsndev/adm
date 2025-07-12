@@ -92,6 +92,10 @@
     background: #32323e;
     color: #fff;
 }
+#side-nav .sidebar-link i {
+    min-width: 16px;
+    text-align: center;
+}
 @media (max-width: 767px) {
     #side-nav {
         display: none;

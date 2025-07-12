@@ -133,10 +133,10 @@
                 
                 // Função para atualizar o ícone do botão no header
                 function updateHeaderToggleIcon() {
-                    const sidebar = document.getElementById('sidebar');
+                    const sidebar = document.getElementById('side-nav');
                     const icon = sidebarToggleBtn.querySelector('i');
                     if (sidebar && icon) {
-                        if (sidebar.classList.contains('sidebar-collapsed')) {
+                        if (sidebar.classList.contains('collapsed')) {
                             icon.className = 'fa-solid fa-bars';
                         } else {
                             icon.className = 'fa-solid fa-xmark';

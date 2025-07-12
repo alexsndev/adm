@@ -73,6 +73,11 @@ class Project extends Model implements HasMedia
         return $this->hasMany(ProjectLink::class);
     }
 
+    public function clientChats()
+    {
+        return $this->hasMany(\App\Models\ClientChat::class, 'project_id');
+    }
+
     // Scopes
     public function scopeActive($query)
     {

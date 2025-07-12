@@ -7,6 +7,7 @@
     <title>Painel do Cliente - {{ config('app.name', 'Laravel') }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 </head>
 <body class="bg-[#18181b] text-gray-100 min-h-screen">
     <!-- Sidebar do Cliente -->

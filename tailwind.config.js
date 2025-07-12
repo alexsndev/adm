@@ -51,5 +51,117 @@ export default {
         darkMode: 'class',
     },
 
-    plugins: [forms],
+    plugins: [
+        forms,
+        function({ addBase, theme }) {
+            addBase({
+                // Estilos globais para inputs, textareas e selects
+                'input, textarea, select': {
+                    color: theme('colors.slate.900'),
+                    backgroundColor: theme('colors.slate.50'),
+                    borderColor: theme('colors.slate.300'),
+                    borderRadius: theme('borderRadius.xl'),
+                    padding: theme('spacing.4'),
+                    paddingTop: theme('spacing.3'),
+                    paddingBottom: theme('spacing.3'),
+                    fontSize: theme('fontSize.base'),
+                    lineHeight: theme('lineHeight.normal'),
+                    transition: 'all 0.2s ease',
+                    outline: 'none',
+                    '&:focus': {
+                        borderColor: theme('colors.blue.500'),
+                        boxShadow: `0 0 0 2px ${theme('colors.blue.500')}`,
+                        backgroundColor: theme('colors.white'),
+                    },
+                    '&::placeholder': {
+                        color: theme('colors.slate.500'),
+                        opacity: '1',
+                    },
+                },
+                
+                // Estilos específicos para dark mode
+                '.dark input, .dark textarea, .dark select': {
+                    color: theme('colors.white'),
+                    backgroundColor: theme('colors.slate.700'),
+                    borderColor: theme('colors.slate.600'),
+                    '&:focus': {
+                        borderColor: theme('colors.blue.400'),
+                        boxShadow: `0 0 0 2px ${theme('colors.blue.400')}`,
+                        backgroundColor: theme('colors.slate.700'),
+                    },
+                    '&::placeholder': {
+                        color: theme('colors.slate.400'),
+                        opacity: '1',
+                    },
+                },
+                
+                // Estilos para file inputs
+                'input[type="file"]': {
+                    backgroundColor: 'transparent',
+                    border: 'none',
+                    padding: '0',
+                    '&::file-selector-button': {
+                        backgroundColor: theme('colors.blue.50'),
+                        color: theme('colors.blue.700'),
+                        border: 'none',
+                        borderRadius: theme('borderRadius.full'),
+                        padding: `${theme('spacing.2')} ${theme('spacing.4')}`,
+                        fontSize: theme('fontSize.sm'),
+                        fontWeight: theme('fontWeight.semibold'),
+                        marginRight: theme('spacing.4'),
+                        cursor: 'pointer',
+                        transition: 'all 0.2s ease',
+                        '&:hover': {
+                            backgroundColor: theme('colors.blue.100'),
+                        },
+                    },
+                },
+                
+                '.dark input[type="file"]::file-selector-button': {
+                    backgroundColor: theme('colors.blue.900'),
+                    color: theme('colors.blue.400'),
+                    '&:hover': {
+                        backgroundColor: theme('colors.blue.800'),
+                    },
+                },
+                
+                // Estilos para checkboxes e radios
+                'input[type="checkbox"], input[type="radio"]': {
+                    backgroundColor: theme('colors.white'),
+                    borderColor: theme('colors.slate.300'),
+                    borderRadius: theme('borderRadius.md'),
+                    '&:focus': {
+                        borderColor: theme('colors.blue.500'),
+                        boxShadow: `0 0 0 2px ${theme('colors.blue.500')}`,
+                    },
+                },
+                
+                '.dark input[type="checkbox"], .dark input[type="radio"]': {
+                    backgroundColor: theme('colors.slate.700'),
+                    borderColor: theme('colors.slate.600'),
+                    '&:focus': {
+                        borderColor: theme('colors.blue.400'),
+                        boxShadow: `0 0 0 2px ${theme('colors.blue.400')}`,
+                    },
+                },
+                
+                // Estilos para labels
+                'label': {
+                    color: theme('colors.slate.700'),
+                    fontSize: theme('fontSize.sm'),
+                    fontWeight: theme('fontWeight.medium'),
+                    marginBottom: theme('spacing.2'),
+                },
+                
+                '.dark label': {
+                    color: theme('colors.slate.300'),
+                },
+                
+                // Transições suaves para dark mode
+                '*': {
+                    transition: 'background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease',
+                },
+            })
+        }
+    ],
 };

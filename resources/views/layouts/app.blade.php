@@ -17,16 +17,15 @@
     <link rel="stylesheet" href="/css/frases-motivacionais.css">
     <link rel="stylesheet" href="/css/notifications.css">
     <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="https://cdn.quilljs.com/1.3.6/quill.snow.css">
+    <link rel="stylesheet" href="https://cdn.quilljs.com/1.3.6/quill.bubble.css">
+    <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
     @stack('styles')
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 </head>
 <body class="font-sans antialiased bg-gray-900 text-gray-100 overflow-x-hidden min-h-screen w-full">
     <header class="site-header">
         <div class="header-container">
-            <!-- Botão hambúrguer desktop -->
-            <button class="hidden md:inline-flex items-center justify-center text-white text-2xl mr-4 focus:outline-none" id="sidebar-toggle-btn-layout">
-                <i class="fa-solid fa-bars"></i>
-            </button>
             <!-- Restante do header -->
             @include('components.header')
         </div>
@@ -64,13 +63,7 @@
             if (typeof oldToggleSidebar === 'function') oldToggleSidebar();
             updateMainMargin();
         };
-        // Botão hambúrguer do layout
-        var btn = document.getElementById('sidebar-toggle-btn-layout');
-        if (btn) {
-            btn.addEventListener('click', function() {
-                window.toggleSidebar();
-            });
-        }
+
         // Atualiza ao redimensionar
         window.addEventListener('resize', updateMainMargin);
         // Inicial

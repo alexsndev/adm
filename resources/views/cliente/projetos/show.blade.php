@@ -37,41 +37,58 @@
     </ul>
 
     {{-- Chat do Projeto --}}
-    <div class="mt-10">
-        <h2 class="text-2xl font-bold text-green-200 mb-4">Chat deste Projeto</h2>
-        <div class="bg-[#23232b] rounded-xl p-6 border border-gray-800 shadow mb-4 min-h-[200px] flex flex-col justify-end max-h-96 overflow-y-auto text-left">
-            @forelse($messages as $msg)
-                <div class="mb-2 flex {{ $msg->user_id == $client->id ? 'justify-end' : 'justify-start' }}">
-                    <div class="inline-block px-4 py-2 rounded-lg {{ $msg->user_id == $client->id ? 'bg-green-700 text-white' : 'bg-gray-700 text-gray-100' }}">
-                        <span class="block text-xs text-gray-300 mb-1">{{ $msg->user->name }}</span>
-                        {{ $msg->message }}
-                        <span class="block text-xs text-gray-400 mt-1 text-right">{{ $msg->created_at->format('d/m H:i') }}</span>
-                        @if($msg->task)
-                            <span class="block text-xs text-blue-300 mt-1">Tarefa: {{ $msg->task->title }}</span>
-                        @endif
-                        @if($msg->user_id == $client->id)
-                            <form method="POST" action="{{ route('cliente.chat.mensagem.destroy', $msg->id) }}" style="display:inline" onsubmit="return confirm('Deseja excluir esta mensagem?');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="ml-2 text-xs text-red-300 hover:text-red-500">Excluir</button>
-                            </form>
-                        @endif
+    <div x-data="{ aberto: true }" class="mt-10">
+        <div x-show="aberto" class="relative">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-2xl font-bold text-green-200">Chat deste Projeto</h2>
+            </div>
+            <div class="bg-[#23232b] rounded-xl p-6 border border-gray-800 shadow mb-4 min-h-[200px] flex flex-col justify-end max-h-96 overflow-y-auto text-left">
+                <!-- Cabeçalho do chat com status e botão X -->
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center gap-2">
+                        <span class="text-white font-semibold">Site laengenharias.com.br</span>
+                        <span class="inline-block bg-green-600 text-white text-xs px-2 py-1 rounded-full ml-2">Online</span>
                     </div>
+                    <button @click="aberto = false" class="text-gray-400 hover:text-red-400 text-lg px-2 py-1 rounded-full focus:outline-none ml-2" title="Fechar chat">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
                 </div>
-            @empty
-                <p class="text-gray-500">Nenhuma mensagem ainda.</p>
-            @endforelse
+                @forelse($messages as $msg)
+                    <div class="mb-2 flex {{ $msg->user_id == $client->id ? 'justify-end' : 'justify-start' }}">
+                        <div class="inline-block px-4 py-2 rounded-lg {{ $msg->user_id == $client->id ? 'bg-green-700 text-white' : 'bg-gray-700 text-gray-100' }}">
+                            <span class="block text-xs text-gray-300 mb-1">{{ $msg->user->name }}</span>
+                            {{ $msg->message }}
+                            <span class="block text-xs text-gray-400 mt-1 text-right">{{ $msg->created_at->format('d/m H:i') }}</span>
+                            @if($msg->task)
+                                <span class="block text-xs text-blue-300 mt-1">Tarefa: {{ $msg->task->title }}</span>
+                            @endif
+                            @if($msg->user_id == $client->id)
+                                <form method="POST" action="{{ route('cliente.chat.mensagem.destroy', $msg->id) }}" style="display:inline" onsubmit="return confirm('Deseja excluir esta mensagem?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="ml-2 text-xs text-red-300 hover:text-red-500">Excluir</button>
+                                </form>
+                            @endif
+                        </div>
+                    </div>
+                @empty
+                    <p class="text-gray-500">Nenhuma mensagem ainda.</p>
+                @endforelse
+            </div>
+            <form method="POST" action="{{ route('cliente.chat', ['project_id' => $projectId]) }}" class="flex gap-2 mt-4">
+                @csrf
+                <input type="hidden" name="project_id" value="{{ $projectId }}">
+                <input type="text" name="message" class="flex-1 px-4 py-2 rounded bg-gray-800 text-gray-100 border border-gray-700" placeholder="Digite sua mensagem..." required maxlength="2000">
+                <button type="submit" class="px-6 py-2 rounded bg-green-700 hover:bg-green-800 text-white font-semibold shadow">Enviar</button>
+            </form>
+            <form method="POST" action="{{ route('cliente.chat.mensagens.destroyAll') }}" class="mt-4 text-center" onsubmit="return confirm('Deseja excluir TODAS as suas mensagens?');">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="px-6 py-2 rounded bg-red-700 hover:bg-red-800 text-white font-semibold shadow">Excluir todas as minhas mensagens</button>
+            </form>
         </div>
-        <form method="POST" action="{{ route('cliente.chat', ['project_id' => $projectId]) }}" class="flex gap-2 mt-4">
-            @csrf
-            <input type="hidden" name="project_id" value="{{ $projectId }}">
-            <input type="text" name="message" class="flex-1 px-4 py-2 rounded bg-gray-800 text-gray-100 border border-gray-700" placeholder="Digite sua mensagem..." required maxlength="2000">
-            <button type="submit" class="px-6 py-2 rounded bg-green-700 hover:bg-green-800 text-white font-semibold shadow">Enviar</button>
-        </form>
-        <form method="POST" action="{{ route('cliente.chat.mensagens.destroyAll') }}" class="mt-4 text-center" onsubmit="return confirm('Deseja excluir TODAS as suas mensagens?');">
-            @csrf
-            @method('DELETE')
-            <button type="submit" class="px-6 py-2 rounded bg-red-700 hover:bg-red-800 text-white font-semibold shadow">Excluir todas as minhas mensagens</button>
-        </form>
+        <button x-show="!aberto" @click="aberto = true" class="fixed bottom-6 right-6 bg-green-700 hover:bg-green-800 text-white rounded-full p-4 shadow-lg z-50 flex items-center justify-center" title="Abrir chat">
+            <i class="fa-solid fa-comments text-2xl"></i>
+        </button>
     </div>
 @endsection 

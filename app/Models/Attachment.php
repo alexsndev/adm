@@ -14,6 +14,7 @@ class Attachment extends Model
         'name',
         'file',
         'type',
+        'descricao',
     ];
 
     public function project()
