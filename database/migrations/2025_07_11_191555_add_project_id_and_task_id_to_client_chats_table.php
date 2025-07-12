@@ -12,8 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('client_chats', function (Blueprint $table) {
-            $table->unsignedBigInteger('project_id')->nullable()->after('client_id');
-            $table->unsignedBigInteger('task_id')->nullable()->after('project_id');
+            if (!Schema::hasColumn('client_chats', 'project_id')) {
+                $table->unsignedBigInteger('project_id')->nullable()->after('client_id');
+            }
+            if (!Schema::hasColumn('client_chats', 'task_id')) {
+                $table->unsignedBigInteger('task_id')->nullable()->after('project_id');
+            }
         });
     }
 
