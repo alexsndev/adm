@@ -409,6 +409,121 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- Seção Financeira Organizada: Receitas e Despesas Fixas -->
+            <div class="mb-8">
+                <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-200 dark:border-gray-800 p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white flex items-center mb-6">
+                        <i class="fa-solid fa-chart-pie text-blue-500 mr-2"></i>
+                        Fluxo Financeiro Mensal
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <!-- Receitas Fixas -->
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between mb-4">
+                                <h4 class="text-md font-semibold text-green-700 dark:text-green-300 flex items-center">
+                                    <i class="fa-solid fa-arrow-up text-green-500 mr-2"></i>
+                                    Receitas Fixas
+                                </h4>
+                                <a href="{{ route('fixed-incomes.index') }}" class="text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-300 text-sm font-medium">
+                                    Ver todas <i class="fa-solid fa-arrow-right ml-1"></i>
+                                </a>
+                            </div>
+                            
+                            <div class="space-y-3">
+                                @forelse($fixedIncomes as $income)
+                                    <div class="bg-green-50 dark:bg-green-900/20 rounded-lg p-4 border border-green-200 dark:border-green-800 hover:shadow-md transition-shadow">
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex-1">
+                                                <div class="font-semibold text-green-900 dark:text-green-200 text-sm">{{ $income->description }}</div>
+                                                <div class="text-xs text-green-700 dark:text-green-300 mt-1">
+                                                    <i class="fa-solid fa-calendar-day mr-1"></i>
+                                                    Dia {{ \Carbon\Carbon::parse($income->date)->format('d') }} do mês
+                                                </div>
+                                                <div class="text-xs text-green-600 dark:text-green-400 mt-1">
+                                                    <i class="fa-solid fa-tag mr-1"></i>
+                                                    {{ $income->category->name ?? 'Sem categoria' }}
+                                                </div>
+                                            </div>
+                                            <div class="text-right">
+                                                <div class="font-bold text-green-700 dark:text-green-300 text-lg">
+                                                    R$ {{ number_format($income->amount, 2, ',', '.') }}
+                                                </div>
+                                                <div class="text-xs text-green-600 dark:text-green-400">
+                                                    {{ $income->account->name ?? 'Sem conta' }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @empty
+                                    <div class="bg-green-50 dark:bg-green-900/20 rounded-lg p-6 border border-green-200 dark:border-green-800 text-center">
+                                        <i class="fa-solid fa-arrow-up text-green-400 text-2xl mb-2"></i>
+                                        <div class="text-green-700 dark:text-green-300 font-medium">Nenhuma receita fixa cadastrada</div>
+                                        <div class="text-green-600 dark:text-green-400 text-sm mt-1">Cadastre suas receitas recorrentes</div>
+                                        <a href="{{ route('fixed-incomes.create') }}" class="inline-block mt-3 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm">
+                                            <i class="fa-solid fa-plus mr-1"></i>
+                                            Cadastrar Receita Fixa
+                                        </a>
+                                    </div>
+                                @endforelse
+                            </div>
+                        </div>
+                        
+                        <!-- Despesas Fixas -->
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between mb-4">
+                                <h4 class="text-md font-semibold text-red-700 dark:text-red-300 flex items-center">
+                                    <i class="fa-solid fa-arrow-down text-red-500 mr-2"></i>
+                                    Despesas Fixas
+                                </h4>
+                                <a href="{{ route('fixed-expenses.index') }}" class="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 text-sm font-medium">
+                                    Ver todas <i class="fa-solid fa-arrow-right ml-1"></i>
+                                </a>
+                            </div>
+                            
+                            <div class="space-y-3">
+                                @forelse($fixedExpenses as $expense)
+                                    <div class="bg-red-50 dark:bg-red-900/20 rounded-lg p-4 border border-red-200 dark:border-red-800 hover:shadow-md transition-shadow">
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex-1">
+                                                <div class="font-semibold text-red-900 dark:text-red-200 text-sm">{{ $expense->description }}</div>
+                                                <div class="text-xs text-red-700 dark:text-red-300 mt-1">
+                                                    <i class="fa-solid fa-calendar-day mr-1"></i>
+                                                    Dia {{ \Carbon\Carbon::parse($expense->date)->format('d') }} do mês
+                                                </div>
+                                                <div class="text-xs text-red-600 dark:text-red-400 mt-1">
+                                                    <i class="fa-solid fa-tag mr-1"></i>
+                                                    {{ $expense->category->name ?? 'Sem categoria' }}
+                                                </div>
+                                            </div>
+                                            <div class="text-right">
+                                                <div class="font-bold text-red-700 dark:text-red-300 text-lg">
+                                                    R$ {{ number_format($expense->amount, 2, ',', '.') }}
+                                                </div>
+                                                <div class="text-xs text-red-600 dark:text-red-400">
+                                                    {{ $expense->account->name ?? 'Sem conta' }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @empty
+                                    <div class="bg-red-50 dark:bg-red-900/20 rounded-lg p-6 border border-red-200 dark:border-red-800 text-center">
+                                        <i class="fa-solid fa-arrow-down text-red-400 text-2xl mb-2"></i>
+                                        <div class="text-red-700 dark:text-red-300 font-medium">Nenhuma despesa fixa cadastrada</div>
+                                        <div class="text-red-600 dark:text-red-400 text-sm mt-1">Cadastre suas despesas recorrentes</div>
+                                        <a href="{{ route('fixed-expenses.create') }}" class="inline-block mt-3 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm">
+                                            <i class="fa-solid fa-plus mr-1"></i>
+                                            Cadastrar Despesa Fixa
+                                        </a>
+                                    </div>
+                                @endforelse
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
             <!-- Metas Financeiras -->
             <div id="dashboard-goals" class="mb-8">
                 <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-200 dark:border-gray-800 p-6">

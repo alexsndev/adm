@@ -110,6 +110,24 @@ class DashboardController extends Controller
         // Buscar dívidas do usuário
         $debts = \App\Models\Debt::where('user_id', $user->id)->orderBy('created_at', 'desc')->take(4)->get();
         
+        // Buscar receitas fixas ordenadas por data do mês
+        $fixedIncomes = Transaction::where('user_id', $user->id)
+            ->where('type', 'income')
+            ->where('is_recurring', true)
+            ->with('category', 'account')
+            ->orderByRaw('DAY(date) ASC')
+            ->take(6)
+            ->get();
+        
+        // Buscar despesas fixas ordenadas por data do mês
+        $fixedExpenses = Transaction::where('user_id', $user->id)
+            ->where('type', 'expense')
+            ->where('is_recurring', true)
+            ->with('category', 'account')
+            ->orderByRaw('DAY(date) ASC')
+            ->take(6)
+            ->get();
+        
         return view('dashboard', compact(
             'accounts',
             'totalBalance',
@@ -121,7 +139,9 @@ class DashboardController extends Controller
             'nextEvents',
             'nextHolidays',
             'goals',
-            'debts'
+            'debts',
+            'fixedIncomes',
+            'fixedExpenses'
         ));
     }
 } 
