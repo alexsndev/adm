@@ -77,6 +77,18 @@
                                     Dívidas
                                 </a>
                             </li>
+                            <li>
+                                <a href="{{ route('finance.fixed-incomes.index') }}" class="flex items-center gap-2 px-3 py-2 rounded hover:bg-green-700/30 transition">
+                                    <i class="fa-solid fa-money-bill-wave"></i>
+                                    <span>Receitas Fixas</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('finance.fixed-expenses.index') }}" class="flex items-center gap-2 px-3 py-2 rounded hover:bg-red-700/30 transition">
+                                    <i class="fa-solid fa-money-bill-trend-up"></i>
+                                    <span>Despesas Fixas</span>
+                                </a>
+                            </li>
                         </ul>
                     </li>
                     

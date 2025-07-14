@@ -64,7 +64,9 @@ const menuData = {
             { label: 'Faturas', route: '{{ route("faturas.index") }}', icon: 'fa-file-invoice' },
             { label: 'Categorias', route: '{{ route("categories.index") }}', icon: 'fa-layer-group' },
             { label: 'Cartões de Crédito', route: '{{ route("credit-cards.index") }}', icon: 'fa-credit-card' },
-            { label: 'Clientes', route: '{{ route("clientes.index") }}', icon: 'fa-users' }
+            { label: 'Clientes', route: '{{ route("clientes.index") }}', icon: 'fa-users' },
+            { label: 'Receitas Fixas', route: '{{ route("finance.fixed-incomes.index") }}', icon: 'fa-money-bill-wave' },
+            { label: 'Despesas Fixas', route: '{{ route("finance.fixed-expenses.index") }}', icon: 'fa-money-bill-trend-up' }
         ]
     },
     eventos: {

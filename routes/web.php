@@ -24,6 +24,8 @@ use App\Http\Controllers\FinanceDashboardController;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\FixedIncomeController;
+use App\Http\Controllers\FixedExpenseController;
 
 require __DIR__.'/auth.php';
 
@@ -257,3 +259,22 @@ Route::post('/admin/projetos/{id}/chat', [\App\Http\Controllers\Cliente\ProjetoC
 Route::get('/admin/projetos/{id}/chat', [\App\Http\Controllers\Cliente\ProjetoController::class, 'enviarMensagemAdmin'])->name('admin.projetos.chat.get')->middleware('auth');
 Route::get('/cliente/projetos/{id}/chat', [\App\Http\Controllers\Cliente\ProjetoController::class, 'enviarMensagem'])->name('cliente.projetos.chat.get')->middleware('auth');
 Route::get('/projetos/{id}/chat', [\App\Http\Controllers\Cliente\ProjetoController::class, 'enviarMensagemAdmin'])->name('projetos.chat.get')->middleware('auth');
+
+Route::middleware(['auth', 'verified'])->prefix('finance')->name('finance.')->group(function () {
+    // Receitas Fixas
+    Route::get('receitas-fixas', [FixedIncomeController::class, 'index'])->name('fixed-incomes.index');
+    Route::get('receitas-fixas/create', [FixedIncomeController::class, 'create'])->name('fixed-incomes.create');
+    Route::post('receitas-fixas', [FixedIncomeController::class, 'store'])->name('fixed-incomes.store');
+    Route::get('receitas-fixas/{id}/edit', [FixedIncomeController::class, 'edit'])->name('fixed-incomes.edit');
+    Route::put('receitas-fixas/{id}', [FixedIncomeController::class, 'update'])->name('fixed-incomes.update');
+    Route::delete('receitas-fixas/{id}', [FixedIncomeController::class, 'destroy'])->name('fixed-incomes.destroy');
+    Route::post('receitas-fixas/{id}/receive', [FixedIncomeController::class, 'receive'])->name('fixed-incomes.receive');
+    // Despesas Fixas
+    Route::get('despesas-fixas', [FixedExpenseController::class, 'index'])->name('fixed-expenses.index');
+    Route::get('despesas-fixas/create', [FixedExpenseController::class, 'create'])->name('fixed-expenses.create');
+    Route::post('despesas-fixas', [FixedExpenseController::class, 'store'])->name('fixed-expenses.store');
+    Route::get('despesas-fixas/{id}/edit', [FixedExpenseController::class, 'edit'])->name('fixed-expenses.edit');
+    Route::put('despesas-fixas/{id}', [FixedExpenseController::class, 'update'])->name('fixed-expenses.update');
+    Route::delete('despesas-fixas/{id}', [FixedExpenseController::class, 'destroy'])->name('fixed-expenses.destroy');
+    Route::post('despesas-fixas/{id}/pay', [FixedExpenseController::class, 'pay'])->name('fixed-expenses.pay');
+});

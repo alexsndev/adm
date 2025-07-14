@@ -5,16 +5,17 @@
 /* Sidebar fixa à esquerda */
 #side-nav {
     position: fixed;
-    top: 64px; /* altura do header */
+    top: 72px; /* altura do header ajustada para evitar sobreposição */
     left: 0;
-    height: calc(100vh - 64px);
+    height: calc(100vh - 72px);
     width: 220px;
-    background: #23232a;
+    background: #09090b; /* bg-gray-950 */
     color: #fff;
-    box-shadow: 2px 0 8px rgba(0,0,0,0.08);
+    box-shadow: 2px 0 12px 0 rgba(0,0,0,0.10);
     z-index: 1000;
     display: flex;
     flex-direction: column;
+    padding-top: 1rem;
     transition: width 0.2s;
 }
 #side-nav.collapsed {
