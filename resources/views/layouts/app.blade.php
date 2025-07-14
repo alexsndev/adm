@@ -40,6 +40,29 @@
     <div class="md:hidden">
         @include('components.bottom-nav')
     </div>
+    <button id="pwa-install-btn" style="display:none; position:fixed; bottom:24px; right:24px; z-index:9999; background:#2563eb; color:#fff; border:none; border-radius:8px; padding:12px 20px; font-size:1rem; box-shadow:0 2px 8px rgba(0,0,0,0.15);">
+        Instalar App
+    </button>
+    <script>
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        const installBtn = document.getElementById('pwa-install-btn');
+        if (installBtn) {
+            installBtn.style.display = 'block';
+            installBtn.onclick = function() {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        installBtn.style.display = 'none';
+                    }
+                    deferredPrompt = null;
+                });
+            };
+        }
+    });
+    </script>
     <script>
     // Ajusta o margin-left do main-content conforme a sidebar
     (function() {
