@@ -1,4 +1,4 @@
-<header class="site-header">
+<header class="site-header bg-gray-900 dark:bg-gray-900 text-white border-b border-gray-800">
     <div class="header-container px-4 md:px-8 lg:px-16" style="max-width: 1200px; margin: 0 auto; height: 64px; display: flex; align-items: center; justify-content: space-between; position: relative;">
         <!-- Esquerda -->
         <div class="header-left" style="display: flex; align-items: center; gap: 16px; min-width: 80px; flex: 1;">
