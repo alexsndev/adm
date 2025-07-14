@@ -28,7 +28,7 @@
     <link rel="manifest" href="/manifest.json">
 </head>
 <body class="font-sans antialiased bg-gray-950 text-gray-100 overflow-x-hidden min-h-screen w-full" style="background-color: #09090b !important;">
-    <header class="px-4 md:px-8 py-2 bg-gray-950">
+    <header class="px-4 md:px-8 py-2">
         @include('components.layout.header')
     </header>
     <div class="flex w-full min-h-screen px-2 md:px-8">
