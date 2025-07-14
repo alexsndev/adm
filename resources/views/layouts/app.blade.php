@@ -24,6 +24,7 @@
     <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
     @stack('styles')
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <link rel="manifest" href="/manifest.json">
 </head>
 <body class="font-sans antialiased bg-gray-900 text-gray-100 overflow-x-hidden min-h-screen w-full">
     <header>
