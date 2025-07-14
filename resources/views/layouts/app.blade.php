@@ -27,7 +27,7 @@
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <link rel="manifest" href="/manifest.json">
 </head>
-<body class="font-sans antialiased bg-gray-950 text-gray-100 overflow-x-hidden min-h-screen w-full">
+<body class="font-sans antialiased bg-gray-950 text-gray-100 overflow-x-hidden min-h-screen w-full" style="background-color: #09090b !important;">
     <header class="px-4 md:px-8 py-2 bg-gray-950">
         @include('components.layout.header')
     </header>
