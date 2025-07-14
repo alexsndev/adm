@@ -1,4 +1,5 @@
 self.addEventListener('install', function(e) {
+  self.skipWaiting();
   e.waitUntil(
     caches.open('grow-build-cache').then(function(cache) {
       return cache.addAll([
@@ -9,6 +10,9 @@ self.addEventListener('install', function(e) {
       ]);
     })
   );
+});
+self.addEventListener('activate', function(event) {
+  event.waitUntil(self.clients.claim());
 });
 self.addEventListener('fetch', function(e) {
   e.respondWith(

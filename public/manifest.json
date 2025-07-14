@@ -1,10 +1,11 @@
 {
-  "name": "Grow and Build",
-  "short_name": "GrowBuild",
+  "name": "GROW",
+  "short_name": "GROW",
   "start_url": "/",
-  "display": "fullscreen",
+  "display": "standalone",
   "background_color": "#18181b",
-  "theme_color": "#2563eb",
+  "theme_color": "#18181b",
+  "description": "Organizador de vida e finanças",
   "icons": [
     {
       "src": "/icons/icon-192x192.png",
