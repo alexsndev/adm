@@ -1,25 +1,23 @@
-<nav class="fixed bottom-0 left-0 right-0 bg-gray-900 text-white shadow-lg z-50 md:hidden">
-    <div class="flex justify-around items-center h-16 px-4">
+<nav class="fixed bottom-0 left-0 right-0 w-full z-50 bg-white dark:bg-gray-900 shadow-lg border-t border-gray-200 dark:border-gray-800 flex justify-around items-center h-16 md:hidden">
+    <!-- Ícones -->
+    <div class="flex justify-around items-center w-full h-full px-4">
         <!-- Casa -->
-        <button type="button" class="flex flex-col items-center justify-center text-gray-400 hover:text-white transition-colors" onclick="openBottomModal('casa')">
+        <button type="button" class="flex flex-col items-center justify-center text-gray-400 hover:text-blue-600 transition-colors" onclick="openBottomModal('casa')">
             <i class="fa-solid fa-house-chimney text-xl mb-1"></i>
             <span class="text-xs">Casa</span>
         </button>
-
         <!-- Financeiro -->
-        <button type="button" class="flex flex-col items-center justify-center text-gray-400 hover:text-white transition-colors" onclick="openBottomModal('financeiro')">
+        <button type="button" class="flex flex-col items-center justify-center text-gray-400 hover:text-blue-600 transition-colors" onclick="openBottomModal('financeiro')">
             <i class="fa-solid fa-coins text-xl mb-1"></i>
             <span class="text-xs">Financeiro</span>
         </button>
-
         <!-- Eventos -->
-        <button type="button" class="flex flex-col items-center justify-center text-gray-400 hover:text-white transition-colors" onclick="openBottomModal('eventos')">
+        <button type="button" class="flex flex-col items-center justify-center text-gray-400 hover:text-blue-600 transition-colors" onclick="openBottomModal('eventos')">
             <i class="fa-solid fa-calendar-days text-xl mb-1"></i>
             <span class="text-xs">Eventos</span>
         </button>
-
         <!-- Projetos -->
-        <button type="button" class="flex flex-col items-center justify-center text-gray-400 hover:text-white transition-colors" onclick="openBottomModal('projetos')">
+        <button type="button" class="flex flex-col items-center justify-center text-gray-400 hover:text-blue-600 transition-colors" onclick="openBottomModal('projetos')">
             <i class="fa-solid fa-briefcase text-xl mb-1"></i>
             <span class="text-xs">Projetos</span>
         </button>
