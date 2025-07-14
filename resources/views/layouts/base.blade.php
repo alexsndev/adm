@@ -61,7 +61,7 @@
         }
     </script>
 </head>
-<body class="h-full bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 antialiased transition-colors duration-200">
+<body class="h-full bg-gray-950 text-gray-100 antialiased transition-colors duration-200">
     <!-- Skip to main content for accessibility -->
     <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-blue-600 text-white px-4 py-2 rounded-md z-50">
         Pular para o conteúdo principal
