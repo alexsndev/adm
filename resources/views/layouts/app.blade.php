@@ -16,7 +16,6 @@
     @endif
     <link rel="stylesheet" href="/css/frases-motivacionais.css">
     <link rel="stylesheet" href="/css/notifications.css">
-    <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="https://cdn.quilljs.com/1.3.6/quill.snow.css">
     <link rel="stylesheet" href="https://cdn.quilljs.com/1.3.6/quill.bubble.css">
     <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
@@ -24,11 +23,8 @@
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 </head>
 <body class="font-sans antialiased bg-gray-900 text-gray-100 overflow-x-hidden min-h-screen w-full">
-    <header class="site-header">
-        <div class="header-container">
-            <!-- Restante do header -->
-            @include('components.header')
-        </div>
+    <header>
+        @include('components.layout.header')
     </header>
     <div class="flex w-full min-h-screen">
         @include('components.side-nav')
