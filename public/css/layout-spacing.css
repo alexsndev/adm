@@ -1,0 +1,91 @@
+/* Layout Spacing - Espaçamento lateral consistente */
+
+/* Container principal com espaçamento responsivo */
+.main-content-container {
+    padding-left: 1rem;  /* 16px */
+    padding-right: 1rem; /* 16px */
+}
+
+@media (min-width: 640px) {
+    .main-content-container {
+        padding-left: 1.5rem;  /* 24px */
+        padding-right: 1.5rem; /* 24px */
+    }
+}
+
+@media (min-width: 1024px) {
+    .main-content-container {
+        padding-left: 2rem;  /* 32px */
+        padding-right: 2rem; /* 32px */
+    }
+}
+
+@media (min-width: 1280px) {
+    .main-content-container {
+        padding-left: 3rem;  /* 48px */
+        padding-right: 3rem; /* 48px */
+    }
+}
+
+/* Garantir que o conteúdo não fique colado nas extremidades */
+.content-wrapper {
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+/* Ajuste para telas muito grandes */
+@media (min-width: 1536px) {
+    .content-wrapper {
+        max-width: 1400px;
+    }
+}
+
+/* Ajuste para mobile - reduzir padding em telas muito pequenas */
+@media (max-width: 480px) {
+    .main-content-container {
+        padding-left: 0.75rem;  /* 12px */
+        padding-right: 0.75rem; /* 12px */
+    }
+}
+
+/* Garantir que cards e elementos não toquem as bordas */
+.card-container {
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+}
+
+/* Ajuste para elementos que precisam de mais espaço */
+.wide-content {
+    margin-left: -1rem;
+    margin-right: -1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+    .wide-content {
+        margin-left: -1.5rem;
+        margin-right: -1.5rem;
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .wide-content {
+        margin-left: -2rem;
+        margin-right: -2rem;
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+}
+
+@media (min-width: 1280px) {
+    .wide-content {
+        margin-left: -3rem;
+        margin-right: -3rem;
+        padding-left: 3rem;
+        padding-right: 3rem;
+    }
+} 

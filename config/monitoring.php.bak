@@ -1,0 +1,131 @@
+<?php
+
+return [
+    /*
+    |--------------------------------------------------------------------------
+    | Monitoring Configuration
+    |--------------------------------------------------------------------------
+    |
+    | This file contains configuration options for application monitoring
+    | and health checks.
+    |
+    */
+
+    'enabled' => env('MONITORING_ENABLED', true),
+
+    'health_checks' => [
+        'database' => [
+            'enabled' => true,
+            'timeout' => 5, // segundos
+            'frequency' => 300, // a cada 5 minutos
+        ],
+        'cache' => [
+            'enabled' => true,
+            'timeout' => 2,
+            'frequency' => 300,
+        ],
+        'queue' => [
+            'enabled' => true,
+            'timeout' => 5,
+            'frequency' => 300,
+        ],
+        'storage' => [
+            'enabled' => true,
+            'timeout' => 10,
+            'frequency' => 600, // a cada 10 minutos
+        ],
+        'external_services' => [
+            'enabled' => true,
+            'timeout' => 10,
+            'frequency' => 900, // a cada 15 minutos
+        ],
+    ],
+
+    'metrics' => [
+        'performance' => [
+            'enabled' => true,
+            'collect_response_time' => true,
+            'collect_memory_usage' => true,
+            'collect_database_queries' => true,
+            'sample_rate' => 0.1, // 10% das requisições
+        ],
+        'errors' => [
+            'enabled' => true,
+            'collect_exceptions' => true,
+            'collect_log_errors' => true,
+            'group_similar_errors' => true,
+        ],
+        'usage' => [
+            'enabled' => true,
+            'collect_user_activity' => true,
+            'collect_feature_usage' => true,
+            'anonymize_data' => true,
+        ],
+    ],
+
+    'alerts' => [
+        'response_time' => [
+            'enabled' => true,
+            'threshold' => 2000, // ms
+            'window' => 300, // 5 minutos
+        ],
+        'error_rate' => [
+            'enabled' => true,
+            'threshold' => 0.05, // 5%
+            'window' => 300,
+        ],
+        'memory_usage' => [
+            'enabled' => true,
+            'threshold' => 0.8, // 80%
+            'window' => 60,
+        ],
+        'disk_usage' => [
+            'enabled' => true,
+            'threshold' => 0.9, // 90%
+            'window' => 3600, // 1 hora
+        ],
+        'queue_size' => [
+            'enabled' => true,
+            'threshold' => 1000,
+            'window' => 300,
+        ],
+    ],
+
+    'notifications' => [
+        'channels' => [
+            'mail' => [
+                'enabled' => true,
+                'recipients' => ['admin@example.com'],
+            ],
+            'slack' => [
+                'enabled' => env('MONITORING_SLACK_ENABLED', false),
+                'webhook' => env('MONITORING_SLACK_WEBHOOK'),
+                'channel' => env('MONITORING_SLACK_CHANNEL', '#alerts'),
+            ],
+            'telegram' => [
+                'enabled' => env('MONITORING_TELEGRAM_ENABLED', false),
+                'bot_token' => env('MONITORING_TELEGRAM_BOT_TOKEN'),
+                'chat_id' => env('MONITORING_TELEGRAM_CHAT_ID'),
+            ],
+        ],
+        'cooldown' => [
+            'enabled' => true,
+            'duration' => 300, // 5 minutos entre alertas
+        ],
+    ],
+
+    'dashboard' => [
+        'enabled' => true,
+        'refresh_interval' => 30, // segundos
+        'retention_days' => 30,
+        'public_access' => false,
+        'api_enabled' => true,
+    ],
+
+    'logging' => [
+        'enabled' => true,
+        'level' => 'info',
+        'channel' => 'monitoring',
+        'max_files' => 30,
+    ],
+]; 

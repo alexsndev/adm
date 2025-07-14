@@ -1,0 +1,146 @@
+<?php
+
+return [
+    /*
+    |--------------------------------------------------------------------------
+    | Validation Configuration
+    |--------------------------------------------------------------------------
+    |
+    | This file contains configuration options for validation throughout
+    | the application.
+    |
+    */
+
+    'rules' => [
+        'user' => [
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:8|confirmed',
+            'birthdate' => 'nullable|date|before:today',
+            'phone' => 'nullable|string|max:20',
+        ],
+
+        'account' => [
+            'name' => 'required|string|max:255',
+            'type' => 'required|in:checking,savings,investment,credit',
+            'current_balance' => 'required|numeric|min:0',
+            'description' => 'nullable|string|max:1000',
+            'is_active' => 'boolean',
+        ],
+
+        'transaction' => [
+            'description' => 'required|string|max:255',
+            'amount' => 'required|numeric|min:0.01',
+            'type' => 'required|in:income,expense,transfer',
+            'category_id' => 'required|exists:categories,id',
+            'account_id' => 'required|exists:accounts,id',
+            'date' => 'required|date|before_or_equal:today',
+            'notes' => 'nullable|string|max:1000',
+        ],
+
+        'event' => [
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string|max:1000',
+            'type' => 'required|in:birthday,anniversary,holiday,meeting,reminder',
+            'start_date' => 'required|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
+            'start_time' => 'nullable|date_format:H:i',
+            'end_time' => 'nullable|date_format:H:i|after:start_time',
+            'is_recurring' => 'boolean',
+            'recurrence_pattern' => 'nullable|string|max:50',
+            'is_active' => 'boolean',
+        ],
+
+        'goal' => [
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string|max:1000',
+            'target_amount' => 'required|numeric|min:0.01',
+            'current_amount' => 'required|numeric|min:0',
+            'target_date' => 'required|date|after:today',
+            'status' => 'required|in:active,paused,completed,cancelled',
+        ],
+
+        'debt' => [
+            'description' => 'required|string|max:255',
+            'amount' => 'required|numeric|min:0.01',
+            'interest_rate' => 'nullable|numeric|min:0|max:100',
+            'due_date' => 'required|date|after:today',
+            'status' => 'required|in:active,paid,overdue',
+            'creditor' => 'nullable|string|max:255',
+        ],
+
+        'project' => [
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string|max:1000',
+            'client_id' => 'nullable|exists:users,id',
+            'status' => 'required|in:planning,in_progress,completed,on_hold,cancelled',
+            'priority' => 'required|in:low,medium,high,urgent',
+            'start_date' => 'nullable|date',
+            'due_date' => 'nullable|date|after:start_date',
+            'budget' => 'nullable|numeric|min:0',
+        ],
+
+        'task' => [
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string|max:1000',
+            'project_id' => 'nullable|exists:projects,id',
+            'status' => 'required|in:todo,in_progress,review,completed',
+            'priority' => 'required|in:low,medium,high,urgent',
+            'due_date' => 'nullable|date|after:today',
+            'estimated_hours' => 'nullable|numeric|min:0',
+        ],
+
+        'household_task' => [
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string|max:1000',
+            'category_id' => 'required|exists:household_task_categories,id',
+            'status' => 'required|in:todo,in_progress,completed',
+            'priority' => 'required|in:low,medium,high,urgent',
+            'due_date' => 'nullable|date|after:today',
+            'estimated_duration' => 'nullable|integer|min:1',
+        ],
+    ],
+
+    'messages' => [
+        'required' => 'O campo :attribute é obrigatório.',
+        'email' => 'O campo :attribute deve ser um endereço de e-mail válido.',
+        'unique' => 'O valor do campo :attribute já está em uso.',
+        'min' => [
+            'string' => 'O campo :attribute deve ter pelo menos :min caracteres.',
+            'numeric' => 'O campo :attribute deve ser pelo menos :min.',
+        ],
+        'max' => [
+            'string' => 'O campo :attribute não pode ter mais de :max caracteres.',
+            'numeric' => 'O campo :attribute não pode ser maior que :max.',
+        ],
+        'date' => 'O campo :attribute deve ser uma data válida.',
+        'before' => 'O campo :attribute deve ser uma data anterior a :date.',
+        'after' => 'O campo :attribute deve ser uma data posterior a :date.',
+        'exists' => 'O valor selecionado para :attribute é inválido.',
+        'in' => 'O valor selecionado para :attribute é inválido.',
+        'numeric' => 'O campo :attribute deve ser um número.',
+        'boolean' => 'O campo :attribute deve ser verdadeiro ou falso.',
+        'confirmed' => 'A confirmação do campo :attribute não confere.',
+    ],
+
+    'attributes' => [
+        'name' => 'nome',
+        'email' => 'e-mail',
+        'password' => 'senha',
+        'birthdate' => 'data de nascimento',
+        'phone' => 'telefone',
+        'description' => 'descrição',
+        'amount' => 'valor',
+        'type' => 'tipo',
+        'date' => 'data',
+        'title' => 'título',
+        'status' => 'status',
+        'priority' => 'prioridade',
+        'due_date' => 'data de vencimento',
+        'target_date' => 'data objetivo',
+        'start_date' => 'data de início',
+        'end_date' => 'data de fim',
+        'start_time' => 'hora de início',
+        'end_time' => 'hora de fim',
+    ],
+]; 

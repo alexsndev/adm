@@ -1,0 +1,118 @@
+<?php
+
+return [
+    /*
+    |--------------------------------------------------------------------------
+    | Audit Configuration
+    |--------------------------------------------------------------------------
+    |
+    | This file contains configuration options for audit logging throughout
+    | the application.
+    |
+    */
+
+    'enabled' => env('AUDIT_ENABLED', true),
+
+    'models' => [
+        'User' => [
+            'enabled' => true,
+            'events' => ['created', 'updated', 'deleted'],
+            'attributes' => ['name', 'email', 'is_admin', 'is_client'],
+            'exclude_attributes' => ['password', 'remember_token'],
+        ],
+        'Account' => [
+            'enabled' => true,
+            'events' => ['created', 'updated', 'deleted'],
+            'attributes' => ['name', 'type', 'current_balance', 'is_active'],
+        ],
+        'Transaction' => [
+            'enabled' => true,
+            'events' => ['created', 'updated', 'deleted'],
+            'attributes' => ['description', 'amount', 'type', 'date', 'category_id', 'account_id'],
+        ],
+        'Event' => [
+            'enabled' => true,
+            'events' => ['created', 'updated', 'deleted'],
+            'attributes' => ['title', 'type', 'start_date', 'end_date', 'is_active'],
+        ],
+        'Goal' => [
+            'enabled' => true,
+            'events' => ['created', 'updated', 'deleted'],
+            'attributes' => ['title', 'target_amount', 'current_amount', 'target_date', 'status'],
+        ],
+        'Debt' => [
+            'enabled' => true,
+            'events' => ['created', 'updated', 'deleted'],
+            'attributes' => ['description', 'amount', 'due_date', 'status'],
+        ],
+        'Project' => [
+            'enabled' => true,
+            'events' => ['created', 'updated', 'deleted'],
+            'attributes' => ['name', 'status', 'priority', 'due_date'],
+        ],
+        'Task' => [
+            'enabled' => true,
+            'events' => ['created', 'updated', 'deleted'],
+            'attributes' => ['title', 'status', 'priority', 'due_date'],
+        ],
+    ],
+
+    'events' => [
+        'user_login' => [
+            'enabled' => true,
+            'log_ip' => true,
+            'log_user_agent' => true,
+        ],
+        'user_logout' => [
+            'enabled' => true,
+            'log_ip' => true,
+        ],
+        'failed_login' => [
+            'enabled' => true,
+            'log_ip' => true,
+            'log_user_agent' => true,
+        ],
+        'password_change' => [
+            'enabled' => true,
+            'log_ip' => true,
+        ],
+        'file_upload' => [
+            'enabled' => true,
+            'log_file_info' => true,
+        ],
+        'data_export' => [
+            'enabled' => true,
+            'log_export_type' => true,
+        ],
+        'admin_action' => [
+            'enabled' => true,
+            'log_ip' => true,
+            'log_user_agent' => true,
+        ],
+    ],
+
+    'storage' => [
+        'driver' => env('AUDIT_STORAGE_DRIVER', 'database'),
+        'table' => 'audit_logs',
+        'retention_days' => env('AUDIT_RETENTION_DAYS', 365),
+    ],
+
+    'privacy' => [
+        'mask_emails' => true,
+        'mask_phones' => true,
+        'mask_ips' => false, // Manter IPs para segurança
+        'mask_credit_cards' => true,
+    ],
+
+    'notifications' => [
+        'suspicious_activity' => [
+            'enabled' => true,
+            'threshold' => 5, // Alertar após 5 tentativas suspeitas
+            'recipients' => ['admin@example.com'],
+        ],
+        'data_breach' => [
+            'enabled' => true,
+            'recipients' => ['admin@example.com', 'security@example.com'],
+        ],
+    ],
+]; 

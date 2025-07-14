@@ -1,0 +1,107 @@
+<?php
+
+return [
+    /*
+    |--------------------------------------------------------------------------
+    | Notification Configuration
+    |--------------------------------------------------------------------------
+    |
+    | This file contains configuration options for notifications throughout
+    | the application.
+    |
+    */
+
+    'channels' => [
+        'database' => [
+            'enabled' => env('NOTIFICATION_DATABASE_ENABLED', true),
+        ],
+        'mail' => [
+            'enabled' => env('NOTIFICATION_MAIL_ENABLED', false),
+        ],
+        'sms' => [
+            'enabled' => env('NOTIFICATION_SMS_ENABLED', false),
+        ],
+        'push' => [
+            'enabled' => env('NOTIFICATION_PUSH_ENABLED', false),
+        ],
+    ],
+
+    'types' => [
+        'transaction' => [
+            'enabled' => true,
+            'channels' => ['database'],
+            'threshold' => 1000, // Notificar transações acima de R$ 1000
+        ],
+        'goal' => [
+            'enabled' => true,
+            'channels' => ['database'],
+            'reminder_days' => [7, 3, 1], // Lembretes 7, 3 e 1 dia antes
+        ],
+        'debt' => [
+            'enabled' => true,
+            'channels' => ['database'],
+            'reminder_days' => [7, 3, 1], // Lembretes 7, 3 e 1 dia antes
+        ],
+        'event' => [
+            'enabled' => true,
+            'channels' => ['database'],
+            'reminder_hours' => [24, 2, 0], // Lembretes 24h, 2h e na hora
+        ],
+        'task' => [
+            'enabled' => true,
+            'channels' => ['database'],
+            'reminder_hours' => [24, 2, 0], // Lembretes 24h, 2h e na hora
+        ],
+        'system' => [
+            'enabled' => true,
+            'channels' => ['database'],
+        ],
+    ],
+
+    'templates' => [
+        'transaction_created' => [
+            'title' => 'Nova transação registrada',
+            'message' => 'Uma nova transação de :amount foi registrada em :account.',
+            'icon' => 'currency-dollar',
+            'color' => '#10b981',
+        ],
+        'goal_reminder' => [
+            'title' => 'Lembrete de meta',
+            'message' => 'Sua meta ":goal" vence em :days dias. Progresso: :progress%.',
+            'icon' => 'flag',
+            'color' => '#f59e0b',
+        ],
+        'debt_due' => [
+            'title' => 'Dívida vencendo',
+            'message' => 'Sua dívida ":debt" vence em :days dias. Valor: :amount.',
+            'icon' => 'exclamation-triangle',
+            'color' => '#ef4444',
+        ],
+        'event_reminder' => [
+            'title' => 'Lembrete de evento',
+            'message' => 'Evento ":event" em :time. Local: :location.',
+            'icon' => 'calendar',
+            'color' => '#3b82f6',
+        ],
+        'task_due' => [
+            'title' => 'Tarefa vencendo',
+            'message' => 'Tarefa ":task" vence em :time. Projeto: :project.',
+            'icon' => 'check-circle',
+            'color' => '#8b5cf6',
+        ],
+        'system_maintenance' => [
+            'title' => 'Manutenção do sistema',
+            'message' => 'O sistema estará em manutenção em :time. Duração: :duration.',
+            'icon' => 'wrench',
+            'color' => '#6b7280',
+        ],
+    ],
+
+    'settings' => [
+        'max_notifications' => 100, // Máximo de notificações por usuário
+        'auto_cleanup_days' => 30, // Limpar notificações antigas após 30 dias
+        'batch_size' => 50, // Tamanho do lote para envio em massa
+        'retry_attempts' => 3, // Tentativas de reenvio
+        'retry_delay' => 300, // Delay entre tentativas (5 minutos)
+    ],
+]; 

@@ -1,0 +1,99 @@
+<?php
+
+return [
+    /*
+    |--------------------------------------------------------------------------
+    | Rate Limiting Configuration
+    |--------------------------------------------------------------------------
+    |
+    | This file contains configuration options for rate limiting throughout
+    | the application.
+    |
+    */
+
+    'auth' => [
+        'max_attempts' => env('RATE_LIMIT_AUTH_MAX_ATTEMPTS', 5),
+        'decay_minutes' => env('RATE_LIMIT_AUTH_DECAY_MINUTES', 15),
+        'block_minutes' => env('RATE_LIMIT_AUTH_BLOCK_MINUTES', 60),
+    ],
+
+    'api' => [
+        'max_attempts' => env('RATE_LIMIT_API_MAX_ATTEMPTS', 60),
+        'decay_minutes' => env('RATE_LIMIT_API_DECAY_MINUTES', 1),
+    ],
+
+    'general' => [
+        'max_attempts' => env('RATE_LIMIT_GENERAL_MAX_ATTEMPTS', 100),
+        'decay_minutes' => env('RATE_LIMIT_GENERAL_DECAY_MINUTES', 1),
+    ],
+
+    'file_upload' => [
+        'max_attempts' => env('RATE_LIMIT_FILE_UPLOAD_MAX_ATTEMPTS', 10),
+        'decay_minutes' => env('RATE_LIMIT_FILE_UPLOAD_DECAY_MINUTES', 5),
+    ],
+
+    'password_reset' => [
+        'max_attempts' => env('RATE_LIMIT_PASSWORD_RESET_MAX_ATTEMPTS', 3),
+        'decay_minutes' => env('RATE_LIMIT_PASSWORD_RESET_DECAY_MINUTES', 60),
+    ],
+
+    'email_verification' => [
+        'max_attempts' => env('RATE_LIMIT_EMAIL_VERIFICATION_MAX_ATTEMPTS', 3),
+        'decay_minutes' => env('RATE_LIMIT_EMAIL_VERIFICATION_DECAY_MINUTES', 60),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Rate Limiting Strategies
+    |--------------------------------------------------------------------------
+    |
+    | Different strategies for rate limiting based on user type or route
+    |
+    */
+
+    'strategies' => [
+        'guest' => [
+            'max_attempts' => 30,
+            'decay_minutes' => 1,
+        ],
+        'user' => [
+            'max_attempts' => 100,
+            'decay_minutes' => 1,
+        ],
+        'admin' => [
+            'max_attempts' => 500,
+            'decay_minutes' => 1,
+        ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Exempt Routes
+    |--------------------------------------------------------------------------
+    |
+    | Routes that should be exempt from rate limiting
+    |
+    */
+
+    'exempt_routes' => [
+        'health',
+        'status',
+        'ping',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Response Headers
+    |--------------------------------------------------------------------------
+    |
+    | Headers to include in rate limit responses
+    |
+    */
+
+    'headers' => [
+        'X-RateLimit-Limit',
+        'X-RateLimit-Remaining',
+        'X-RateLimit-Reset',
+        'Retry-After',
+    ],
+]; 

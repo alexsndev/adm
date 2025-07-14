@@ -1,0 +1,104 @@
+<?php
+
+return [
+    /*
+    |--------------------------------------------------------------------------
+    | Backup Configuration
+    |--------------------------------------------------------------------------
+    |
+    | This file contains configuration options for backup functionality
+    | throughout the application.
+    |
+    */
+
+    'enabled' => env('BACKUP_ENABLED', true),
+
+    'schedule' => [
+        'database' => [
+            'enabled' => true,
+            'frequency' => 'daily', // daily, weekly, monthly
+            'time' => '02:00', // Hora do backup
+            'retention_days' => 30,
+        ],
+        'files' => [
+            'enabled' => true,
+            'frequency' => 'weekly',
+            'time' => '03:00',
+            'retention_days' => 90,
+        ],
+        'full' => [
+            'enabled' => true,
+            'frequency' => 'monthly',
+            'time' => '04:00',
+            'retention_days' => 365,
+        ],
+    ],
+
+    'storage' => [
+        'local' => [
+            'enabled' => env('BACKUP_LOCAL_ENABLED', true),
+            'path' => storage_path('backups'),
+            'max_size' => '10GB',
+        ],
+        's3' => [
+            'enabled' => env('BACKUP_S3_ENABLED', false),
+            'bucket' => env('BACKUP_S3_BUCKET'),
+            'region' => env('BACKUP_S3_REGION'),
+            'key' => env('BACKUP_S3_KEY'),
+            'secret' => env('BACKUP_S3_SECRET'),
+        ],
+        'ftp' => [
+            'enabled' => env('BACKUP_FTP_ENABLED', false),
+            'host' => env('BACKUP_FTP_HOST'),
+            'username' => env('BACKUP_FTP_USERNAME'),
+            'password' => env('BACKUP_FTP_PASSWORD'),
+            'path' => env('BACKUP_FTP_PATH', '/backups'),
+        ],
+    ],
+
+    'compression' => [
+        'enabled' => true,
+        'type' => 'gzip', // gzip, zip, tar
+        'level' => 6, // 1-9, onde 9 é máxima compressão
+    ],
+
+    'encryption' => [
+        'enabled' => env('BACKUP_ENCRYPTION_ENABLED', false),
+        'key' => env('BACKUP_ENCRYPTION_KEY'),
+        'algorithm' => 'AES-256-CBC',
+    ],
+
+    'notifications' => [
+        'success' => [
+            'enabled' => true,
+            'channels' => ['mail', 'database'],
+            'recipients' => ['admin@example.com'],
+        ],
+        'failure' => [
+            'enabled' => true,
+            'channels' => ['mail', 'database', 'slack'],
+            'recipients' => ['admin@example.com', 'dev@example.com'],
+        ],
+    ],
+
+    'monitoring' => [
+        'disk_usage' => [
+            'enabled' => true,
+            'threshold' => 80, // Alertar quando uso do disco > 80%
+        ],
+        'backup_size' => [
+            'enabled' => true,
+            'threshold' => '5GB', // Alertar quando backup > 5GB
+        ],
+        'backup_duration' => [
+            'enabled' => true,
+            'threshold' => 3600, // Alertar quando backup > 1 hora
+        ],
+    ],
+
+    'cleanup' => [
+        'enabled' => true,
+        'strategy' => 'oldest_first', // oldest_first, largest_first
+        'dry_run' => false, // Testar sem deletar
+    ],
+]; 
