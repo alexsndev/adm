@@ -167,4 +167,9 @@
   .bottom-nav li:last-child .dropdown {
     right: 2px;
   }
+}
+@media (min-width: 768px) {
+  .bottom-nav {
+    display: none !important;
+  }
 } 
