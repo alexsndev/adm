@@ -5,11 +5,11 @@
             <button id="sidebar-toggle-btn" class="header-notification" style="position: fixed; left: 0; z-index: 1100; font-size: 1.8rem; color: #38bdf8; background: none; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 0 12px 12px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
                 <i class="fa-solid fa-bars"></i>
             </button>
-            <button id="notification-btn" class="header-notification" style="font-size: 1.6rem; color: #38bdf8; background: none; border: none; cursor: pointer;">
+            <button id="notification-btn" class="header-notification" style="font-size: 1.6rem; color: #38bdf8; background: none; border: none; cursor: pointer; margin-left: 32px;">
                 <i class="fa-solid fa-bell"></i>
             </button>
             @if(Auth::check() && Auth::user()->is_admin)
-                <div style="position: relative; display: inline-block;">
+                <div style="position: relative; display: inline-block; margin-left: 16px;">
                     <button id="admin-chat-btn" style="font-size: 1.6rem; color: #38bdf8; background: none; border: none; cursor: pointer; margin-left: 8px;">
                         <i class="fa-solid fa-comments"></i>
                     </button>
