@@ -270,6 +270,7 @@ Route::middleware(['auth', 'verified'])->prefix('finance')->name('finance.')->gr
     Route::put('receitas-fixas/{id}', [FixedIncomeController::class, 'update'])->name('fixed-incomes.update');
     Route::delete('receitas-fixas/{id}', [FixedIncomeController::class, 'destroy'])->name('fixed-incomes.destroy');
     Route::post('receitas-fixas/{id}/receive', [FixedIncomeController::class, 'receive'])->name('fixed-incomes.receive');
+    Route::post('receitas-fixas/{id}/unreceive', [FixedIncomeController::class, 'unreceive'])->name('fixed-incomes.unreceive');
     // Despesas Fixas
     Route::get('despesas-fixas', [FixedExpenseController::class, 'index'])->name('fixed-expenses.index');
     Route::get('despesas-fixas/create', [FixedExpenseController::class, 'create'])->name('fixed-expenses.create');
@@ -278,6 +279,7 @@ Route::middleware(['auth', 'verified'])->prefix('finance')->name('finance.')->gr
     Route::put('despesas-fixas/{id}', [FixedExpenseController::class, 'update'])->name('fixed-expenses.update');
     Route::delete('despesas-fixas/{id}', [FixedExpenseController::class, 'destroy'])->name('fixed-expenses.destroy');
     Route::post('despesas-fixas/{id}/pay', [FixedExpenseController::class, 'pay'])->name('fixed-expenses.pay');
+    Route::post('despesas-fixas/{id}/unpay', [FixedExpenseController::class, 'unpay'])->name('fixed-expenses.unpay');
 });
 
 Route::post('diarias-previstas', [\App\Http\Controllers\DailyForecastController::class, 'store'])->name('daily-forecasts.store');
