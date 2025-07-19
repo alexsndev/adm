@@ -1,209 +1,126 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
-    <div class="container mx-auto px-4 py-8">
-        <!-- Header da página -->
-        <div class="mb-8">
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-                <div>
-                    <h1 class="text-3xl font-bold text-gray-900 dark:text-white flex items-center">
-                        <i class="fa-solid fa-arrow-up text-green-500 mr-3"></i>
-                        Receitas Fixas
-                    </h1>
-                    <p class="text-gray-600 dark:text-gray-400 mt-2">Gerencie suas receitas recorrentes mensais</p>
-                </div>
-                <a href="{{ route('finance.fixed-incomes.create') }}" 
-                   class="inline-flex items-center px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105">
-                    <i class="fa-solid fa-plus mr-2"></i>
-                    Nova Receita Fixa
-                </a>
+<div class="min-h-screen bg-gradient-to-br from-green-50 to-slate-100 dark:from-gray-900 dark:to-gray-800 py-8">
+    <div class="container mx-auto max-w-4xl px-4">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+            <div>
+                <h1 class="text-3xl font-bold text-green-700 dark:text-green-300 flex items-center gap-3">
+                    <i class="fa-solid fa-arrow-up text-2xl"></i>
+                    Receitas Fixas
+                </h1>
+                <p class="text-gray-600 dark:text-gray-400 mt-2">Gerencie suas receitas recorrentes e receba antecipado se quiser!</p>
             </div>
-            
-            @if(session('success'))
-                <div class="bg-green-100 dark:bg-green-900/30 border border-green-200 dark:border-green-800 text-green-800 dark:text-green-200 px-6 py-4 rounded-xl mb-6 flex items-center">
-                    <i class="fa-solid fa-check-circle mr-3 text-green-600 dark:text-green-400"></i>
-                    {{ session('success') }}
-                </div>
-            @endif
+            <a href="{{ route('finance.fixed-incomes.create') }}" class="inline-flex items-center px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105">
+                <i class="fa-solid fa-plus mr-2"></i>
+                Nova Receita Fixa
+            </a>
         </div>
-
-        <!-- Estatísticas rápidas -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
-            <div class="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-800">
-                <div class="flex items-center">
-                    <div class="p-3 bg-green-100 dark:bg-green-900 rounded-lg">
-                        <i class="fa-solid fa-list text-green-600 dark:text-green-400 text-xl"></i>
-                    </div>
-                    <div class="ml-4">
-                        <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total de Receitas</p>
-                        <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ $receitasFixas->count() }}</p>
-                    </div>
-                </div>
+        <form method="GET" class="mb-6 flex gap-2 items-center bg-white dark:bg-gray-900 rounded-xl shadow px-4 py-3">
+            <label for="mes" class="text-gray-700 dark:text-gray-200 font-semibold">Mês:</label>
+            <select name="mes" id="mes" class="rounded px-3 py-2 border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:border-green-500 focus:ring-green-500">
+                @for($i = 0; $i < 12; $i++)
+                    @php $data = now()->addMonths($i); @endphp
+                    <option value="{{ $data->format('Y-m') }}" {{ request('mes', now()->format('Y-m')) == $data->format('Y-m') ? 'selected' : '' }}>
+                        {{ $data->format('m/Y') }}
+                    </option>
+                @endfor
+            </select>
+            <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-semibold shadow transition">Filtrar</button>
+        </form>
+        @if(session('success'))
+            <div class="bg-green-100 dark:bg-green-900/30 border border-green-200 dark:border-green-800 text-green-800 dark:text-green-200 px-6 py-4 rounded-xl mb-6 flex items-center animate-fade-in">
+                <i class="fa-solid fa-check-circle mr-3 text-green-600 dark:text-green-400"></i>
+                {{ session('success') }}
             </div>
-            
-            <div class="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-800">
-                <div class="flex items-center">
-                    <div class="p-3 bg-blue-100 dark:bg-blue-900 rounded-lg">
-                        <i class="fa-solid fa-calendar-day text-blue-600 dark:text-blue-400 text-xl"></i>
-                    </div>
-                    <div class="ml-4">
-                        <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Valor Mensal</p>
-                        <p class="text-2xl font-bold text-gray-900 dark:text-white">
-                            R$ {{ number_format($receitasFixas->sum('amount'), 2, ',', '.') }}
-                        </p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-800">
-                <div class="flex items-center">
-                    <div class="p-3 bg-yellow-100 dark:bg-yellow-900 rounded-lg">
-                        <i class="fa-solid fa-clock text-yellow-600 dark:text-yellow-400 text-xl"></i>
-                    </div>
-                    <div class="ml-4">
-                        <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Próximas (7 dias)</p>
-                        <p class="text-2xl font-bold text-gray-900 dark:text-white">
-                            {{ $receitasFixas->filter(function($receita) { 
-                                return \Carbon\Carbon::parse($receita->date)->diffInDays(now()) <= 7; 
-                            })->count() }}
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Lista de receitas fixas -->
-        <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-200 dark:border-gray-800 overflow-hidden">
-            <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-800">
-                <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Receitas Cadastradas</h2>
-            </div>
-            
-            @if($receitasFixas->count() > 0)
-                <div class="divide-y divide-gray-200 dark:divide-gray-800">
-                    @foreach($receitasFixas as $receita)
-                        <div class="p-6 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors duration-200">
-                            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-                                <!-- Informações principais -->
-                                <div class="flex-1">
-                                    <div class="flex items-start justify-between mb-3">
-                                        <div class="flex-1">
-                                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-1">
-                                                {{ $receita->description }}
-                                            </h3>
-                                            <div class="flex flex-wrap items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
-                                                <span class="flex items-center">
-                                                    <i class="fa-solid fa-tag mr-2 text-green-500"></i>
-                                                    {{ $receita->category->name ?? 'Sem categoria' }}
-                                                </span>
-                                                <span class="flex items-center">
-                                                    <i class="fa-solid fa-wallet mr-2 text-blue-500"></i>
-                                                    {{ $receita->account->name ?? 'Sem conta' }}
-                                                </span>
-                                                <span class="flex items-center">
-                                                    <i class="fa-solid fa-calendar-day mr-2 text-purple-500"></i>
-                                                    Dia {{ \Carbon\Carbon::parse($receita->date)->format('d') }} do mês
-                                                </span>
-                                                <span class="flex items-center">
-                                                    <i class="fa-solid fa-repeat mr-2 text-orange-500"></i>
-                                                    {{ ucfirst($receita->recurring_frequency) }}
-                                                </span>
-                                            </div>
-                                            @if($receita->notes)
-                                                <p class="text-sm text-gray-500 dark:text-gray-400 mt-2 italic">
-                                                    "{{ $receita->notes }}"
-                                                </p>
-                                            @endif
-                                        </div>
-                                        
-                                        <!-- Valor -->
-                                        <div class="text-right">
-                                            <div class="text-2xl font-bold text-green-600 dark:text-green-400">
-                                                R$ {{ number_format($receita->amount, 2, ',', '.') }}
-                                            </div>
-                                            @if($receita->recurring_end_date)
-                                                <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                                                    Até {{ \Carbon\Carbon::parse($receita->recurring_end_date)->format('d/m/Y') }}
-                                                </div>
-                                            @endif
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <!-- Ações -->
-                                <div class="flex items-center gap-2 lg:flex-col lg:gap-1">
-                                    <form action="{{ route('finance.fixed-incomes.receive', $receita->id) }}" method="POST" class="inline">
+        @endif
+        @php
+            $recebimentos = \App\Models\Transaction::where('is_recurring', false)
+                ->where('type', 'income')
+                ->where('user_id', auth()->id())
+                ->whereMonth('date', $mesSelecionado = request('mes', now()->format('Y-m')) ? explode('-', request('mes', now()->format('Y-m')))[1] : now()->month)
+                ->whereYear('date', $anoSelecionado = request('mes', now()->format('Y-m')) ? explode('-', request('mes', now()->format('Y-m')))[0] : now()->year)
+                ->pluck('description');
+        @endphp
+        <div class="bg-white dark:bg-gray-900 rounded-2xl shadow-xl overflow-x-auto">
+            <table class="min-w-full text-left divide-y divide-gray-200 dark:divide-gray-800">
+                <thead class="bg-green-100 dark:bg-gray-800">
+                    <tr>
+                        <th class="px-6 py-4 text-xs font-bold text-gray-700 dark:text-gray-200 uppercase tracking-wider">Descrição</th>
+                        <th class="px-6 py-4 text-xs font-bold text-gray-700 dark:text-gray-200 uppercase tracking-wider">Valor</th>
+                        <th class="px-6 py-4 text-xs font-bold text-gray-700 dark:text-gray-200 uppercase tracking-wider">Categoria</th>
+                        <th class="px-6 py-4 text-xs font-bold text-gray-700 dark:text-gray-200 uppercase tracking-wider">Conta</th>
+                        <th class="px-6 py-4 text-xs font-bold text-gray-700 dark:text-gray-200 uppercase tracking-wider">Frequência</th>
+                        <th class="px-6 py-4 text-xs font-bold text-gray-700 dark:text-gray-200 uppercase tracking-wider">Dia</th>
+                        <th class="px-6 py-4 text-xs font-bold text-gray-700 dark:text-gray-200 uppercase tracking-wider">Ações</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-800">
+                    @forelse($receitasFixas as $receita)
+                        @php
+                            $jaRecebido = $recebimentos->contains(fn($desc) => str_contains($desc, $receita->description));
+                        @endphp
+                        <tr class="hover:bg-green-50 dark:hover:bg-gray-800/50 transition-colors duration-200">
+                            <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">{{ $receita->description }}</td>
+                            <td class="px-6 py-4 text-green-700 dark:text-green-300 font-bold">R$ {{ number_format($receita->amount, 2, ',', '.') }}</td>
+                            <td class="px-6 py-4">{{ $receita->category->name ?? '-' }}</td>
+                            <td class="px-6 py-4">{{ $receita->account->name ?? '-' }}</td>
+                            <td class="px-6 py-4">{{ ucfirst($receita->recurring_frequency) }}</td>
+                            <td class="px-6 py-4">{{ \Carbon\Carbon::parse($receita->date)->format('d') }}</td>
+                            <td class="px-6 py-4 flex gap-2 items-center">
+                                @if($jaRecebido)
+                                    <span title="Recebido" class="tooltip"><i class="fa-solid fa-check-circle text-green-500 text-xl"></i></span>
+                                    <form action="{{ route('finance.fixed-incomes.unreceive', $receita->id) }}" method="POST">
                                         @csrf
-                                        <button type="submit" class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-lg transition-colors duration-200">
-                                            <i class="fa-solid fa-check mr-1"></i>
-                                            Receber
+                                        <input type="hidden" name="mes" value="{{ request('mes', now()->format('Y-m')) }}">
+                                        <button type="submit" class="text-yellow-500 hover:underline font-semibold" title="Desfazer recebimento"><i class="fa-solid fa-rotate-left"></i> Desfazer</button>
+                                    </form>
+                                @else
+                                    <form action="{{ route('finance.fixed-incomes.receive', $receita->id) }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="mes" value="{{ request('mes', now()->format('Y-m')) }}">
+                                        <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-semibold shadow transition flex items-center gap-2" title="Receber">
+                                            <i class="fa-solid fa-money-bill-wave"></i> Receber
                                         </button>
                                     </form>
-                                    <a href="{{ route('finance.fixed-incomes.edit', $receita->id) }}" class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors duration-200">
-                                        <i class="fa-solid fa-edit mr-1"></i>
-                                        Editar
-                                    </a>
-                                    <form action="{{ route('finance.fixed-incomes.destroy', $receita->id) }}" method="POST" class="inline" onsubmit="return confirm('Tem certeza que deseja excluir esta receita fixa?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="inline-flex items-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-lg transition-colors duration-200">
-                                            <i class="fa-solid fa-trash mr-1"></i>
-                                            Excluir
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            @else
-                <!-- Estado vazio -->
-                <div class="p-12 text-center">
-                    <div class="inline-flex items-center justify-center w-20 h-20 bg-green-100 dark:bg-green-900/30 rounded-full mb-6">
-                        <i class="fa-solid fa-arrow-up text-green-600 dark:text-green-400 text-3xl"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                        Nenhuma receita fixa cadastrada
-                    </h3>
-                    <p class="text-gray-600 dark:text-gray-400 mb-6 max-w-md mx-auto">
-                        Comece cadastrando suas receitas recorrentes para ter um melhor controle financeiro mensal.
-                    </p>
-                    <a href="{{ route('finance.fixed-incomes.create') }}" 
-                       class="inline-flex items-center px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105">
-                        <i class="fa-solid fa-plus mr-2"></i>
-                        Cadastrar Primeira Receita Fixa
-                    </a>
-                </div>
-            @endif
+                                @endif
+                                <a href="{{ route('finance.fixed-incomes.edit', $receita->id) }}" class="text-blue-600 hover:underline font-semibold flex items-center gap-1" title="Editar"><i class="fa-solid fa-pen"></i> Editar</a>
+                                <form action="{{ route('finance.fixed-incomes.destroy', $receita->id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="text-red-500 hover:underline font-semibold flex items-center gap-1" title="Excluir"><i class="fa-solid fa-trash"></i> Excluir</button>
+                                </form>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr><td colspan="7" class="text-center text-gray-400 py-8">Nenhuma receita fixa cadastrada.</td></tr>
+                    @endforelse
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
-
 <style>
     .animate-fade-in {
         animation: fadeIn 0.5s ease-in-out;
     }
-    
     @keyframes fadeIn {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .tooltip:hover::after {
+        content: attr(title);
+        position: absolute;
+        background: #222;
+        color: #fff;
+        padding: 4px 8px;
+        border-radius: 6px;
+        font-size: 0.85rem;
+        top: 120%;
+        left: 50%;
+        transform: translateX(-50%);
+        white-space: nowrap;
+        z-index: 10;
     }
 </style>
-
-<script>
-    // Adicionar animação de fade-in aos cards
-    document.addEventListener('DOMContentLoaded', function() {
-        const cards = document.querySelectorAll('.bg-white');
-        cards.forEach((card, index) => {
-            card.style.animationDelay = `${index * 0.1}s`;
-            card.classList.add('animate-fade-in');
-        });
-    });
-</script>
 @endsection 

@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Account;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class FixedExpenseController extends Controller
 {
@@ -82,21 +83,53 @@ class FixedExpenseController extends Controller
         return redirect()->route('finance.fixed-expenses.index')->with('success', 'Despesa fixa removida!');
     }
 
-    public function pay($id)
+    public function pay(Request $request, $id)
     {
         $despesa = Transaction::where('id', $id)->where('user_id', Auth::id())->where('type', 'expense')->where('is_recurring', true)->firstOrFail();
-        // Cria uma transação de expense para o mês atual
-        Transaction::create([
-            'description' => $despesa->description . ' (Paga)',
-            'amount' => $despesa->amount,
-            'type' => 'expense',
-            'date' => Carbon::now()->toDateString(),
-            'category_id' => $despesa->category_id,
-            'account_id' => $despesa->account_id,
-            'user_id' => $despesa->user_id,
-            'is_recurring' => false,
-            'notes' => 'Paga automaticamente da despesa fixa',
-        ]);
-        return redirect()->route('finance.fixed-expenses.index')->with('success', 'Despesa paga e lançada nas transações!');
+        $mes = $request->input('mes', now()->format('Y-m'));
+        [$ano, $mesNum] = explode('-', $mes);
+        $dataPagamento = \Carbon\Carbon::create($ano, $mesNum, \Carbon\Carbon::parse($despesa->date)->day);
+        // Evita duplicidade
+        $existe = Transaction::where('user_id', $despesa->user_id)
+            ->where('type', 'expense')
+            ->where('is_recurring', false)
+            ->where('description', 'like', $despesa->description.'%')
+            ->whereYear('date', $ano)
+            ->whereMonth('date', $mesNum)
+            ->exists();
+        if (!$existe) {
+            Transaction::create([
+                'description' => $despesa->description . ' (Paga)',
+                'amount' => $despesa->amount,
+                'type' => 'expense',
+                'date' => $dataPagamento->toDateString(),
+                'category_id' => $despesa->category_id,
+                'account_id' => $despesa->account_id,
+                'user_id' => $despesa->user_id,
+                'is_recurring' => false,
+                'notes' => 'Paga automaticamente da despesa fixa',
+            ]);
+        }
+        return redirect()->back()->with('success', 'Despesa paga e lançada nas transações!');
+    }
+
+    public function unpay(Request $request, $id)
+    {
+        $despesa = Transaction::where('id', $id)->where('user_id', Auth::id())->where('type', 'expense')->where('is_recurring', true)->firstOrFail();
+        $mes = $request->input('mes', now()->format('Y-m'));
+        [$ano, $mesNum] = explode('-', $mes);
+        $dataPagamento = \Carbon\Carbon::create($ano, $mesNum, \Carbon\Carbon::parse($despesa->date)->day);
+        // Remove a transação paga desse mês
+        $transacao = Transaction::where('user_id', $despesa->user_id)
+            ->where('type', 'expense')
+            ->where('is_recurring', false)
+            ->where('description', 'like', $despesa->description.'%')
+            ->whereYear('date', $ano)
+            ->whereMonth('date', $mesNum)
+            ->first();
+        if ($transacao) {
+            $transacao->delete();
+        }
+        return redirect()->back()->with('success', 'Pagamento desfeito e removido das transações!');
     }
 } 

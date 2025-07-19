@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Account;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class FixedIncomeController extends Controller
 {
@@ -82,21 +83,53 @@ class FixedIncomeController extends Controller
         return redirect()->route('finance.fixed-incomes.index')->with('success', 'Receita fixa removida!');
     }
 
-    public function receive($id)
+    public function receive(Request $request, $id)
     {
         $receita = Transaction::where('id', $id)->where('user_id', Auth::id())->where('type', 'income')->where('is_recurring', true)->firstOrFail();
-        // Cria uma transação de income para o mês atual
-        Transaction::create([
-            'description' => $receita->description . ' (Recebido)',
-            'amount' => $receita->amount,
-            'type' => 'income',
-            'date' => Carbon::now()->toDateString(),
-            'category_id' => $receita->category_id,
-            'account_id' => $receita->account_id,
-            'user_id' => $receita->user_id,
-            'is_recurring' => false,
-            'notes' => 'Recebido automaticamente da receita fixa',
-        ]);
-        return redirect()->route('finance.fixed-incomes.index')->with('success', 'Receita recebida e lançada nas transações!');
+        $mes = $request->input('mes', now()->format('Y-m'));
+        [$ano, $mesNum] = explode('-', $mes);
+        $dataRecebimento = \Carbon\Carbon::create($ano, $mesNum, \Carbon\Carbon::parse($receita->date)->day);
+        // Evita duplicidade
+        $existe = Transaction::where('user_id', $receita->user_id)
+            ->where('type', 'income')
+            ->where('is_recurring', false)
+            ->where('description', 'like', $receita->description.'%')
+            ->whereYear('date', $ano)
+            ->whereMonth('date', $mesNum)
+            ->exists();
+        if (!$existe) {
+            Transaction::create([
+                'description' => $receita->description . ' (Recebido)',
+                'amount' => $receita->amount,
+                'type' => 'income',
+                'date' => $dataRecebimento->toDateString(),
+                'category_id' => $receita->category_id,
+                'account_id' => $receita->account_id,
+                'user_id' => $receita->user_id,
+                'is_recurring' => false,
+                'notes' => 'Recebido automaticamente da receita fixa',
+            ]);
+        }
+        return redirect()->back()->with('success', 'Receita recebida e lançada nas transações!');
+    }
+
+    public function unreceive(Request $request, $id)
+    {
+        $receita = Transaction::where('id', $id)->where('user_id', Auth::id())->where('type', 'income')->where('is_recurring', true)->firstOrFail();
+        $mes = $request->input('mes', now()->format('Y-m'));
+        [$ano, $mesNum] = explode('-', $mes);
+        $dataRecebimento = \Carbon\Carbon::create($ano, $mesNum, \Carbon\Carbon::parse($receita->date)->day);
+        // Remove a transação recebida desse mês
+        $transacao = Transaction::where('user_id', $receita->user_id)
+            ->where('type', 'income')
+            ->where('is_recurring', false)
+            ->where('description', 'like', $receita->description.'%')
+            ->whereYear('date', $ano)
+            ->whereMonth('date', $mesNum)
+            ->first();
+        if ($transacao) {
+            $transacao->delete();
+        }
+        return redirect()->back()->with('success', 'Recebimento desfeito e removido das transações!');
     }
 } 
