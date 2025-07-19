@@ -2,7 +2,7 @@
 
 @section('nav-classes', 'bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800')
 @section('background')
-    <div class="fixed inset-0 z-0 bg-gray-100 dark:bg-gray-900 transition-colors duration-300"></div>
+    <div class="fixed inset-0 z-0 bg-[#181c20] transition-colors duration-300"></div>
 @endsection
 
 @section('header-classes', 'bg-white dark:bg-gray-900 shadow-none')
@@ -293,8 +293,9 @@
         window.addEventListener('load', updateActiveSection);
     </script>
     <div id="dashboard-top"></div>
-    <div class="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 overflow-x-hidden w-full">
+    <div class="min-h-screen w-full">
         <div class="w-full px-0 py-4 md:py-8" style="max-width:100%;">
+            
             <!-- Cards de resumo -->
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-8 fade-in-up w-full">
                 <!-- Saldo Total -->
@@ -426,7 +427,7 @@
                                     <i class="fa-solid fa-arrow-up text-green-500 mr-2"></i>
                                     Receitas Fixas
                                 </h4>
-                                <a href="{{ route('fixed-incomes.index') }}" class="text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-300 text-sm font-medium">
+                                <a href="{{ route('finance.fixed-incomes.index') }}" class="text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-300 text-sm font-medium">
                                     Ver todas <i class="fa-solid fa-arrow-right ml-1"></i>
                                 </a>
                             </div>
@@ -461,7 +462,7 @@
                                         <i class="fa-solid fa-arrow-up text-green-400 text-2xl mb-2"></i>
                                         <div class="text-green-700 dark:text-green-300 font-medium">Nenhuma receita fixa cadastrada</div>
                                         <div class="text-green-600 dark:text-green-400 text-sm mt-1">Cadastre suas receitas recorrentes</div>
-                                        <a href="{{ route('fixed-incomes.create') }}" class="inline-block mt-3 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm">
+                                        <a href="{{ route('finance.fixed-incomes.create') }}" class="inline-block mt-3 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm">
                                             <i class="fa-solid fa-plus mr-1"></i>
                                             Cadastrar Receita Fixa
                                         </a>
@@ -477,7 +478,7 @@
                                     <i class="fa-solid fa-arrow-down text-red-500 mr-2"></i>
                                     Despesas Fixas
                                 </h4>
-                                <a href="{{ route('fixed-expenses.index') }}" class="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 text-sm font-medium">
+                                <a href="{{ route('finance.fixed-expenses.index') }}" class="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 text-sm font-medium">
                                     Ver todas <i class="fa-solid fa-arrow-right ml-1"></i>
                                 </a>
                             </div>
@@ -512,7 +513,7 @@
                                         <i class="fa-solid fa-arrow-down text-red-400 text-2xl mb-2"></i>
                                         <div class="text-red-700 dark:text-red-300 font-medium">Nenhuma despesa fixa cadastrada</div>
                                         <div class="text-red-600 dark:text-red-400 text-sm mt-1">Cadastre suas despesas recorrentes</div>
-                                        <a href="{{ route('fixed-expenses.create') }}" class="inline-block mt-3 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm">
+                                        <a href="{{ route('finance.fixed-expenses.create') }}" class="inline-block mt-3 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm">
                                             <i class="fa-solid fa-plus mr-1"></i>
                                             Cadastrar Despesa Fixa
                                         </a>
@@ -520,6 +521,12 @@
                                 @endforelse
                             </div>
                         </div>
+                    </div>
+                    <!-- Botões de Diárias -->
+                    <div class="flex flex-col sm:flex-row gap-3 mt-8 justify-end">
+                        <a href="{{ route('daily-forecasts.index') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-semibold shadow transition flex items-center gap-2">
+                            <i class="fa-solid fa-list"></i> Gerenciar Diárias
+                        </a>
                     </div>
                 </div>
             </div>

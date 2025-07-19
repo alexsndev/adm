@@ -2,7 +2,7 @@
     <div class="header-container px-4 md:px-8 lg:px-16" style="max-width: 1200px; margin: 0 auto; height: 64px; display: flex; align-items: center; justify-content: space-between; position: relative;">
         <!-- Esquerda -->
         <div class="header-left" style="display: flex; align-items: center; gap: 16px; min-width: 80px; flex: 1;">
-            <button id="sidebar-toggle-btn" class="header-notification" style="font-size: 1.6rem; color: #38bdf8; background: none; border: none; cursor: pointer; display: none;">
+            <button id="sidebar-toggle-btn" class="header-notification" style="position: fixed; left: 0; z-index: 1100; font-size: 1.8rem; color: #38bdf8; background: none; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 0 12px 12px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
                 <i class="fa-solid fa-bars"></i>
             </button>
             <button id="notification-btn" class="header-notification" style="font-size: 1.6rem; color: #38bdf8; background: none; border: none; cursor: pointer;">
@@ -104,6 +104,20 @@
         @media (min-width: 768px) {
             #sidebar-toggle-btn {
                 display: flex !important;
+                position: fixed !important;
+                left: 0 !important;
+                z-index: 1100 !important;
+                font-size: 1.8rem !important;
+                color: #38bdf8 !important;
+                background: none !important;
+                border: none !important;
+                cursor: pointer !important;
+                align-items: center !important;
+                justify-content: center !important;
+                width: 48px !important;
+                height: 48px !important;
+                border-radius: 0 12px 12px 0 !important;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.08) !important;
             }
         }
     </style>
@@ -133,8 +147,10 @@
                     if (sidebar && icon) {
                         if (sidebar.classList.contains('collapsed')) {
                             icon.className = 'fa-solid fa-bars';
+                            icon.style.color = '#cbd5e1';
                         } else {
                             icon.className = 'fa-solid fa-xmark';
+                            icon.style.color = '#cbd5e1';
                         }
                     }
                 }

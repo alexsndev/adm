@@ -26,6 +26,7 @@ use Illuminate\Database\Schema\Blueprint;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\FixedIncomeController;
 use App\Http\Controllers\FixedExpenseController;
+use App\Http\Controllers\DailyForecastController;
 
 require __DIR__.'/auth.php';
 
@@ -278,3 +279,7 @@ Route::middleware(['auth', 'verified'])->prefix('finance')->name('finance.')->gr
     Route::delete('despesas-fixas/{id}', [FixedExpenseController::class, 'destroy'])->name('fixed-expenses.destroy');
     Route::post('despesas-fixas/{id}/pay', [FixedExpenseController::class, 'pay'])->name('fixed-expenses.pay');
 });
+
+Route::post('diarias-previstas', [\App\Http\Controllers\DailyForecastController::class, 'store'])->name('daily-forecasts.store');
+Route::get('diarias-previstas', [\App\Http\Controllers\DailyForecastController::class, 'index'])->name('daily-forecasts.index');
+Route::post('diarias-previstas/{id}/receive', [\App\Http\Controllers\DailyForecastController::class, 'receive'])->name('daily-forecasts.receive');

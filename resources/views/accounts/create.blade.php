@@ -1,24 +1,26 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="py-6">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6">
-                    <form action="{{ route('accounts.store') }}" method="POST" class="space-y-6" enctype="multipart/form-data">
-                        @csrf
-                        @include('accounts._form')
-                        
-                        <div class="flex items-center justify-end mt-6 space-x-3">
-                            <a href="{{ route('accounts.index') }}" class="inline-flex items-center px-4 py-2 bg-gray-300 border border-transparent rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest hover:bg-gray-400 focus:bg-gray-400 active:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
-                                Cancelar
-                            </a>
-                            <button type="submit" class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
-                                Salvar
-                            </button>
-                        </div>
-                    </form>
-                </div>
+    <div class="py-10 flex justify-center items-center min-h-[80vh]">
+        <div class="w-full max-w-xl mx-auto">
+            <div class="bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-8 border border-gray-200 dark:border-gray-700">
+                <h1 class="text-2xl font-bold text-center text-gray-900 dark:text-white mb-8 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-building-columns text-blue-600"></i>
+                    Nova Conta
+                </h1>
+                <form action="{{ route('accounts.store') }}" method="POST" class="space-y-6" enctype="multipart/form-data">
+                    @csrf
+                    @include('accounts._form')
+                    <div class="flex flex-col sm:flex-row items-center justify-end gap-3 mt-8">
+                        <a href="{{ route('accounts.index') }}" class="px-5 py-2 rounded-lg bg-gray-200 text-gray-700 hover:bg-gray-300 font-semibold transition text-sm">
+                            Cancelar
+                        </a>
+                        <button type="submit" class="px-6 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-bold flex items-center gap-2 text-base shadow transition">
+                            <i class="fa-solid fa-floppy-disk"></i>
+                            Salvar Conta
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

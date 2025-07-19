@@ -133,6 +133,58 @@
             <a href="<?php echo route('categories.index'); ?>" class="sidebar-link"><i class="fa-solid fa-layer-group"></i>Categorias</a>
             <a href="<?php echo route('credit-cards.index'); ?>" class="sidebar-link"><i class="fa-solid fa-credit-card"></i>Cartões de Crédito</a>
             <a href="<?php echo route('clientes.index'); ?>" class="sidebar-link"><i class="fa-solid fa-users"></i>Clientes</a>
+            <ul style="padding-left: 0; list-style: none; margin: 10px 0 0 0;">
+                <li style="font-size: 0.93rem; color: #22c55e; font-weight: 600; display: flex; align-items: center; gap: 6px; margin-bottom: 2px;">
+                    <i class="fa-solid fa-arrow-up"></i> Próximas Receitas
+                </li>
+                <?php
+                $proximasReceitas = \App\Models\Transaction::where('user_id', auth()->id())
+                    ->where('type', 'income')
+                    ->where('is_recurring', true)
+                    ->whereMonth('date', now()->month)
+                    ->orderByRaw('DAY(date) ASC')
+                    ->take(3)
+                    ->get();
+                ?>
+                <?php if(count($proximasReceitas)): ?>
+                    <?php foreach($proximasReceitas as $r): ?>
+                        <li>
+                            <a href="<?= route('finance.fixed-incomes.edit', $r->id) ?>" class="sidebar-link" style="color: #16a34a; cursor: pointer; display: flex; align-items: center;">
+                                <i class="fa-solid fa-circle-dot" style="font-size: 0.8rem;"></i>
+                                <span style="flex:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:90px;"> <?= $r->description ?> </span>
+                                <span style="font-weight: bold; color: #22c55e;"> <?= \Carbon\Carbon::parse($r->date)->format('d') ?> </span>
+                            </a>
+                        </li>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <li style="color: #a3a3a3; font-size: 0.93rem; padding-left: 18px;">Nenhuma receita</li>
+                <?php endif; ?>
+                <li style="font-size: 0.93rem; color: #ef4444; font-weight: 600; display: flex; align-items: center; gap: 6px; margin: 8px 0 2px 0;">
+                    <i class="fa-solid fa-arrow-down"></i> Próximas Despesas
+                </li>
+                <?php
+                $proximasDespesas = \App\Models\Transaction::where('user_id', auth()->id())
+                    ->where('type', 'expense')
+                    ->where('is_recurring', true)
+                    ->whereMonth('date', now()->month)
+                    ->orderByRaw('DAY(date) ASC')
+                    ->take(3)
+                    ->get();
+                ?>
+                <?php if(count($proximasDespesas)): ?>
+                    <?php foreach($proximasDespesas as $d): ?>
+                        <li>
+                            <a href="<?= route('finance.fixed-expenses.edit', $d->id) ?>" class="sidebar-link" style="color: #dc2626; cursor: pointer; display: flex; align-items: center;">
+                                <i class="fa-solid fa-circle-dot" style="font-size: 0.8rem;"></i>
+                                <span style="flex:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:90px;"> <?= $d->description ?> </span>
+                                <span style="font-weight: bold; color: #ef4444;"> <?= \Carbon\Carbon::parse($d->date)->format('d') ?> </span>
+                            </a>
+                        </li>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <li style="color: #a3a3a3; font-size: 0.93rem; padding-left: 18px;">Nenhuma despesa</li>
+                <?php endif; ?>
+            </ul>
         </div>
     </div>
     <div class="sidebar-section">

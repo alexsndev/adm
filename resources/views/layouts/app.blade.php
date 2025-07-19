@@ -33,7 +33,7 @@
     </header>
     <div class="flex w-full min-h-screen px-2 md:px-8">
         @include('components.side-nav')
-        <main id="main-content" class="flex-1 w-full max-w-7xl min-h-screen flex flex-col bg-gray-950 p-4 md:p-8 m-0 relative z-10 transition-all duration-200" style="margin-left:220px;">
+        <main id="main-content" class="flex-1 w-full max-w-7xl min-h-screen flex flex-col p-4 md:p-8 m-0 relative z-10 transition-all duration-200" style="margin-left:220px;">
             <main class="flex-1 w-full max-w-full overflow-x-auto pb-16 md:pb-0">
                 @yield('content')
             </main>

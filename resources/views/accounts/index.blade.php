@@ -11,7 +11,12 @@
 <div class="py-6 bg-main w-full max-w-full">
     <div class="w-full max-w-7xl mx-auto px-1.5 sm:px-6 lg:px-8 min-w-0">
         <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-200 dark:border-gray-800 p-4 sm:p-6">
-            <h1 class="text-lg sm:text-2xl font-bold mb-4">Contas</h1>
+            <div class="flex justify-between items-center mb-4">
+                <h1 class="text-lg sm:text-2xl font-bold">Contas</h1>
+                <a href="{{ route('accounts.create') }}" class="inline-flex items-center px-5 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-bold shadow transition gap-2">
+                    <i class="fa-solid fa-plus"></i> Nova Conta
+                </a>
+            </div>
             @if(session('success'))
                 <div class="mb-6 bg-success/10 border border-success text-success px-4 py-3 rounded relative animate-fade-in" role="alert">
                     <span class="block sm:inline">{{ session('success') }}</span>
