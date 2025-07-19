@@ -38,12 +38,10 @@
                                 @method('DELETE')
                                 <button type="submit" class="text-red-500 hover:underline">Excluir</button>
                             </form>
-                            @if($despesa->date->isToday())
-                                <form action="{{ route('finance.fixed-expenses.pay', $despesa->id) }}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded">Pagar</button>
-                                </form>
-                            @endif
+                            <form action="{{ route('finance.fixed-expenses.pay', $despesa->id) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded">Pagar</button>
+                            </form>
                         </td>
                     </tr>
                 @empty

@@ -132,29 +132,21 @@
                                 
                                 <!-- Ações -->
                                 <div class="flex items-center gap-2 lg:flex-col lg:gap-1">
-                                    @if(\Carbon\Carbon::parse($receita->date)->isToday())
-                                        <form action="{{ route('finance.fixed-incomes.receive', $receita->id) }}" method="POST" class="inline">
-                                            @csrf
-                                            <button type="submit" 
-                                                    class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-lg transition-colors duration-200">
-                                                <i class="fa-solid fa-check mr-1"></i>
-                                                Receber Hoje
-                                            </button>
-                                        </form>
-                                    @endif
-                                    
-                                    <a href="{{ route('finance.fixed-incomes.edit', $receita->id) }}" 
-                                       class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors duration-200">
+                                    <form action="{{ route('finance.fixed-incomes.receive', $receita->id) }}" method="POST" class="inline">
+                                        @csrf
+                                        <button type="submit" class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-lg transition-colors duration-200">
+                                            <i class="fa-solid fa-check mr-1"></i>
+                                            Receber
+                                        </button>
+                                    </form>
+                                    <a href="{{ route('finance.fixed-incomes.edit', $receita->id) }}" class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors duration-200">
                                         <i class="fa-solid fa-edit mr-1"></i>
                                         Editar
                                     </a>
-                                    
-                                    <form action="{{ route('finance.fixed-incomes.destroy', $receita->id) }}" method="POST" class="inline" 
-                                          onsubmit="return confirm('Tem certeza que deseja excluir esta receita fixa?')">
+                                    <form action="{{ route('finance.fixed-incomes.destroy', $receita->id) }}" method="POST" class="inline" onsubmit="return confirm('Tem certeza que deseja excluir esta receita fixa?')">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" 
-                                                class="inline-flex items-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-lg transition-colors duration-200">
+                                        <button type="submit" class="inline-flex items-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-lg transition-colors duration-200">
                                             <i class="fa-solid fa-trash mr-1"></i>
                                             Excluir
                                         </button>
