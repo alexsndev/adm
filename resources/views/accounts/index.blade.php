@@ -84,6 +84,12 @@
                                                 <i class="fa-solid fa-trash mr-1"></i> Excluir
                                             </button>
                                         </form>
+                                        <form action="{{ route('accounts.recalculate-balance', $account) }}" method="POST" class="inline">
+                                            @csrf
+                                            <button type="submit" class="inline-flex items-center px-2 py-1 rounded bg-[#23272e] hover:bg-green-900 text-green-100 font-bold transition" title="Recalcular Saldo">
+                                                <i class="fa-solid fa-calculator mr-1"></i> Recalcular Saldo
+                                            </button>
+                                        </form>
                                     </div>
                                 </td>
                             </tr>
@@ -185,3 +191,35 @@
     </div>
 </div>
 @endsection 
+
+@if(session('relatorio'))
+    @php $relatorio = session('relatorio'); @endphp
+    <div class="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+        <h3 class="text-lg font-bold text-yellow-800 mb-2">Diferença de Saldo Detectada</h3>
+        <p class="text-yellow-800 mb-1">Saldo anterior: <b>R$ {{ number_format($relatorio['saldo_antigo'], 2, ',', '.') }}</b></p>
+        <p class="text-yellow-800 mb-1">Saldo recalculado: <b>R$ {{ number_format($relatorio['saldo_calculado'], 2, ',', '.') }}</b></p>
+        <p class="text-yellow-800 mb-2">Diferença: <b>R$ {{ number_format($relatorio['diferenca'], 2, ',', '.') }}</b></p>
+        <div class="overflow-x-auto">
+            <table class="min-w-full text-xs mt-2 divide-y divide-yellow-200">
+                <thead class="bg-yellow-100">
+                    <tr>
+                        <th class="px-2 py-1 text-yellow-900">Data</th>
+                        <th class="px-2 py-1 text-yellow-900">Descrição</th>
+                        <th class="px-2 py-1 text-yellow-900">Tipo</th>
+                        <th class="px-2 py-1 text-yellow-900">Valor</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-yellow-50">
+                    @foreach($relatorio['transacoes'] as $t)
+                        <tr>
+                            <td class="px-2 py-1">{{ \Carbon\Carbon::parse($t->date)->format('d/m/Y') }}</td>
+                            <td class="px-2 py-1">{{ $t->description }}</td>
+                            <td class="px-2 py-1">{{ $t->type }}</td>
+                            <td class="px-2 py-1">R$ {{ number_format($t->amount, 2, ',', '.') }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+@endif 

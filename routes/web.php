@@ -285,3 +285,4 @@ Route::middleware(['auth', 'verified'])->prefix('finance')->name('finance.')->gr
 Route::post('diarias-previstas', [\App\Http\Controllers\DailyForecastController::class, 'store'])->name('daily-forecasts.store');
 Route::get('diarias-previstas', [\App\Http\Controllers\DailyForecastController::class, 'index'])->name('daily-forecasts.index');
 Route::post('diarias-previstas/{id}/receive', [\App\Http\Controllers\DailyForecastController::class, 'receive'])->name('daily-forecasts.receive');
+Route::post('accounts/{account}/recalculate-balance', [\App\Http\Controllers\AccountController::class, 'recalculateBalance'])->name('accounts.recalculate-balance')->middleware(['auth']);

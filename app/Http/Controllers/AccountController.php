@@ -177,4 +177,32 @@ class AccountController extends Controller
 
         return view('accounts.transactions', compact('account', 'transactions'));
     }
+
+    public function recalculateBalance(Account $account, Request $request)
+    {
+        if ($account->user_id !== Auth::id()) {
+            abort(403);
+        }
+        $saldoAntigo = $account->current_balance;
+        $saldoCalculado = $account->initial_balance
+            + $account->transactions()->where('type', 'income')->sum('amount')
+            - $account->transactions()->where('type', 'expense')->sum('amount')
+            - $account->transactions()->where('type', 'transfer')->sum('amount')
+            + $account->transferTransactions()->where('type', 'transfer')->sum('amount');
+        $account->current_balance = $saldoCalculado;
+        $account->save();
+        $diferenca = round($saldoCalculado - $saldoAntigo, 2);
+        $relatorio = null;
+        if (abs($diferenca) > 0.01) {
+            // Listar transações que podem estar causando diferença
+            $transacoes = $account->transactions()->orderBy('date')->get();
+            $relatorio = [
+                'saldo_antigo' => $saldoAntigo,
+                'saldo_calculado' => $saldoCalculado,
+                'diferenca' => $diferenca,
+                'transacoes' => $transacoes,
+            ];
+        }
+        return redirect()->route('accounts.index')->with('success', 'Saldo recalculado com sucesso!')->with('relatorio', $relatorio);
+    }
 }
