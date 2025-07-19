@@ -30,31 +30,37 @@ class DashboardController extends Controller
         // Calcular saldo total
         $totalBalance = $accounts->sum('current_balance');
         
-        // Buscar transações do mês atual
+        // Buscar transações do mês atual (apenas reais)
         $currentMonth = Carbon::now()->startOfMonth();
         $monthlyTransactions = Transaction::where('user_id', $user->id)
+            ->where('is_recurring', false)
             ->whereMonth('date', $currentMonth->month)
             ->whereYear('date', $currentMonth->year)
             ->get();
         
-        // Calcular receitas e despesas do mês diretamente no banco
+        // Calcular receitas e despesas do mês diretamente no banco (apenas reais)
         $monthlyIncome = Transaction::where('user_id', $user->id)
+            ->where('is_recurring', false)
             ->whereMonth('date', $currentMonth->month)
             ->whereYear('date', $currentMonth->year)
             ->where('type', 'income')
             ->sum('amount');
 
         $monthlyExpenses = Transaction::where('user_id', $user->id)
+            ->where('is_recurring', false)
             ->whereMonth('date', $currentMonth->month)
             ->whereYear('date', $currentMonth->year)
             ->where('type', 'expense')
             ->sum('amount');
         
-        // Total de transações
-        $totalTransactions = Transaction::where('user_id', $user->id)->count();
+        // Total de transações (apenas reais)
+        $totalTransactions = Transaction::where('user_id', $user->id)
+            ->where('is_recurring', false)
+            ->count();
         
-        // Transações recentes
+        // Transações recentes (apenas reais)
         $recentTransactions = Transaction::where('user_id', $user->id)
+            ->where('is_recurring', false)
             ->with('category', 'account')
             ->orderBy('date', 'desc')
             ->orderBy('id', 'desc')
