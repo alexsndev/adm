@@ -75,6 +75,7 @@ class AccountController extends Controller
 
         $transactions = Transaction::where('account_id', $account->id)
             ->where('user_id', Auth::id())
+            ->where('is_recurring', false)
             ->orderBy('date', 'desc')
             ->take(10)
             ->get();
@@ -170,6 +171,7 @@ class AccountController extends Controller
 
         $transactions = Transaction::where('account_id', $account->id)
             ->where('user_id', Auth::id())
+            ->where('is_recurring', false)
             ->orderBy('date', 'desc')
             ->get();
 
