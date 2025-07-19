@@ -18,7 +18,8 @@ class TransactionController extends Controller
         $user = Auth::user();
         
         $query = Transaction::with(['category', 'account', 'transferAccount'])
-            ->where('user_id', $user->id);
+            ->where('user_id', $user->id)
+            ->where('is_recurring', false); // Só transações reais
         
         // Filtros
         if ($request->filled('type')) {
