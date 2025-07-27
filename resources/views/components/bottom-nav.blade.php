@@ -1,24 +1,24 @@
-<nav class="fixed bottom-0 left-0 right-0 w-full z-50 bg-white dark:bg-gray-900 shadow-lg border-t border-gray-200 dark:border-gray-800 flex justify-around items-center h-16 md:hidden">
+<nav class="fixed bottom-0 left-0 right-0 w-full z-50 bg-white dark:bg-gray-900 shadow-lg border-t border-gray-200 dark:border-gray-800 h-16 md:hidden">
     <!-- Ícones -->
-    <div class="flex justify-around items-center w-full h-full px-4">
+    <div class="flex justify-around items-center w-full h-full">
         <!-- Casa -->
-        <button type="button" class="flex flex-col items-center justify-center text-gray-400 hover:text-blue-600 transition-colors" onclick="openBottomModal('casa')">
-            <i class="fa-solid fa-house-chimney text-xl mb-1"></i>
+        <button type="button" class="flex flex-col items-center justify-center text-gray-400 hover:text-blue-600 transition-colors h-full w-full" onclick="openBottomModal('casa')">
+            <i class="fa-solid fa-house-chimney text-xl"></i>
             <span class="text-xs">Casa</span>
         </button>
         <!-- Financeiro -->
-        <button type="button" class="flex flex-col items-center justify-center text-gray-400 hover:text-blue-600 transition-colors" onclick="openBottomModal('financeiro')">
-            <i class="fa-solid fa-coins text-xl mb-1"></i>
+        <button type="button" class="flex flex-col items-center justify-center text-gray-400 hover:text-blue-600 transition-colors h-full w-full" onclick="openBottomModal('financeiro')">
+            <i class="fa-solid fa-coins text-xl"></i>
             <span class="text-xs">Financeiro</span>
         </button>
         <!-- Eventos -->
-        <button type="button" class="flex flex-col items-center justify-center text-gray-400 hover:text-blue-600 transition-colors" onclick="openBottomModal('eventos')">
-            <i class="fa-solid fa-calendar-days text-xl mb-1"></i>
+        <button type="button" class="flex flex-col items-center justify-center text-gray-400 hover:text-blue-600 transition-colors h-full w-full" onclick="openBottomModal('eventos')">
+            <i class="fa-solid fa-calendar-days text-xl"></i>
             <span class="text-xs">Eventos</span>
         </button>
         <!-- Projetos -->
-        <button type="button" class="flex flex-col items-center justify-center text-gray-400 hover:text-blue-600 transition-colors" onclick="openBottomModal('projetos')">
-            <i class="fa-solid fa-briefcase text-xl mb-1"></i>
+        <button type="button" class="flex flex-col items-center justify-center text-gray-400 hover:text-blue-600 transition-colors h-full w-full" onclick="openBottomModal('projetos')">
+            <i class="fa-solid fa-briefcase text-xl"></i>
             <span class="text-xs">Projetos</span>
         </button>
     </div>
@@ -27,14 +27,14 @@
 <!-- Modal para navegação mobile -->
 <div id="bottom-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden md:hidden flex items-center justify-center">
     <div class="bg-gray-900 rounded-2xl shadow-2xl max-w-sm w-full mx-4 max-h-96 overflow-y-auto">
-        <div class="p-6">
-            <div class="flex items-center justify-between mb-4">
+        <div class="p-4">
+            <div class="flex items-center justify-between mb-3">
                 <h3 id="modal-title" class="text-xl font-semibold text-white"></h3>
                 <button onclick="closeBottomModal()" class="text-gray-400 hover:text-white text-2xl">
                     <i class="fa-solid fa-times"></i>
                 </button>
             </div>
-            <div id="modal-content" class="space-y-2">
+            <div id="modal-content" class="space-y-1">
                 <!-- Conteúdo será inserido dinamicamente -->
             </div>
         </div>
@@ -101,7 +101,7 @@ function openBottomModal(groupName) {
         title.textContent = menuData[groupName].title;
         
         content.innerHTML = menuData[groupName].items.map(item => `
-            <a href="${item.route}" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-800 transition-colors text-white">
+            <a href="${item.route}" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-800 transition-colors text-white">
                 <i class="fa-solid ${item.icon} text-lg"></i>
                 <span class="font-medium">${item.label}</span>
             </a>

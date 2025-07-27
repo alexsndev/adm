@@ -1,11 +1,11 @@
 <header class="site-header text-white">
-    <div class="header-container px-4 md:px-8 lg:px-16" style="max-width: 1200px; margin: 0 auto; height: 64px; display: flex; align-items: center; justify-content: space-between; position: relative;">
+    <div class="header-container px-2 md:px-8 lg:px-16" style="max-width: 1200px; margin: 0 auto; height: 64px; display: flex; align-items: center; justify-content: space-between; position: relative;">
         <!-- Esquerda -->
-        <div class="header-left" style="display: flex; align-items: center; gap: 16px; min-width: 80px; flex: 1;">
-            <button id="sidebar-toggle-btn" class="header-notification" style="position: fixed; left: 0; z-index: 1100; font-size: 1.8rem; color: #38bdf8; background: none; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 0 12px 12px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+        <div class="header-left" style="display: flex; align-items: center; gap: 8px; min-width: 80px; flex: 1;">
+            <button id="sidebar-toggle-btn" class="header-notification hidden md:flex" style="position: fixed; left: 0; z-index: 1100; font-size: 1.8rem; color: #38bdf8; background: none; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 0 12px 12px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
                 <i class="fa-solid fa-bars"></i>
             </button>
-            <button id="notification-btn" class="header-notification" style="font-size: 1.6rem; color: #38bdf8; background: none; border: none; cursor: pointer; margin-left: 32px;">
+            <button id="notification-btn" class="header-notification" style="font-size: 1.6rem; color: #38bdf8; background: none; border: none; cursor: pointer; margin-left: 8px;">
                 <i class="fa-solid fa-bell"></i>
             </button>
             @if(Auth::check() && Auth::user()->is_admin)
@@ -118,6 +118,12 @@
                 height: 48px !important;
                 border-radius: 0 12px 12px 0 !important;
                 box-shadow: 0 2px 8px rgba(0,0,0,0.08) !important;
+            }
+        }
+        
+        @media (max-width: 767px) {
+            #sidebar-toggle-btn {
+                display: none !important;
             }
         }
     </style>

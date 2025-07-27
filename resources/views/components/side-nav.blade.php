@@ -18,6 +18,17 @@
     padding-top: 1rem;
     transition: width 0.2s;
 }
+
+/* Responsividade para mobile */
+@media (max-width: 767px) {
+    #side-nav {
+        display: none !important;
+    }
+    
+    .sidebar-overlay {
+        display: none !important;
+    }
+}
 #side-nav.collapsed {
     width: 56px;
 }
@@ -96,11 +107,6 @@
 #side-nav .sidebar-link i {
     min-width: 16px;
     text-align: center;
-}
-@media (max-width: 767px) {
-    #side-nav {
-        display: none;
-    }
 }
 </style>
 <nav id="side-nav">

@@ -31,9 +31,9 @@
     <header class="px-4 md:px-8 py-2">
         @include('components.layout.header')
     </header>
-    <div class="flex w-full min-h-screen px-2 md:px-8">
+    <div class="flex w-full min-h-screen px-1 md:px-8">
         @include('components.side-nav')
-        <main id="main-content" class="flex-1 w-full max-w-7xl min-h-screen flex flex-col p-4 md:p-8 m-0 relative z-10 transition-all duration-200" style="margin-left:220px;">
+        <main id="main-content" class="flex-1 w-full max-w-7xl min-h-screen flex flex-col p-2 md:p-8 m-0 relative z-10 transition-all duration-200" style="margin-left:220px;">
             <main class="flex-1 w-full max-w-full overflow-x-auto pb-16 md:pb-0">
                 @yield('content')
             </main>
@@ -97,6 +97,12 @@
         window.addEventListener('resize', updateMainMargin);
         // Inicial
         updateMainMargin();
+        
+        // Inicializa margin no mobile
+        if (window.innerWidth < 768) {
+            main.style.marginLeft = '0';
+            main.style.width = '100%';
+        }
     })();
     </script>
     @stack('scripts')

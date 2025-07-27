@@ -79,4 +79,12 @@ class DailyForecastController extends Controller
         $diaria->save();
         return Redirect::back()->with('success', 'Diária recebida e lançada nas transações!');
     }
+
+    public function destroy($id)
+    {
+        $diaria = DailyForecast::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
+        $diaria->delete();
+        
+        return response()->json(['success' => true, 'message' => 'Diária excluída com sucesso!']);
+    }
 } 

@@ -94,6 +94,7 @@ Route::resource('projetos', ProjectController::class)
     ->middleware(['auth', 'verified']);
 Route::resource('tarefas', TaskController::class)->middleware(['auth', 'verified']);
 Route::resource('clientes', ClientController::class)->middleware(['auth', 'verified']);
+Route::post('clientes/store-ajax', [ClientController::class, 'storeAjax'])->name('clientes.store-ajax')->middleware(['auth', 'verified']);
 Route::resource('registros-horas', TimeEntryController::class)->middleware(['auth', 'verified']);
 Route::resource('faturas', InvoiceController::class)->middleware(['auth', 'verified']);
 Route::get('faturas/{id}/pdf', [InvoiceController::class, 'generatePDF'])->name('faturas.pdf')->middleware(['auth', 'verified']);
@@ -285,4 +286,5 @@ Route::middleware(['auth', 'verified'])->prefix('finance')->name('finance.')->gr
 Route::post('diarias-previstas', [\App\Http\Controllers\DailyForecastController::class, 'store'])->name('daily-forecasts.store');
 Route::get('diarias-previstas', [\App\Http\Controllers\DailyForecastController::class, 'index'])->name('daily-forecasts.index');
 Route::post('diarias-previstas/{id}/receive', [\App\Http\Controllers\DailyForecastController::class, 'receive'])->name('daily-forecasts.receive');
+Route::delete('diarias-previstas/{id}', [\App\Http\Controllers\DailyForecastController::class, 'destroy'])->name('daily-forecasts.destroy');
 Route::post('accounts/{account}/recalculate-balance', [\App\Http\Controllers\AccountController::class, 'recalculateBalance'])->name('accounts.recalculate-balance')->middleware(['auth']);

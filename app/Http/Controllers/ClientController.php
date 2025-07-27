@@ -128,4 +128,37 @@ class ClientController extends Controller
         return redirect()->route('clientes.index')
             ->with('success', 'Cliente removido com sucesso!');
     }
+
+    /**
+     * Store a new client via AJAX
+     */
+    public function storeAjax(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'nullable|email|max:255',
+            'phone' => 'nullable|string|max:20',
+            'company' => 'nullable|string|max:255',
+            'address' => 'nullable|string|max:500',
+            'tax_id' => 'nullable|string|max:20',
+            'hourly_rate' => 'nullable|numeric|min:0',
+            'notes' => 'nullable|string|max:1000',
+        ]);
+
+        $data = $request->all();
+        $data['user_id'] = auth()->id();
+
+        $cliente = \App\Models\Client::create($data);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Cliente criado com sucesso!',
+            'client' => [
+                'id' => $cliente->id,
+                'name' => $cliente->name,
+                'email' => $cliente->email,
+                'company' => $cliente->company
+            ]
+        ]);
+    }
 }
